@@ -1,1 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
+.custom-input{
+    border: none;
+    text-decoration: none;
+    background-color: red;
+    padding: 8px;
+    border-bottom: 2px solid rgba(45,45,45, .3);
+    border-radius: 4px;
+}
