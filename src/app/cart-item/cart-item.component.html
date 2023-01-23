@@ -1,4 +1,35 @@
 <div class="container">
-    <app-quantity-selector></app-quantity-selector>
-
+    <div class="cart-item-header">
+        <div class="row text-center p-2">
+            <div class="col-6 text-center">
+                პროდუქტის დასახელება
+            </div>
+            <div class="col-2">
+                რაოდენობა
+            </div>
+            <div class="col-2">
+                ფასი
+            </div>
+            <div class="col-2 text-primary">
+                ჯამი
+            </div>
+        </div>
+    </div>
+    <div class="cart-item-body py-3">
+        <div class="row text-center p-2">
+            <div class="col-6">
+                პროდუქტის დასახელება
+            </div>
+            <div class="col-2">
+                <app-quantity-selector></app-quantity-selector>
+            </div>
+            <div class="col-2">
+                ფასი
+            </div>
+            <div class="col-2 text-primary">
+                ჯამი
+            </div>
+        </div>
+    </div>
+    <button class="btn-remove" (click)="onDelete()"><fa-icon [icon]="removeIcon"></fa-icon></button>
 </div>

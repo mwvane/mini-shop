@@ -1,0 +1,28 @@
+.cart-item-header {
+  background-color: #f3f9ff;
+  font-weight: bold;
+  font-size: 14px;
+  padding: 20px;
+}
+.cart-item-body {
+  font-weight: bold;
+  font-size: 14px;
+  padding: 20px;
+}
+.container {
+  border: 3px solid #f3f9ff;
+  position: relative;
+}
+.btn-remove {
+  position: absolute;
+  top: -13px;
+  right: -13px;
+  border-radius: 50%;
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  background-color: white;
+  border: 2px solid rgba(60,60,60, .1);
+  color: red;
+  font-size: 14px;
+}
