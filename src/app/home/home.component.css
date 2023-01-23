@@ -1,0 +1,12 @@
+.main-container {
+  height: 100vh;
+  background-color: #F4F4F4;
+  display: flex;
+  justify-content: center;
+  user-select: none;
+}
+.items-container{
+    width: 55%;
+    padding-top: 40px;
+    padding-bottom: 40px;
+}
