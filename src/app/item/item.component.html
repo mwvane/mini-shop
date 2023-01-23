@@ -1,0 +1,24 @@
+<div class="container my-1">
+  <div class="row justify-content-md-center">
+    <div class="col-8 py-2 custom-border custom-column" style="border-radius: 8px 0 0 8px">
+      {{ item.name }}
+    </div>
+    <div
+      class="col-2 d-flex justify-content-center align-items-center custom-border custom-column"
+    >
+      {{ item.quantity }}
+    </div>
+    <div
+      class="col d-flex justify-content-center align-items-center custom-border"
+      style="background-color: #f3f9ff; border: 2px solid rgba(243, 249, 255)"
+    >
+      {{ item.price }}
+    </div>
+    <div
+      class="col d-flex justify-content-center align-items-center custom-border custom-column"
+      style="border-radius: 0 8px 8px 0"
+    >
+      <fa-icon [icon]="cartIcon" class="text-primary custom-btn"></fa-icon>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,13 @@
+.custom-border{
+    border: 2px solid rgb(131, 177, 224 , .2)
+}
+.custom-column{
+    background-color: white;
+}
+.custom-btn{
+    cursor: pointer;
+}
+.custom-btn:hover{
+    font-size: 17px;
+    transition: .1s;
+}
