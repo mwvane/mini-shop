@@ -16,5 +16,4 @@ export class HomeComponent implements OnInit {
       console.log(this.items)
     });
   }
-  item: Item = { name: 'Galaxy s10', quantity: 10, price: 1560 };
 }
