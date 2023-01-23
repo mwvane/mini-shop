@@ -3,37 +3,11 @@
 }
 .form-container{
     display: flex;
-    background-color: green;
     width: 50%;
     border-radius: 6px;
+    position: relative;
 }
-.logo{
-    background-color: #F3F9FF;
-    width: 40%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    border-radius: 6px 0 0 6px;
-}
-.big-circle{
-    background-color: #E7F2FD;
-    border-radius: 50%;
-    width: 100px;
-    height: 100px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 40px;
-}
-.small-circle{
-    background-color: #BCD6F4;
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+
 .login-form{
     display: flex;
     justify-content: center;
@@ -41,4 +15,23 @@
     width: 100%;
     background-color: white;
     flex-direction: column;
+}
+.btn-signup{
+    font-size: 20px;
+    padding: 5px;
+    background-color: #d5e3f2;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    cursor: pointer;
+}
+.btn-signup:hover{
+    transition: .4s;
+    background: #acc1d6;
 }
