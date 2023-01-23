@@ -11,6 +11,7 @@ import { HomeComponent } from './home/home.component';
 import { CartComponent } from './cart/cart.component';
 import { ItemComponent } from './item/item.component';
 import { HttpClientModule } from '@angular/common/http';
+import { QuantitySelectorComponent } from './quantity-selector/quantity-selector.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { HttpClientModule } from '@angular/common/http';
     ForgetPasswordComponent,
     HomeComponent,
     CartComponent,
-    ItemComponent
+    ItemComponent,
+    QuantitySelectorComponent
   ],
   imports: [
     BrowserModule,
