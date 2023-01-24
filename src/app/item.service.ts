@@ -7,7 +7,10 @@ import { HttpClient } from '@angular/common/http';
 export class ItemService {
 
   constructor(private http: HttpClient) {}
-  getItems(){
-    return this.http.get("https://localhost:7129/api/Item/getItems")
+  getAllItems(){
+    return this.http.get("https://localhost:7129/api/Item/getAllItems")
+  }
+  getCartItems(){
+    return this.http.get("https://localhost:7129/api/Item/getCartItems")
   }
 }
