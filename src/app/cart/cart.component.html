@@ -1,11 +1,16 @@
 <div class="main-container d-flex justify-content-center">
-    <div class="cart-container w-50">
-        <div class="cart-header p-4">
-            <fa-icon [icon]="cartIcon" class="cart-icon px-2"></fa-icon>
-            <h4 class="text-primary px-2">ჩემი კალათა</h4>
-        </div>
-        <div class="cart-body">
-            <app-cart-item *ngFor="let item of cartItems" [cartItem]="item" [quantity]="item.quantity"></app-cart-item>
-        </div>
+  <div class="cart-container w-50">
+    <div class="cart-header p-4">
+      <fa-icon [icon]="cartIcon" class="cart-icon px-2"></fa-icon>
+      <h4 class="text-primary px-2">ჩემი კალათა</h4>
     </div>
+    <div class="cart-body">
+      <app-cart-item
+        *ngFor="let item of cartItems"
+        [cartItem]="item"
+        [quantity]="item.quantity"
+        (remove)="onDelete(item.id)"
+      ></app-cart-item>
+    </div>
+  </div>
 </div>

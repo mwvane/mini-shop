@@ -16,8 +16,16 @@ export class CartComponent implements OnInit {
   }
   ngOnInit(): void {
     this.service.getCartItems().subscribe(data => {
-      console.log(data)
       this.cartItems = data
+    })
+  }
+  onDelete(id: number){
+    this.service.deleteCartItem(id).subscribe(data => {
+      if(data){
+        this.service.getCartItems().subscribe(data => {
+          this.cartItems = data
+        })
+      }
     })
   }
 }

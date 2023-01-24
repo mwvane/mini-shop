@@ -9,9 +9,12 @@ export class QuantitySelectorComponent {
   minusIcon = faMinus;
   plusIcon = faPlus;
   @Input() currentQuantity: number = 1;
+  @Input() maxValue = 100;
   @Output() change = new EventEmitter<number>();
   onPlus() {
-    this.currentQuantity++;
+    if (this.currentQuantity < this.maxValue) {
+      this.currentQuantity++;
+    }
     this.change.emit(this.currentQuantity);
   }
   onMinus() {
