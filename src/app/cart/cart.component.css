@@ -1,0 +1,19 @@
+.main-container{
+    display: flex;
+    align-items: center;
+}
+.cart-header{
+    font-size: 24px ;
+    display: flex;
+    border-bottom: 2px solid #EEF5FD;
+    width: 100%;
+    justify-content: center;
+}
+.cart-icon{
+    color: #68D967;
+}
+.cart-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}

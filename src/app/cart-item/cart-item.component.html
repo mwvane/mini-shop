@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container my-3">
     <div class="cart-item-header">
         <div class="row text-center p-2">
             <div class="col-6 text-center">
@@ -18,16 +18,16 @@
     <div class="cart-item-body py-3">
         <div class="row text-center p-2">
             <div class="col-6">
-                პროდუქტის დასახელება
+                {{cartItem.item.name}}
             </div>
             <div class="col-2">
-                <app-quantity-selector></app-quantity-selector>
+                <app-quantity-selector [currentQuantity]="cartItem.quantity" (change)="onQuantityChange($event)"></app-quantity-selector>
             </div>
             <div class="col-2">
-                ფასი
+                {{cartItem.item.price}}
             </div>
             <div class="col-2 text-primary">
-                ჯამი
+                {{cartItem.item.price * quantity}} ₾
             </div>
         </div>
     </div>

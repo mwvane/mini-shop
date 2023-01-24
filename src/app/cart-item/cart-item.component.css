@@ -26,3 +26,7 @@
   color: red;
   font-size: 14px;
 }
+.btn-remove:hover{
+  border: 2px solid rgba(60,60,60, .5);
+  transition: .3s;
+}
