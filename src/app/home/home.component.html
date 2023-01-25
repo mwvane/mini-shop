@@ -1,4 +1,16 @@
 <div class="main-container">
+  <div class="custom-header shadow">
+    <div (click)="onCart()">
+      <fa-icon [icon]="cartIcon" class="text-success"></fa-icon>
+      [{{ cartItemCount }}]
+    </div>
+    <span class="mx-2"
+      >{{ loggedUser.firstname }} {{ loggedUser.lastname }}</span
+    >
+    <a class="mx-2 text-decoration-none text-prymary" (click)="onLogout()"
+      >logout</a
+    >
+  </div>
   <div class="items-container">
     <div *ngIf="!items.length" class="text-center">
       <h3>Store is empty!</h3>
@@ -12,7 +24,11 @@
       <div class="col-1 text-center">ფასი</div>
     </div>
     <div *ngIf="items.length">
-      <app-item *ngFor="let item of items" [item]="item" (addToCart)="onAddToCart(item)"></app-item>
+      <app-item
+        *ngFor="let item of items"
+        [item]="item"
+        (addToCart)="onAddToCart(item)"
+      ></app-item>
     </div>
   </div>
 </div>
