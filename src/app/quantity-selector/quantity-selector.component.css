@@ -10,19 +10,19 @@
 .plus-btn {
   border-radius: 0 6px 6px 0;
 }
-.selector-value{
-    color:red;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.selector-value {
+  color: red;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-.btn-selector{
-    background-color: #bcd6f4;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
+.btn-selector {
+  background-color: #bcd6f4;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
 }
-.btn-selector:hover{
-    color: red;
+.btn-selector:hover {
+  color: red;
 }
