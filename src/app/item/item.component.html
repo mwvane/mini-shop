@@ -15,10 +15,11 @@
       {{ item.price }}
     </div>
     <div
-      class="col d-flex justify-content-center align-items-center custom-border custom-column"
+      class="col d-flex justify-content-center align-items-center custom-border custom-column  custom-btn"
       style="border-radius: 0 8px 8px 0"
+      (click)="onAddToCart()"
     >
-      <fa-icon [icon]="cartIcon" class="text-primary custom-btn"></fa-icon>
+      <fa-icon [icon]="cartIcon" class="text-primary"></fa-icon>
     </div>
   </div>
 </div>
