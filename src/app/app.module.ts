@@ -12,6 +12,7 @@ import { CartComponent } from './cart/cart.component';
 import { ItemComponent } from './item/item.component';
 import { HttpClientModule } from '@angular/common/http';
 import { QuantitySelectorComponent } from './quantity-selector/quantity-selector.component';
+import { CartItemComponent } from './cart-item/cart-item.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { QuantitySelectorComponent } from './quantity-selector/quantity-selector
     HomeComponent,
     CartComponent,
     ItemComponent,
-    QuantitySelectorComponent
+    QuantitySelectorComponent,
+    CartItemComponent
   ],
   imports: [
     BrowserModule,

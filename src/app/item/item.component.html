@@ -1,6 +1,9 @@
 <div class="container my-1">
   <div class="row justify-content-md-center">
-    <div class="col-8 py-2 custom-border custom-column" style="border-radius: 8px 0 0 8px">
+    <div
+      class="col-8 py-2 custom-border custom-column"
+      style="border-radius: 8px 0 0 8px"
+    >
       {{ item.name }}
     </div>
     <div
@@ -15,7 +18,7 @@
       {{ item.price }}
     </div>
     <div
-      class="col d-flex justify-content-center align-items-center custom-border custom-column  custom-btn"
+      class="col d-flex justify-content-center align-items-center custom-border custom-column custom-btn"
       style="border-radius: 0 8px 8px 0"
       (click)="onAddToCart()"
     >

@@ -1,36 +1,41 @@
 /* You can add global styles to this file, and also import other style files */
-.custom-input{
+.custom-input,
+textarea {
+  border: none;
+  text-decoration: none;
+  background-color: none;
+  border: none;
+  padding: 8px;
+  border-bottom: 2px solid rgba(45, 45, 45, 0.3);
+  border-radius: 4px;
+}
+.custom-input:focus{
     border: none;
-    text-decoration: none;
-    background-color: red;
-    padding: 8px;
-    border-bottom: 2px solid rgba(45,45,45, .3);
-    border-radius: 4px;
 }
-.logo{
-    background-color: #F3F9FF;
-    width: 40%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    border-radius: 6px 0 0 6px;
+.logo {
+  background-color: #f3f9ff;
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 6px 0 0 6px;
 }
-.big-circle{
-    background-color: #E7F2FD;
-    border-radius: 50%;
-    width: 100px;
-    height: 100px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 40px;
+.big-circle {
+  background-color: #e7f2fd;
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 40px;
 }
-.small-circle{
-    background-color: #BCD6F4;
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.small-circle {
+  background-color: #bcd6f4;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
