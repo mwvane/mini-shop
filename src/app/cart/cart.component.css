@@ -1,19 +1,19 @@
-.main-container{
-    display: flex;
-    align-items: center;
+.main-container {
+  display: flex;
+  align-items: center;
 }
-.cart-header{
-    font-size: 24px ;
-    display: flex;
-    border-bottom: 2px solid #EEF5FD;
-    width: 100%;
-    justify-content: center;
+.cart-header {
+  font-size: 24px;
+  display: flex;
+  border-bottom: 2px solid #eef5fd;
+  width: 100%;
+  justify-content: center;
 }
-.cart-icon{
-    color: #68D967;
+.cart-icon {
+  color: #68d967;
 }
-.cart-container{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+.cart-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
