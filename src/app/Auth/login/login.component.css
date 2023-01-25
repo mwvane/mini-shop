@@ -1,37 +1,37 @@
-.main-conatiner{
-    background-color: #F6F6F6;
+.main-conatiner {
+  background-color: #f6f6f6;
 }
-.form-container{
-    display: flex;
-    width: 50%;
-    border-radius: 6px;
-    position: relative;
+.form-container {
+  display: flex;
+  width: 50%;
+  border-radius: 6px;
+  position: relative;
 }
 
-.login-form{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    background-color: white;
-    flex-direction: column;
+.login-form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  background-color: white;
+  flex-direction: column;
 }
-.btn-signup{
-    font-size: 20px;
-    padding: 5px;
-    background-color: #d5e3f2;
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: absolute;
-    right: 10px;
-    bottom: 10px;
-    cursor: pointer;
+.btn-signup {
+  font-size: 20px;
+  padding: 5px;
+  background-color: #d5e3f2;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  cursor: pointer;
 }
-.btn-signup:hover{
-    transition: .4s;
-    background: #acc1d6;
+.btn-signup:hover {
+  transition: 0.4s;
+  background: #acc1d6;
 }
