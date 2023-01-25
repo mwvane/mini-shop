@@ -12,6 +12,8 @@
 .container {
   border: 3px solid #f3f9ff;
   position: relative;
+  padding: 0;
+  border-radius: 6px;
 }
 .btn-remove {
   position: absolute;
