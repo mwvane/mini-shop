@@ -1,1 +1,112 @@
-<p>signup works!</p>
+<div
+  class="main-conatiner w-100 vh-100 d-flex justify-content-center align-items-center"
+>
+  <div class="form-container">
+    <div class="logo p-5">
+      <div class="py-5">
+        <p class="text-primary">რეგისტრაცია</p>
+        <div class="big-circle">
+          <div class="small-circle">
+            <fa-icon
+              [icon]="checkIcon"
+              style="color: white; font-size: 20px"
+            ></fa-icon>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="signup-form p-5">
+      <p class="text-primary">შეიყვანეთ თქვენი მონაცემები</p>
+      <form
+        [formGroup]="signupForm"
+        (ngSubmit)="onSubmit()"
+        class="w-100"
+        style="font-size: 12px"
+      >
+        <div>
+          <div>
+            <label for="email" class="form-label m-0">თქვენი მეილი</label>
+            <input
+              type="email"
+              class="custom-input w-100"
+              formControlName="email"
+            />
+            <small
+              *ngIf="
+                signupForm.get('email')?.invalid &&
+                signupForm.get('email')?.touched
+              "
+              class="text-danger"
+              >მეილი აუცილებელია</small
+            >
+          </div>
+          <div class="my-1">
+            <label for="firstname" class="form-label m-0">სახელი</label>
+            <input
+              type="text"
+              class="custom-input w-100"
+              formControlName="firstname"
+            />
+            <small
+              *ngIf="
+                signupForm.get('firstname')?.invalid &&
+                signupForm.get('firstname')?.touched
+              "
+              class="text-danger"
+              >სახელი აუცილებელია(მინიმალური ზომა 3)</small
+            >
+          </div>
+          <div class="my-1">
+            <label for="lastname" class="form-label m-0">გვარი</label>
+            <input
+              type="text"
+              class="custom-input w-100"
+              formControlName="lastname"
+            />
+          </div>
+          <div class="my-1">
+            <label for="password" class="form-label m-0">პაროლი</label>
+            <input
+              type="password"
+              class="custom-input w-100"
+              formControlName="password"
+            />
+            <small
+              *ngIf="
+                signupForm.get('password')?.invalid &&
+                signupForm.get('password')?.touched
+              "
+              class="text-danger"
+              >პაროლი აუცილებელია (მინიმალური ზომა 6)</small
+            >
+          </div>
+          <div class="my-1">
+            <label class="form-label m-0" for="confirmPassword"
+              >დაადასტურეთ პაროლი</label
+            >
+            <input
+              type="password"
+              class="custom-input w-100"
+              id="confirmPassword"
+              name="confirmPassword"
+              formControlName="confirmPassword"
+            />
+            <small *ngIf="passwordMatchError" class="text-danger"
+              >პაროლი არ ემთხვევა</small
+            >
+          </div>
+          <div class="mb-3">
+            <a href="/login" class="text-decoration-none mx-4">ავტორიზაცია</a>
+          </div>
+          <button
+            [disabled]="signupForm.invalid"
+            type="submit"
+            class="btn btn-primary"
+          >
+            რეგისტრაცია
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
