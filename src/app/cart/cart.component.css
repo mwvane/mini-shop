@@ -1,6 +1,7 @@
 .main-container {
   display: flex;
   align-items: center;
+  flex-direction: column;
 }
 .cart-header {
   font-size: 24px;

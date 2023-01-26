@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
 @Component({
   selector: 'app-quantity-selector',
@@ -9,18 +9,14 @@ export class QuantitySelectorComponent {
   minusIcon = faMinus;
   plusIcon = faPlus;
   @Input() currentQuantity: number = 1;
-  @Input() maxValue = 100;
-  @Output() change = new EventEmitter<number>();
+  @Output() increase = new EventEmitter();
+  @Output() decrease = new EventEmitter();
   onPlus() {
-    if (this.currentQuantity < this.maxValue) {
-      this.currentQuantity++;
-    }
-    this.change.emit(this.currentQuantity);
+    this.increase.emit();
   }
   onMinus() {
     if (this.currentQuantity > 1) {
-      this.currentQuantity--;
-      this.change.emit(this.currentQuantity);
+      this.decrease.emit();
     }
   }
 }

@@ -14,16 +14,16 @@
       </div>
       <div class="col-2">
         <app-quantity-selector
-          [currentQuantity]="cartItem.quantity"
-          [maxValue]="maxQuantity"
-          (change)="onQuantityChange($event)"
+          (increase)="onQuantityIncrease()"
+          (decrease)="onQuantityDecrease()"
+          [currentQuantity] ="cartItem.quantity"
         ></app-quantity-selector>
       </div>
       <div class="col-2">
         {{ cartItem.item.price }}
       </div>
       <div class="col-2 text-primary">
-        {{ cartItem.item.price * quantity }} ₾
+        {{ cartItem.item.price * cartItem.quantity }} ₾
       </div>
     </div>
   </div>

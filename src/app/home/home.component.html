@@ -12,10 +12,11 @@
     >
   </div>
   <div class="items-container">
-    <div *ngIf="!items.length" class="text-center">
-      <h3>Store is empty!</h3>
+    <div *ngIf="!items" class="text-center">
+      <h3 style="color: #728498;">პროდუქტების სია ცარიალია!</h3>
     </div>
     <div
+      *ngIf="items"
       class="row g-0"
       style="font-weight: bold; font-size: 14px; color: #728498"
     >
@@ -23,7 +24,7 @@
       <div class="col-2 text-center">რაოდენობა</div>
       <div class="col-1 text-center">ფასი</div>
     </div>
-    <div *ngIf="items.length">
+    <div *ngIf="items">
       <app-item
         *ngFor="let item of items"
         [item]="item"

@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { faCartShopping } from '@fortawesome/free-solid-svg-icons';
 import { ItemService } from '../item.service';
-
+import { faHome } from '@fortawesome/free-solid-svg-icons';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.component.html',
@@ -9,10 +10,11 @@ import { ItemService } from '../item.service';
 })
 export class CartComponent implements OnInit {
   cartIcon = faCartShopping;
-  cartItems: any;
+  homeIcon = faHome;
+  cartItems: any = null;
   selectedQuantity: number = 1;
   loggedUser: any;
-  constructor(private service: ItemService) {}
+  constructor(private service: ItemService, private router:Router) {}
   ngOnInit(): void {
     const user = localStorage.getItem('loggedUser');
     if (user) {
@@ -30,5 +32,8 @@ export class CartComponent implements OnInit {
         });
       }
     });
+  }
+  onBackToHome(){
+    this.router.navigateByUrl('home')
   }
 }

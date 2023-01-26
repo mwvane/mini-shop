@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { faRemove } from '@fortawesome/free-solid-svg-icons';
 import { ItemService } from '../item.service';
 @Component({
@@ -8,21 +8,39 @@ import { ItemService } from '../item.service';
 })
 export class CartItemComponent {
   removeIcon = faRemove;
-  maxQuantity: any = 100;
   @Input() cartItem: any;
-  @Input() quantity: number = 1;
-  @Output() remove = new EventEmitter()
+  @Output() remove = new EventEmitter();
+  maxQuantity: any = 10;
+
   constructor(private service: ItemService) {}
   onDelete() {
-    this.remove.emit()
+    this.remove.emit();
   }
-  onQuantityChange(quantity: number) {
-    this.service.getItemQuantity(this.cartItem.item.id).subscribe((data) => {
-      this.maxQuantity = data;
-    });
-    this.quantity = quantity;
-    this.service.updateCartItemQuantity(this.cartItem.id, quantity).subscribe(data => {
-      console.log(data)
-    });
+  onQuantityIncrease() {
+    let result: any;
+    this.service
+      .updateCartItemQuantity(this.cartItem.id, this.cartItem.quantity + 1)
+      .subscribe((data) => {
+        result = data;
+        if (result.res) {
+          this.cartItem.quantity++;
+          console.log(this.cartItem.quantity);
+        } else {
+          alert(result.errors.join('\n'));
+        }
+      });
+  }
+  onQuantityDecrease() {
+    let result: any;
+    this.service
+      .updateCartItemQuantity(this.cartItem.id, this.cartItem.quantity)
+      .subscribe((data) => {
+        result = data;
+        if (result.res) {
+          this.cartItem.quantity--;
+        } else {
+          alert(result.errors.join('\n'));
+        }
+      });
   }
 }

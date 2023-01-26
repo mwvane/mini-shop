@@ -8,12 +8,12 @@
       <app-cart-item
         *ngFor="let item of cartItems"
         [cartItem]="item"
-        [quantity]="item.quantity"
         (remove)="onDelete(item.id)"
       ></app-cart-item>
     </div>
   </div>
-  <div *ngIf="!cartItems">
-    <h3>There is no cart items</h3>
+  <div *ngIf="!cartItems || cartItems.length == 0" class="d-flex my-5">
+    <h3>ცარიელია</h3>
+    <button class="btn btn-primary mx-2 py-0" (click)="onBackToHome()"><fa-icon [icon]="homeIcon"></fa-icon>უკან დაბრუნება</button>
   </div>
 </div>
