@@ -23,15 +23,17 @@
         [formGroup]="loginForm"
         (submit)="onSubmit()"
       >
-        <div class="mb-3 mx-5">
+        <div class="mb-3 mx-5 position-relative">
           <label for="username">თქვენი ელ-ფოსტა</label>
           <div class="d-flex">
             <input
               formControlName="username"
               type="email"
               class="custom-input w-100"
+              autocomplete="off"
+
             />
-            <fa-icon [icon]="emailIcon"></fa-icon>
+            <fa-icon [icon]="emailIcon" class="input-icon"></fa-icon>
           </div>
           <small
             *ngIf="
@@ -42,15 +44,16 @@
             >იმეილი აუცილებელია</small
           >
         </div>
-        <div class="mb-3 mx-5">
+        <div class="mb-3 mx-5 position-relative">
           <label for="password">პაროლი</label>
           <div class="d-flex">
             <input
               formControlName="password"
               type="password"
               class="custom-input w-100"
+              autocomplete="off"
             />
-            <fa-icon [icon]="lockIcon"></fa-icon>
+            <fa-icon [icon]="lockIcon" class="input-icon"></fa-icon>
           </div>
 
           <small

@@ -35,3 +35,10 @@
   transition: 0.4s;
   background: #acc1d6;
 }
+.input-icon{
+  font-size: 14px;
+  position: absolute;
+  right: 8px;
+  top: 25px;
+  color: #BCD6F4;
+}
