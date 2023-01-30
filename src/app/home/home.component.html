@@ -2,7 +2,7 @@
   <div class="custom-header shadow">
     <div (click)="onCart()">
       <fa-icon [icon]="cartIcon" class="text-success"></fa-icon>
-      [{{ cartItemCount }}]
+      [{{ cartItems.length }}]
     </div>
     <span class="mx-2"
       >{{ loggedUser.firstname }} {{ loggedUser.lastname }}</span
@@ -15,8 +15,11 @@
   <div class="row container">
     <div class="col-7">
       <div class="items-container">
-        <div *ngIf="!items" class="text-center">
+        <div *ngIf="!items && !isItemsLoading" class="text-center">
           <h3 style="color: #728498;">პროდუქტების სია ცარიალია!</h3>
+        </div>
+        <div *ngIf="isItemsLoading" class="text-center">
+          <div class="spinner-border text-primary"></div>
         </div>
         <div
           *ngIf="items"
@@ -47,11 +50,17 @@
           <span class="text-primary px-3">ჩემი კალათა</span>
         </div>
         <div class="cart-body p-2">
-          <app-cart-item
+          <div [ngClass]="isCartLoading ? 'spinner-border text-primary':''">
+            
+          </div>
+          <div *ngIf="!isCartLoading">
+            <app-cart-item
             *ngFor="let item of cartItems"
             [cartItem]="item"
             (remove)="onCartItemDelete(item.id)"
+            (change)="onCartItemChange($event, item)"
           ></app-cart-item>
+          </div>
         </div>
       </div>
     </div>

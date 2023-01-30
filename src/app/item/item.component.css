@@ -3,6 +3,7 @@
 }
 .custom-column {
   background-color: white;
+  font-size: 15px;
 }
 .custom-btn {
   cursor: pointer;
@@ -10,4 +11,5 @@
 .custom-btn:hover {
   font-size: 17px;
   transition: 0.1s;
+  cursor: pointer;
 }
