@@ -11,25 +11,49 @@
       >logout</a
     >
   </div>
-  <div class="items-container">
-    <div *ngIf="!items" class="text-center">
-      <h3 style="color: #728498;">პროდუქტების სია ცარიალია!</h3>
+
+  <div class="row container">
+    <div class="col-7">
+      <div class="items-container">
+        <div *ngIf="!items" class="text-center">
+          <h3 style="color: #728498;">პროდუქტების სია ცარიალია!</h3>
+        </div>
+        <div
+          *ngIf="items"
+          class="row g-0"
+          style="font-weight: bold; font-size: 14px; color: #728498"
+        >
+          <div class="col-7">სახელი</div>
+          <div class="col-2 text-center">რაოდენობა</div>
+          <div class="col text-center">ფასი</div>
+          <div class="col text-center"></div>
+        </div>
+        <div *ngIf="items">
+          <app-item
+            *ngFor="let item of items"
+            [item]="item"
+            [role]="loggedUser.role"
+            (removeItem)="onRemoveItem($event)"
+            (editItem)="onEditItem($event)"
+            (addToCart)="onAddToCart(item)"
+          ></app-item>
+        </div>
+      </div>
     </div>
-    <div
-      *ngIf="items"
-      class="row g-0"
-      style="font-weight: bold; font-size: 14px; color: #728498"
-    >
-      <div class="col-8">სახელი</div>
-      <div class="col-2 text-center">რაოდენობა</div>
-      <div class="col-1 text-center">ფასი</div>
-    </div>
-    <div *ngIf="items">
-      <app-item
-        *ngFor="let item of items"
-        [item]="item"
-        (addToCart)="onAddToCart(item)"
-      ></app-item>
+    <div class="col-5">
+      <div class="cart-container">
+        <div class="cart-header">
+          <fa-icon [icon]="cartIcon" style="color: #67D965;"></fa-icon>
+          <span class="text-primary px-3">ჩემი კალათა</span>
+        </div>
+        <div class="cart-body p-2">
+          <app-cart-item
+            *ngFor="let item of cartItems"
+            [cartItem]="item"
+            (remove)="onCartItemDelete(item.id)"
+          ></app-cart-item>
+        </div>
+      </div>
     </div>
   </div>
 </div>
