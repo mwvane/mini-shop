@@ -1,13 +1,13 @@
 .cart-item-header {
   background-color: #f3f9ff;
   font-weight: bold;
-  font-size: 14px;
-  padding: 20px;
+  font-size: 10px;
+  padding: 4px;
 }
 .cart-item-body {
   font-weight: bold;
-  font-size: 14px;
-  padding: 20px;
+  font-size: 10px;
+  padding: 4px;
 }
 .container {
   border: 3px solid #f3f9ff;

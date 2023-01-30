@@ -10,6 +10,7 @@ export class CartItemComponent {
   removeIcon = faRemove;
   @Input() cartItem: any;
   @Output() remove = new EventEmitter();
+  @Output() change = new EventEmitter()
   maxQuantity: any = 10;
 
   constructor(private service: ItemService) {}
@@ -18,13 +19,14 @@ export class CartItemComponent {
   }
   onQuantityIncrease() {
     let result: any;
+    console.log(this.cartItem)
     this.service
-      .updateCartItemQuantity(this.cartItem.id, this.cartItem.quantity + 1)
+      .updateCartItemQuantity(this.cartItem.id, 1)
       .subscribe((data) => {
         result = data;
-        if (result.res) {
+        if (result.res != null) {
           this.cartItem.quantity++;
-          console.log(this.cartItem.quantity);
+          this.change.emit(result.res)
         } else {
           alert(result.errors.join('\n'));
         }
@@ -33,11 +35,12 @@ export class CartItemComponent {
   onQuantityDecrease() {
     let result: any;
     this.service
-      .updateCartItemQuantity(this.cartItem.id, this.cartItem.quantity)
+      .updateCartItemQuantity(this.cartItem.id, -1)
       .subscribe((data) => {
         result = data;
-        if (result.res) {
+        if (result.res != null) {
           this.cartItem.quantity--;
+          this.change.emit(result.res)
         } else {
           alert(result.errors.join('\n'));
         }
