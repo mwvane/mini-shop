@@ -8,7 +8,6 @@ import { LoginComponent } from './Auth/login/login.component';
 import { SignupComponent } from './Auth/signup/signup.component';
 import { ForgetPasswordComponent } from './Auth/forget-password/forget-password.component';
 import { HomeComponent } from './home/home.component';
-import { CartComponent } from './cart/cart.component';
 import { ItemComponent } from './item/item.component';
 import { HttpClientModule } from '@angular/common/http';
 import { QuantitySelectorComponent } from './quantity-selector/quantity-selector.component';
@@ -21,7 +20,6 @@ import { CartItemComponent } from './cart-item/cart-item.component';
     SignupComponent,
     ForgetPasswordComponent,
     HomeComponent,
-    CartComponent,
     ItemComponent,
     QuantitySelectorComponent,
     CartItemComponent
