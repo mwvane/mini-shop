@@ -1,0 +1,44 @@
+<div class="container">
+  <div class="form-container px-5">
+    <h3 class="text-center my-3">{{caption}}</h3>
+    <form [formGroup]="editOrCreateForm" (submit)="onSubmit()">
+      <div class="mb-3 position-relative">
+        <label for="name">პროდუქტის სახელი</label>
+        <div class="d-flex">
+          <input
+            formControlName="name"
+            type="text"
+            class="custom-input w-100"
+            autocomplete="off"
+            value="{{item.name}}"
+          />
+        </div>
+      </div>
+      <div class="mb-3 position-relative">
+        <label for="price">ფასი</label>
+        <div class="d-flex">
+          <input
+            formControlName="price"
+            type="number"
+            class="custom-input w-100"
+            autocomplete="off"
+            value="{{item.price}}"
+          />
+        </div>
+      </div>
+      <div class="mb-3 position-relative">
+        <label for="quantity">რაოდენობა</label>
+        <div class="d-flex">
+          <input
+            formControlName="quantity"
+            type="number"
+            class="custom-input w-100"
+            autocomplete="off"
+            value="{{item.quantity}}"
+          />
+        </div>
+      </div>
+      <button class="btn btn-primary" [disabled]="editOrCreateForm.invalid && !isEditMode">შენახვა</button>
+    </form>
+  </div>
+</div>
