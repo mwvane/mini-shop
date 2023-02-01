@@ -4,6 +4,8 @@ import { ItemService } from '../item.service';
 import { faCartShopping, faAdd } from '@fortawesome/free-solid-svg-icons';
 import { Item } from '../Model/item';
 import { CartItem } from '../Model/cartItem';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { YesNoComponent } from '../dialogs/yes-no/yes-no.component';
 
 @Component({
   selector: 'app-home',
@@ -11,7 +13,11 @@ import { CartItem } from '../Model/cartItem';
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit {
-  constructor(private service: ItemService, private router: Router) {}
+  constructor(
+    private service: ItemService,
+    private router: Router,
+    private dialog: MatDialog
+  ) {}
   cartIcon = faCartShopping;
   addIcon = faAdd;
   items: Item[] = [];
@@ -23,7 +29,7 @@ export class HomeComponent implements OnInit {
     const user = localStorage.getItem('loggedUser');
     if (user) {
       this.loggedUser = JSON.parse(user);
-      console.log(this.loggedUser.role)
+      console.log(this.loggedUser.role);
       this.loadItems();
       this.loadCartItems();
     } else {
@@ -54,31 +60,45 @@ export class HomeComponent implements OnInit {
       }
   }
   onCartItemDelete(id?: number) {
-    if (id) {
-      this.service.deleteCartItem(id).subscribe((data) => {
-        if (data) {
-          this.cartItems = this.cartItems.filter((item) => item.id != id);
-          this.loadItems()
+    this.openDialog().subscribe((data) => {
+      if (data) {
+        if (id) {
+          this.service.deleteCartItem(id).subscribe((data) => {
+            if (data) {
+              this.cartItems = this.cartItems.filter((item) => item.id != id);
+              this.loadItems();
+            }
+          });
         }
-      });
-    }
+      }
+    });
   }
   onLogout() {
     localStorage.removeItem('loggedUser');
     this.router.navigateByUrl('login');
   }
+  openDialog() {
+    return this.dialog
+      .open(YesNoComponent, {
+        width: '250px',
+      })
+      .afterClosed();
+  }
   // admin---------------
   onRemoveItem(itemId: number) {
-    debugger
-    this.service.removeItem(itemId).subscribe((data) => {
-      if (data.res) {
-        this.items = this.items.filter((item) => item.id != itemId);
-        this.loadCartItems();
+    this.openDialog().subscribe((data) => {
+      if (data) {
+        this.service.removeItem(itemId).subscribe((data) => {
+          if (data.res) {
+            this.items = this.items.filter((item) => item.id != itemId);
+            this.loadCartItems();
+          }
+        });
       }
     });
   }
   onEditItem(itemId: number) {
-    this.router.navigate(['editItem/', itemId])
+    this.router.navigate(['editItem/', itemId]);
   }
   onCreateItem() {
     this.router.navigateByUrl('editItem/');

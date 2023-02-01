@@ -13,6 +13,13 @@ import { HttpClientModule } from '@angular/common/http';
 import { QuantitySelectorComponent } from './quantity-selector/quantity-selector.component';
 import { CartItemComponent } from './cart-item/cart-item.component';
 import { EditItemComponent } from './edit-or-create-item/edit-or-create-item.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { YesNoComponent } from './dialogs/yes-no/yes-no.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +31,8 @@ import { EditItemComponent } from './edit-or-create-item/edit-or-create-item.com
     ItemComponent,
     QuantitySelectorComponent,
     CartItemComponent,
-    EditItemComponent
+    EditItemComponent,
+    YesNoComponent,
   ],
   imports: [
     BrowserModule,
@@ -32,9 +40,15 @@ import { EditItemComponent } from './edit-or-create-item/edit-or-create-item.com
     FormsModule,
     ReactiveFormsModule,
     FontAwesomeModule,
-    HttpClientModule
+    HttpClientModule,
+    BrowserAnimationsModule,
+    MatDialogModule,
+    MatButtonModule,
+    MatIconModule,
+    MatFormFieldModule,
+    MatInputModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
