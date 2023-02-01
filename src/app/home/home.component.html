@@ -16,6 +16,13 @@
       <div class="items-container">
         <div *ngIf="!isItemsLoading && !items.length" class="text-center">
           <h3 style="color: #728498">პროდუქტების სია ცარიალია!</h3>
+          <button
+              *ngIf="loggedUser.role == 'admin' || loggedUser.role == 'seller'"
+              (click)="onCreateItem()"
+              class="btn btn-warning btn-add shadow py-1"
+            >
+              <fa-icon [icon]="addIcon"></fa-icon> დამატება
+            </button>
         </div>
         <div *ngIf="isItemsLoading" class="text-center">
           <div class="spinner-border text-primary"></div>
@@ -35,14 +42,14 @@
               <app-item
                 *ngFor="let item of items"
                 [item]="item"
-                [role]="loggedUser.role"
+                [loggedUser]="loggedUser"
                 (removeItem)="onRemoveItem($event)"
                 (editItem)="onEditItem($event)"
                 (addToCart)="onAddToCart(item)"
-              ></app-item>
+              ><h1></h1></app-item>
             </div>
             <button
-              *ngIf="loggedUser.role == 'admin'"
+              *ngIf="loggedUser.role == 'admin' || loggedUser.role == 'seller'"
               (click)="onCreateItem()"
               class="btn btn-warning btn-add shadow py-1"
             >
@@ -58,14 +65,14 @@
           <fa-icon [icon]="cartIcon" style="color: #67d965"></fa-icon>
           <span class="text-primary px-3">ჩემი კალათა</span>
         </div>
-        <div class="cart-body p-2">
-          <div *ngIf="!isCartLoading && !cartItems.length">
+        <div class="cart-body py-2 px-4">
+          <div *ngIf="!isCartLoading && !cartItems.length" class="w-100">
             <p>კალათა ცარიალია</p>
           </div>
           <div
             [ngClass]="isCartLoading ? 'spinner-border text-primary' : ''"
           ></div>
-          <div *ngIf="!isCartLoading">
+          <div *ngIf="!isCartLoading" class="w-100">
             <app-cart-item
               *ngFor="let item of cartItems"
               [cartItem]="item"

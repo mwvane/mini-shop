@@ -12,6 +12,7 @@ export class EditItemComponent implements OnInit {
   item: any = {}
   caption = ""
   isEditMode = true
+  loggedUser:any 
   editOrCreateForm = new FormGroup({
     name: new FormControl(null, [Validators.required, Validators.minLength(4)]),
     price: new FormControl(null, [Validators.required]),
@@ -21,6 +22,10 @@ export class EditItemComponent implements OnInit {
 
   }
   ngOnInit(): void {
+    const user = localStorage.getItem("loggedUser")
+    if(user){
+      this.loggedUser = JSON.parse(user)
+    }
     this.route.params.subscribe(params => {
       const id = params["id"]
       if(id){
@@ -55,7 +60,7 @@ export class EditItemComponent implements OnInit {
       }
     }
     else{
-      this.service.addItem({...this.editOrCreateForm.value,id:0}).subscribe(data => {
+      this.service.addItem({...this.editOrCreateForm.value,id:0,createdBy:this.loggedUser.id}).subscribe(data => {
         this.router.navigateByUrl("")
       })
     }

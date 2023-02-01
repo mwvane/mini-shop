@@ -38,9 +38,11 @@
   font-size: 20px;
 }
 .cart-body{
-  display: flex;
-  justify-content: center;
+  text-align: center;
 }
 .btn-add{
   font-size: 14px;
+}
+.test{
+  background-color: red;
 }

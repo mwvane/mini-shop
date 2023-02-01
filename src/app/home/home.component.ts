@@ -23,6 +23,7 @@ export class HomeComponent implements OnInit {
     const user = localStorage.getItem('loggedUser');
     if (user) {
       this.loggedUser = JSON.parse(user);
+      console.log(this.loggedUser.role)
       this.loadItems();
       this.loadCartItems();
     } else {
@@ -68,6 +69,7 @@ export class HomeComponent implements OnInit {
   }
   // admin---------------
   onRemoveItem(itemId: number) {
+    debugger
     this.service.removeItem(itemId).subscribe((data) => {
       if (data.res) {
         this.items = this.items.filter((item) => item.id != itemId);

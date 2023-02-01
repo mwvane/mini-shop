@@ -8,7 +8,7 @@ import { faCartShopping, faPen, faRemove, faPlus } from '@fortawesome/free-solid
 })
 export class ItemComponent {
   @Input() item: any;
-  @Input() role: string = 'user'
+  @Input() loggedUser: any
   @Output() addToCart = new EventEmitter();
   @Output() editItem = new EventEmitter<number>();
   @Output() removeItem = new EventEmitter<number>();
@@ -30,12 +30,12 @@ export class ItemComponent {
   onRemove(e:any){
     e.stopPropagation();
     e.preventDefault();
-    if(this.role === 'admin'){
+    if(this.loggedUser.role === 'admin' || this.loggedUser.id === this.item.createdBy){
       this.removeItem.emit(this.item.id)
     }
   }
   onEdit(){
-    if(this.role === 'admin'){
+    if(this.loggedUser.role === 'admin' || this.loggedUser.id === this.item.createdBy){
       this.editItem.emit(this.item.id)
     }
   }

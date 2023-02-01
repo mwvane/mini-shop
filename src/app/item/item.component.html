@@ -21,6 +21,7 @@
       {{ item.price }}
     </div>
     <div
+      
       class="col-1 d-flex justify-content-center align-items-center custom-column custom-btn"
       [ngClass]="item.quantity ? 'border-normal' : 'border-error'"
       style="border-radius: 0 8px 8px 0"
@@ -30,7 +31,7 @@
     </div>
     <div class="col-1 d-flex justify-content-center align-items-center">
       <div
-      *ngIf="role == 'admin'"
+      *ngIf="(loggedUser.role == 'seller' && loggedUser.id == item.createdBy) || loggedUser.role == 'admin'"
       class="d-flex justify-content-center align-items-center"
       style="border-radius: 0 8px 8px 0"
     >

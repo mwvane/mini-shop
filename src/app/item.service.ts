@@ -57,6 +57,6 @@ export class ItemService {
     return this.http.post<Result>(`https://localhost:7129/api/Admin/updateItem`, newItem)
   }
   addItem(newItem:any){
-    return this.http.post(`https://localhost:7129/api/Admin/createItem`, newItem)
+    return this.http.post(`https://localhost:7129/api/Admin/createItem`,newItem)
   }
 }
