@@ -1,36 +1,49 @@
-<div class="container my-1">
-  <div class="row justify-content-md-center">
+<div class="container my-1 w-100" (click)="onEdit()">
+  <div class="row justify-content-md-center position-relative item">
     <div
-      class="col-7 py-2 custom-border custom-column"
+      class="col-7 py-2 custom-column"
+      [ngClass]="item.quantity ? 'border-normal' : 'border-error'"
       style="border-radius: 8px 0 0 8px"
     >
       {{ item.name }}
     </div>
     <div
-      class="col-2 d-flex justify-content-center align-items-center custom-border custom-column"
+      class="col-2 d-flex justify-content-center align-items-center custom-column"
+      [ngClass]="item.quantity ? 'border-normal' : 'border-error'"
     >
       {{ item.quantity }}
     </div>
     <div
-      class="col d-flex justify-content-center align-items-center custom-border"
-      style="background-color: #f3f9ff; border: 2px solid rgba(243, 249, 255)"
+      class="col-1 d-flex justify-content-center align-items-center"
+      [ngClass]="item.quantity ? 'border-normal' : 'border-error'"
+      style="background-color: #f3f9ff;"
     >
       {{ item.price }}
     </div>
     <div
-      class="col d-flex justify-content-center align-items-center custom-border custom-column custom-btn"
+      class="col-1 d-flex justify-content-center align-items-center custom-column custom-btn"
+      [ngClass]="item.quantity ? 'border-normal' : 'border-error'"
       style="border-radius: 0 8px 8px 0"
-      (click)="onAddToCart()"
+      (click)="onAddToCart($event)"
     >
       <fa-icon [icon]="cartIcon" class="text-primary"></fa-icon>
     </div>
-    <div
+    <div class="col-1 d-flex justify-content-center align-items-center">
+      <div
       *ngIf="role == 'admin'"
-      class="col d-flex justify-content-center align-items-center"
+      class="d-flex justify-content-center align-items-center"
       style="border-radius: 0 8px 8px 0"
     >
-      <fa-icon [icon]="editIcon" (click)="onEdit()" class="px-2 custom-btn " style="color: #FBC52A"></fa-icon>
-      <fa-icon [icon]="removeIcon" (click)="onRemove()" class="px-2 custom-btn" style="color: red"></fa-icon>
+      <div class="btn-action">
+        <fa-icon
+          [icon]="removeIcon"
+          (click)="onRemove($event)"
+          class="px-2 custom-btn"
+          style="color: red"
+        ></fa-icon>
+      </div>
     </div>
+    </div>
+    
   </div>
 </div>

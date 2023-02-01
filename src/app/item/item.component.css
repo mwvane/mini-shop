@@ -1,5 +1,8 @@
-.custom-border {
-  border: 2px solid rgb(131, 177, 224, 0.2);
+.border-normal {
+  border: 2px solid rgba(131, 177, 224, 0.2);
+}
+.border-error {
+  border: 2px solid rgba(212, 8, 8, 0.3);
 }
 .custom-column {
   background-color: white;
@@ -11,5 +14,11 @@
 .custom-btn:hover {
   font-size: 17px;
   transition: 0.1s;
+  cursor: pointer;
+}
+.btn-action{
+  position: absolute;
+}
+.item{
   cursor: pointer;
 }

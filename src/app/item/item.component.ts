@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Item } from '../item';
+import { Item } from '../Model/item';
 import { faCartShopping, faPen, faRemove, faPlus } from '@fortawesome/free-solid-svg-icons';
 @Component({
   selector: 'app-item',
@@ -12,14 +12,24 @@ export class ItemComponent {
   @Output() addToCart = new EventEmitter();
   @Output() editItem = new EventEmitter<number>();
   @Output() removeItem = new EventEmitter<number>();
+  @Output() addItem = new EventEmitter<number>();
   cartIcon = faCartShopping;
   editIcon = faPen
   removeIcon = faRemove
   addIcon = faPlus
-  onAddToCart() {
-    this.addToCart.emit();
+  onAddToCart(e:any) {
+    e.stopPropagation();
+      e.preventDefault();
+    if(this.item.quantity){
+      this.addToCart.emit();
+    }
+    else{
+      alert("პროდუქტის მარაგი ამოიწურა")
+    }
   }
-  onRemove(){
+  onRemove(e:any){
+    e.stopPropagation();
+    e.preventDefault();
     if(this.role === 'admin'){
       this.removeItem.emit(this.item.id)
     }

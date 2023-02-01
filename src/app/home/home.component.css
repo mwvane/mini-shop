@@ -41,3 +41,6 @@
   display: flex;
   justify-content: center;
 }
+.btn-add{
+  font-size: 14px;
+}

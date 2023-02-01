@@ -12,7 +12,7 @@ import { ItemComponent } from './item/item.component';
 import { HttpClientModule } from '@angular/common/http';
 import { QuantitySelectorComponent } from './quantity-selector/quantity-selector.component';
 import { CartItemComponent } from './cart-item/cart-item.component';
-import { EditItemComponent } from './edit-item/edit-item.component';
+import { EditItemComponent } from './edit-or-create-item/edit-or-create-item.component';
 
 @NgModule({
   declarations: [

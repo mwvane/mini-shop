@@ -1,7 +1,10 @@
 import { EnvironmentInjector, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Item } from './item';
+import { Item } from './Model/item';
 import { ThisReceiver } from '@angular/compiler';
+import { Observable } from 'rxjs';
+import { Result } from './Model/result';
+import { CartItem } from './Model/cartItem';
 
 @Injectable({
   providedIn: 'root',
@@ -10,11 +13,14 @@ export class ItemService {
   constructor(private http: HttpClient) {}
   baseUrl: string = 'https://localhost:7129/api/Item';
   getAllItems() {
-    return this.http.get(`${this.baseUrl}/getAllItems`);
+    return this.http.get<Item[]>(`${this.baseUrl}/getAllItems`);
+  }
+  getItem(id:number){
+    return this.http.get<Item>(`${this.baseUrl}/getItem?id=${id}`)
   }
 
   getCartItems(userId: number) {
-    return this.http.get(`${this.baseUrl}/getCartItems?id=${userId}`);
+    return this.http.get<CartItem[]>(`${this.baseUrl}/getCartItems?id=${userId}`);
   }
 
   getItemQuantity(id: number) {
@@ -22,11 +28,11 @@ export class ItemService {
   }
 
   getCartItemsCount(id: number) {
-    return this.http.get(`${this.baseUrl}/getCartCount?id=${id}`);
+    return this.http.get<number>(`${this.baseUrl}/getCartCount?id=${id}`);
   }
 
   updateCartItemQuantity(id: number, quantity: number) {
-    return this.http.post(`${this.baseUrl}/updateCartItemQuantity`, {
+    return this.http.post<Result>(`${this.baseUrl}/updateCartItemQuantity`, {
       id,
       quantity,
     });
@@ -35,8 +41,8 @@ export class ItemService {
   deleteCartItem(id: number) {
     return this.http.post(`${this.baseUrl}/deleteCartItem`, id);
   }
-  addToCart(item: any, userId: number, quantity: number = 0) {
-    return this.http.post(`${this.baseUrl}/addToCart`, {
+  addToCart(item: Item, userId: number, quantity: number = 0) {
+    return this.http.post<Result>(`${this.baseUrl}/addToCart`, {
       itemId: item.id,
       userId: userId,
       quantity,
@@ -44,7 +50,13 @@ export class ItemService {
   }
 
   //admin-----------
-  removeItem(itemId:number){
-    return this.http.post(`https://localhost:7129/api/Admin/removeItem`, itemId)
+  removeItem(itemId:number) {
+    return this.http.post<Result>(`https://localhost:7129/api/Admin/removeItem`, itemId)
+  }
+  updateItem(newItem:Item){
+    return this.http.post<Result>(`https://localhost:7129/api/Admin/updateItem`, newItem)
+  }
+  addItem(newItem:any){
+    return this.http.post(`https://localhost:7129/api/Admin/createItem`, newItem)
   }
 }
