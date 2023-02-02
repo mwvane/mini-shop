@@ -9,7 +9,7 @@ import { SignupComponent } from './Auth/signup/signup.component';
 import { ForgetPasswordComponent } from './Auth/forget-password/forget-password.component';
 import { HomeComponent } from './home/home.component';
 import { ItemComponent } from './item/item.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { QuantitySelectorComponent } from './quantity-selector/quantity-selector.component';
 import { CartItemComponent } from './cart-item/cart-item.component';
 import { EditItemComponent } from './edit-or-create-item/edit-or-create-item.component';
@@ -20,6 +20,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { YesNoComponent } from './dialogs/yes-no/yes-no.component';
+import { TokenInterceptor } from './ingterceptors/token.interceptor';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,11 @@ import { YesNoComponent } from './dialogs/yes-no/yes-no.component';
     MatFormFieldModule,
     MatInputModule,
   ],
-  providers: [],
+  providers: [{
+    provide:HTTP_INTERCEPTORS,
+    useClass: TokenInterceptor,
+    multi: true,
+  }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

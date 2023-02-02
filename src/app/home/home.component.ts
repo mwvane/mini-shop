@@ -4,8 +4,9 @@ import { ItemService } from '../item.service';
 import { faCartShopping, faAdd } from '@fortawesome/free-solid-svg-icons';
 import { Item } from '../Model/item';
 import { CartItem } from '../Model/cartItem';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { YesNoComponent } from '../dialogs/yes-no/yes-no.component';
+import { LoginRegisterService } from '../login-register.service';
 
 @Component({
   selector: 'app-home',
@@ -15,6 +16,7 @@ import { YesNoComponent } from '../dialogs/yes-no/yes-no.component';
 export class HomeComponent implements OnInit {
   constructor(
     private service: ItemService,
+    private authService: LoginRegisterService,
     private router: Router,
     private dialog: MatDialog
   ) {}
@@ -29,11 +31,8 @@ export class HomeComponent implements OnInit {
     const user = localStorage.getItem('loggedUser');
     if (user) {
       this.loggedUser = JSON.parse(user);
-      console.log(this.loggedUser.role);
       this.loadItems();
-      this.loadCartItems();
-    } else {
-      this.router.navigateByUrl('login');
+      this.loadCartItems()
     }
   }
   onAddToCart(item: Item) {
@@ -60,7 +59,10 @@ export class HomeComponent implements OnInit {
       }
   }
   onCartItemDelete(id?: number) {
-    this.openDialog().subscribe((data) => {
+    this.openDialog(
+      'კალათიდან პროდუქტის წაშლა',
+      'ნამდვილად გინდათ კალათიდან პროდუქტის წაშლა?'
+    ).subscribe((data) => {
       if (data) {
         if (id) {
           this.service.deleteCartItem(id).subscribe((data) => {
@@ -74,19 +76,25 @@ export class HomeComponent implements OnInit {
     });
   }
   onLogout() {
-    localStorage.removeItem('loggedUser');
-    this.router.navigateByUrl('login');
+    this.openDialog('გასვლა', 'ნამდვილად გსურთ გასვლა?').subscribe((data) => {
+      if (data) {
+        localStorage.removeItem('loggedUser');
+        this.authService.logOut()
+        this.router.navigateByUrl('login');
+      }
+    });
   }
-  openDialog() {
-    return this.dialog
-      .open(YesNoComponent, {
-        width: '250px',
-      })
-      .afterClosed();
+  openDialog(caption: string, message: string) {
+    let dialogConfig = new MatDialogConfig();
+    dialogConfig.data = { caption, message };
+    return this.dialog.open(YesNoComponent, dialogConfig).afterClosed();
   }
   // admin---------------
   onRemoveItem(itemId: number) {
-    this.openDialog().subscribe((data) => {
+    this.openDialog(
+      'პროდუქტის წაშლა',
+      'ნამდვილად გინდათ პროდუქტის წაშლა?'
+    ).subscribe((data) => {
       if (data) {
         this.service.removeItem(itemId).subscribe((data) => {
           if (data.res) {

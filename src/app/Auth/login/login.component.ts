@@ -30,6 +30,7 @@ export class LoginComponent {
     this.service.login(this.loginForm.value).subscribe((data) => {
       const result: any = data;
       if (result.res) {
+        this.service.storeToken(result.res.token)
         localStorage.setItem('loggedUser', JSON.stringify(result.res));
         this.router.navigateByUrl('home');
       } else {

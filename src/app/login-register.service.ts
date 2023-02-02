@@ -22,4 +22,18 @@ export class LoginRegisterService {
     };
     return this.http.post(`${this.baseUrl}/signup`, user);
   }
+  storeToken(token:string){
+    localStorage.setItem("token",token)
+  }
+  getToken(){
+    return localStorage.getItem('token')
+  }
+  isLoggedIn():boolean{
+    return !!this.getToken()
+  }
+  logOut(){
+    if(this.isLoggedIn()){
+      localStorage.removeItem('token')
+    }
+  }
 }
