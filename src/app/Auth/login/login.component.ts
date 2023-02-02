@@ -31,7 +31,7 @@ export class LoginComponent {
       const result: any = data;
       if (result.res) {
         this.service.storeToken(result.res.token)
-        localStorage.setItem('loggedUser', JSON.stringify(result.res));
+        this.service.userPayload = this.service.decodeToken()
         this.router.navigateByUrl('home');
       } else {
         alert(result.errors.join('\n'));

@@ -30,12 +30,13 @@ export class ItemComponent {
   onRemove(e:any){
     e.stopPropagation();
     e.preventDefault();
-    if(this.loggedUser.role === 'admin' || this.loggedUser.id === this.item.createdBy){
+    if(this.loggedUser.role === 'admin' || this.loggedUser.id == this.item.createdBy){
       this.removeItem.emit(this.item.id)
     }
   }
   onEdit(){
-    if(this.loggedUser.role === 'admin' || this.loggedUser.id === this.item.createdBy){
+    debugger
+    if(this.loggedUser.role === 'admin' || this.loggedUser.id == this.item.createdBy){
       this.editItem.emit(this.item.id)
     }
   }

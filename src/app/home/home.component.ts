@@ -28,9 +28,10 @@ export class HomeComponent implements OnInit {
   isItemsLoading = true;
   isCartLoading = true;
   ngOnInit(): void {
-    const user = localStorage.getItem('loggedUser');
+    const user = this.authService.userPayload
+    debugger
     if (user) {
-      this.loggedUser = JSON.parse(user);
+      this.loggedUser = user
       this.loadItems();
       this.loadCartItems()
     }
@@ -78,7 +79,6 @@ export class HomeComponent implements OnInit {
   onLogout() {
     this.openDialog('გასვლა', 'ნამდვილად გსურთ გასვლა?').subscribe((data) => {
       if (data) {
-        localStorage.removeItem('loggedUser');
         this.authService.logOut()
         this.router.navigateByUrl('login');
       }
@@ -113,12 +113,15 @@ export class HomeComponent implements OnInit {
   }
   loadCartItems() {
     this.isCartLoading = true;
+
     this.service.getCartItems(this.loggedUser.id).subscribe((data) => {
       this.cartItems = data;
       this.isCartLoading = false;
     });
   }
   loadItems() {
+    debugger
+    this.items = []
     this.isItemsLoading = true;
     this.service.getAllItems().subscribe((data) => {
       this.items = data;
