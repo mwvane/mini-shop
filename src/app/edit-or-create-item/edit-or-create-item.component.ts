@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Route, Router } from '@angular/router';
 import { ItemService } from '../item.service';
 import { LoginRegisterService } from '../login-register.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-edit-item',
@@ -23,7 +24,8 @@ export class EditItemComponent implements OnInit {
     private route: ActivatedRoute,
     private service: ItemService,
     private authService: LoginRegisterService,
-    private router: Router
+    private router: Router,
+    private toast: ToastrService,
   ) {}
   ngOnInit(): void {
     this.loggedUser = this.authService.userPayload
@@ -49,13 +51,14 @@ export class EditItemComponent implements OnInit {
           .updateItem(this.validateNewItem(this.editOrCreateForm.value))
           .subscribe((data) => {
             if (!data.res) {
-              alert(data.errors.join('\n'));
+              this.toast.error(data.errors.join('\n'));
             } else {
+              this.toast.success("პროდუქტი განახლდა წარმატებით")
               this.router.navigateByUrl('');
             }
           });
       } else {
-        alert('პროდუქტი არ არის შეცვლილი');
+        this.toast.warning('პროდუქტი არ არის შეცვლილი');
       }
     } else {
       this.service
@@ -65,6 +68,7 @@ export class EditItemComponent implements OnInit {
           createdBy: this.loggedUser.id,
         })
         .subscribe((data) => {
+          this.toast.success("პროდუქტი შეიქმნა წარმატებით")
           this.router.navigateByUrl('');
         });
     }

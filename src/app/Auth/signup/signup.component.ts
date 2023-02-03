@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import {
   faAllergies,
@@ -18,7 +19,7 @@ import { LoginRegisterService } from 'src/app/login-register.service';
 })
 export class SignupComponent {
   checkIcon = faCheckDouble;
-  userIcon = faUser
+  userIcon = faUser;
   lockIcon = faLock;
   emailIcon = faEnvelope;
   signupForm = new FormGroup(
@@ -43,17 +44,21 @@ export class SignupComponent {
       this.signupForm.get('confirmPassword')?.touched
     );
   }
-  constructor(private router: Router, private service: LoginRegisterService) {}
-  onSubmit(){
-    this.service.signup(this.signupForm.value).subscribe(data => {
-      const result:any = data
-      if(result.res){
-        console.log("userCreated")
-        this.router.navigateByUrl("login")
+  constructor(
+    private router: Router,
+    private service: LoginRegisterService,
+    private toast: ToastrService
+  ) {}
+  onSubmit() {
+    this.service.signup(this.signupForm.value).subscribe((data) => {
+      const result: any = data;
+      if (result.res) {
+        console.log('userCreated');
+        this.toast.success("მომხმარებელი წარმატებით შეიქმნა")
+        this.router.navigateByUrl('login');
+      } else {
+        this.toast.error(result.errors.join('\n'));
       }
-      else{
-        alert(result.errors.join("\n"));
-      }
-    })
+    });
   }
 }
