@@ -19,16 +19,10 @@
   position: absolute;
   top: -13px;
   right: -13px;
-  border-radius: 50%;
-  width: 26px;
-  height: 26px;
-  padding: 0;
+  width: 26px !important;
+  height: 26px !important;
   background-color: white;
   border: 2px solid rgba(60,60,60, .1);
   color: red;
   font-size: 14px;
-}
-.btn-remove:hover{
-  border: 2px solid rgba(60,60,60, .5);
-  transition: .3s;
 }

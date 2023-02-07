@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ItemService } from '../item.service';
-import { faCartShopping, faAdd } from '@fortawesome/free-solid-svg-icons';
 import { Item } from '../Model/item';
 import { CartItem } from '../Model/cartItem';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { YesNoComponent } from '../dialogs/yes-no/yes-no.component';
 import { LoginRegisterService } from '../login-register.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-home',
@@ -18,28 +18,27 @@ export class HomeComponent implements OnInit {
     private service: ItemService,
     private authService: LoginRegisterService,
     private router: Router,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private msgService: ToastrService  
   ) {}
-  cartIcon = faCartShopping;
-  addIcon = faAdd;
   items: Item[] = [];
   loggedUser: any;
   cartItems: CartItem[] = [];
   isItemsLoading = true;
   isCartLoading = true;
   ngOnInit(): void {
-    const user = this.authService.userPayload
-    debugger
+    const user = this.authService.userPayload;
+    debugger;
     if (user) {
-      this.loggedUser = user
+      this.loggedUser = user;
       this.loadItems();
-      this.loadCartItems()
+      this.loadCartItems();
     }
   }
   onAddToCart(item: Item) {
     this.service.addToCart(item, this.loggedUser.id).subscribe((data) => {
       if (!data.res) {
-        alert(data.errors.join('\n'));
+        this.msgService.warning(data.errors.join('\n'))
       } else {
         const newItem: CartItem = {
           id: Number(data.res),
@@ -69,6 +68,7 @@ export class HomeComponent implements OnInit {
           this.service.deleteCartItem(id).subscribe((data) => {
             if (data) {
               this.cartItems = this.cartItems.filter((item) => item.id != id);
+              this.msgService.success("პრდუქტი, კალათიდან წარმატებით წაიშალა")
               this.loadItems();
             }
           });
@@ -79,7 +79,7 @@ export class HomeComponent implements OnInit {
   onLogout() {
     this.openDialog('გასვლა', 'ნამდვილად გსურთ გასვლა?').subscribe((data) => {
       if (data) {
-        this.authService.logOut()
+        this.authService.logOut();
         this.router.navigateByUrl('login');
       }
     });
@@ -99,6 +99,7 @@ export class HomeComponent implements OnInit {
         this.service.removeItem(itemId).subscribe((data) => {
           if (data.res) {
             this.items = this.items.filter((item) => item.id != itemId);
+            this.msgService.success("პროდუქტი წარმატებით წაიშალა!")
             this.loadCartItems();
           }
         });
@@ -120,8 +121,7 @@ export class HomeComponent implements OnInit {
     });
   }
   loadItems() {
-    debugger
-    this.items = []
+    this.items = [];
     this.isItemsLoading = true;
     this.service.getAllItems().subscribe((data) => {
       this.items = data;

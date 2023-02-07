@@ -7,10 +7,7 @@
         <p class="text-primary">ავტორიზაცია</p>
         <div class="big-circle">
           <div class="small-circle">
-            <fa-icon
-              [icon]="checkIcon"
-              style="color: white; font-size: 20px"
-            ></fa-icon>
+            <i class="pi pi-check" style="color: white; font-size: 20px"></i>
           </div>
         </div>
       </div>
@@ -31,9 +28,8 @@
               type="email"
               class="custom-input w-100"
               autocomplete="off"
-
             />
-            <fa-icon [icon]="emailIcon" class="input-icon"></fa-icon>
+            <i class="input-icon pi pi-envelope"></i>
           </div>
           <small
             *ngIf="
@@ -53,7 +49,7 @@
               class="custom-input w-100"
               autocomplete="off"
             />
-            <fa-icon [icon]="lockIcon" class="input-icon"></fa-icon>
+            <i class="input-icon pi pi-lock"></i>
           </div>
 
           <small
@@ -66,21 +62,28 @@
           >
         </div>
         <div class="d-flex justify-content-between mx-5">
-          <button
+          <p-button
             [disabled]="loginForm.invalid"
             type="submit"
-            class="btn btn-primary"
-          >
-            შესვლა
-          </button>
+            label="შესვლა"
+            icon="pi pi-sign-in"
+            iconPos="right"
+          ></p-button>
           <a class="text-decoration-none" href="forget-password"
             >დაგავიწყდათ პაროლი?</a
           >
         </div>
       </form>
     </div>
-    <div class="btn-signup">
-      <fa-icon [icon]="userPlusIcon" (click)="onSignup()"></fa-icon>
+    <div>
+      <button
+        pButton
+        pRipple
+        type="button"
+        icon="pi pi-user-plus"
+        class="p-button-rounded p-button-warning"
+        (click)="onSignup()"
+      ></button>
     </div>
   </div>
 </div>

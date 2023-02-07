@@ -22,6 +22,9 @@ import { MatInputModule } from '@angular/material/input';
 import { YesNoComponent } from './dialogs/yes-no/yes-no.component';
 import { TokenInterceptor } from './ingterceptors/token.interceptor';
 import { ToastrModule } from 'ngx-toastr';
+import { AccordionModule } from 'primeng/accordion';
+import { ButtonModule } from 'primeng/button';
+import { TooltipModule } from 'primeng/tooltip';
 
 @NgModule({
   declarations: [
@@ -50,12 +53,17 @@ import { ToastrModule } from 'ngx-toastr';
     MatFormFieldModule,
     MatInputModule,
     ToastrModule.forRoot(),
+    AccordionModule,
+    ButtonModule,
+    TooltipModule,
   ],
-  providers: [{
-    provide:HTTP_INTERCEPTORS,
-    useClass: TokenInterceptor,
-    multi: true,
-  }],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true,
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

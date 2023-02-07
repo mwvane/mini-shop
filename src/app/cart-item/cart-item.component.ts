@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { faRemove } from '@fortawesome/free-solid-svg-icons';
 import { ItemService } from '../item.service';
+import { ToastrService } from 'ngx-toastr';
+
 @Component({
   selector: 'app-cart-item',
   templateUrl: './cart-item.component.html',
@@ -13,7 +15,7 @@ export class CartItemComponent {
   @Output() change = new EventEmitter()
   maxQuantity: any = 10;
 
-  constructor(private service: ItemService) {}
+  constructor(private service: ItemService, private msgService: ToastrService) {}
   onDelete() {
     this.remove.emit();
   }
@@ -28,7 +30,7 @@ export class CartItemComponent {
           this.cartItem.quantity++;
           this.change.emit(result.res)
         } else {
-          alert(result.errors.join('\n'));
+          this.msgService.warning(result.errors.join('\n'));
         }
       });
   }
@@ -42,7 +44,7 @@ export class CartItemComponent {
           this.cartItem.quantity--;
           this.change.emit(result.res)
         } else {
-          alert(result.errors.join('\n'));
+          this.msgService.warning(result.errors.join('\n'));
         }
       });
   }

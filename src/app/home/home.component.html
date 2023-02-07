@@ -1,7 +1,7 @@
 <div class="main-container">
   <div class="custom-header shadow">
     <div>
-      <fa-icon [icon]="cartIcon" class="text-success"></fa-icon>
+      <i class="pi pi-shopping-cart"></i>
       [{{ cartItems.length }}]
     </div>
     <span class="mx-2"
@@ -17,12 +17,13 @@
         <div *ngIf="!isItemsLoading && !items.length" class="text-center">
           <h3 style="color: #728498">პროდუქტების სია ცარიალია!</h3>
           <button
-              *ngIf="loggedUser.role == 'admin' || loggedUser.role == 'seller'"
-              (click)="onCreateItem()"
-              class="btn btn-warning btn-add shadow py-1"
-            >
-              <fa-icon [icon]="addIcon"></fa-icon> დამატება
-            </button>
+            *ngIf="loggedUser.role == 'admin' || loggedUser.role == 'seller'"
+            (click)="onCreateItem()"
+            class="btn btn-warning btn-add shadow py-1"
+          >
+            <i class="pi pi-plus"></i>
+            დამატება
+          </button>
         </div>
         <div *ngIf="isItemsLoading" class="text-center">
           <div class="spinner-border text-primary"></div>
@@ -46,15 +47,18 @@
                 (removeItem)="onRemoveItem($event)"
                 (editItem)="onEditItem($event)"
                 (addToCart)="onAddToCart(item)"
-              ><h1></h1></app-item>
+                ><h1></h1
+              ></app-item>
             </div>
             <button
+              pButton
               *ngIf="loggedUser.role == 'admin' || loggedUser.role == 'seller'"
               (click)="onCreateItem()"
-              class="btn btn-warning btn-add shadow py-1"
-            >
-              <fa-icon [icon]="addIcon"></fa-icon> დამატება
-            </button>
+              label="დამატება"
+              icon="pi pi-plus"
+              class="p-button-danger p-button-sm py-2"
+              iconPos="right"
+            ></button>
           </div>
         </div>
       </div>
@@ -62,7 +66,10 @@
     <div class="col-5">
       <div class="cart-container">
         <div class="cart-header">
-          <fa-icon [icon]="cartIcon" style="color: #67d965"></fa-icon>
+          <i
+            class="pi pi-shopping-cart"
+            style="font-size: 1.5rem; color: #67d965"
+          ></i>
           <span class="text-primary px-3">ჩემი კალათა</span>
         </div>
         <div class="cart-body py-2 px-4">

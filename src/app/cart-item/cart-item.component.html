@@ -16,7 +16,7 @@
         <app-quantity-selector
           (increase)="onQuantityIncrease()"
           (decrease)="onQuantityDecrease()"
-          [currentQuantity] ="cartItem.quantity"
+          [currentQuantity]="cartItem.quantity"
         ></app-quantity-selector>
       </div>
       <div class="col-2">
@@ -27,7 +27,14 @@
       </div>
     </div>
   </div>
-  <button class="btn-remove" (click)="onDelete()">
-    <fa-icon [icon]="removeIcon"></fa-icon>
-  </button>
+    <button
+      pButton
+      pRipple
+      type="button"
+      icon="pi pi-times"
+      class="p-button-rounded p-button-danger btn-remove"
+      (click)="onDelete()"
+      pTooltip="კალათიდან წაშლა"
+      tooltipPosition="right"
+    ></button>
 </div>

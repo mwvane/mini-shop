@@ -16,29 +16,10 @@
   background-color: white;
   flex-direction: column;
 }
-.btn-signup {
-  font-size: 20px;
-  padding: 5px;
-  background-color: #d5e3f2;
-  border-radius: 50%;
-  width: 50px;
-  height: 50px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-  right: 10px;
-  bottom: 10px;
-  cursor: pointer;
-}
-.btn-signup:hover {
-  transition: 0.4s;
-  background: #acc1d6;
-}
 .input-icon{
   font-size: 14px;
   position: absolute;
   right: 8px;
-  top: 25px;
+  top: 30px;
   color: #BCD6F4;
 }

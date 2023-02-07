@@ -16,35 +16,39 @@
     <div
       class="col-1 d-flex justify-content-center align-items-center"
       [ngClass]="item.quantity ? 'border-normal' : 'border-error'"
-      style="background-color: #f3f9ff;"
+      style="background-color: #f3f9ff"
     >
       {{ item.price }}
     </div>
     <div
-      
       class="col-1 d-flex justify-content-center align-items-center custom-column custom-btn"
       [ngClass]="item.quantity ? 'border-normal' : 'border-error'"
       style="border-radius: 0 8px 8px 0"
       (click)="onAddToCart($event)"
+      pTooltip="კალათაში დამატება"
     >
-      <fa-icon [icon]="cartIcon" class="text-primary"></fa-icon>
+      <i class="pi pi-shopping-cart text-primary" style="font-size: 18px"></i>
     </div>
     <div class="col-1 d-flex justify-content-center align-items-center">
       <div
-      *ngIf="(loggedUser.role == 'seller' && loggedUser.id == item.createdBy) || loggedUser.role == 'admin'"
-      class="d-flex justify-content-center align-items-center"
-      style="border-radius: 0 8px 8px 0"
-    >
-      <div class="btn-action">
-        <fa-icon
-          [icon]="removeIcon"
-          (click)="onRemove($event)"
-          class="px-2 custom-btn"
-          style="color: red"
-        ></fa-icon>
+        *ngIf="
+          (loggedUser.role == 'seller' && loggedUser.id == item.createdBy) ||
+          loggedUser.role == 'admin'
+        "
+        class="d-flex justify-content-center align-items-center"
+        style="border-radius: 0 8px 8px 0"
+      >
+        <div class="btn-action">
+          <button
+            pButton
+            type="button"
+            icon="pi pi-trash"
+            class="p-button-rounded p-button-danger p-button-outlined p-button-text"
+            pTooltip="პროდუქტის წაშლა"
+            (click)="onRemove($event)"
+          ></button>
+        </div>
       </div>
     </div>
-    </div>
-    
   </div>
 </div>

@@ -2,12 +2,6 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import {
-  faUserPlus,
-  faLock,
-  faEnvelope,
-  faCheckDouble,
-} from '@fortawesome/free-solid-svg-icons';
 import { LoginRegisterService } from 'src/app/login-register.service';
 @Component({
   selector: 'app-login',
@@ -15,10 +9,6 @@ import { LoginRegisterService } from 'src/app/login-register.service';
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent {
-  checkIcon = faCheckDouble;
-  lockIcon = faLock;
-  emailIcon = faEnvelope;
-  userPlusIcon = faUserPlus;
   loginForm: FormGroup = new FormGroup({
     username: new FormControl(null, [Validators.required, Validators.email]),
     password: new FormControl(null, Validators.required),
