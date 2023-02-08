@@ -1,0 +1,354 @@
+<div class="card">
+  <p-toolbar styleClass="mb-2 gap-">
+    <ng-template pTemplate="left">
+      <button
+        pButton
+        pRipple
+        label="ახალი"
+        icon="pi pi-plus"
+        class="p-button-success mx-1 p-button-sm"
+        (click)="openNew()"
+      ></button>
+      <button
+        pButton
+        pRipple
+        label="წაშლა"
+        icon="pi pi-trash"
+        class="p-button-danger mx-1 p-button-sm"
+        (click)="deleteSelectedProducts()"
+        [disabled]="!selectedProducts || !selectedProducts.length"
+      ></button>
+      <p-tabMenu
+        [model]="menuItems"
+        [activeItem]="menuItems[0]"
+        (activeItemChange)="onMenuItemChange($event)"
+        class="px-2"
+      ></p-tabMenu>
+    </ng-template>
+
+    <ng-template pTemplate="right">
+      <a href="login">გასვლა</a>
+    </ng-template>
+  </p-toolbar>
+
+  <!-- product table -->
+  <p-table
+    *ngIf="currentMenuTab.label === 'Products'"
+    #dt
+    [value]="products"
+    [rows]="4"
+    [paginator]="true"
+    [globalFilterFields]="['name', 'price']"
+    [tableStyle]="{ 'min-width': '75rem' }"
+    [(selection)]="selectedProducts"
+    [rowHover]="true"
+    dataKey="id"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [showCurrentPageReport]="true"
+  >
+    <ng-template pTemplate="caption">
+      <div class="flex align-items-center justify-content-between">
+        <h5 class="m-0">პროდუქტების მართვა</h5>
+        <span class="p-input-icon-left">
+          <i class="pi pi-search"></i>
+        </span>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width: 1rem; height: 1rem">
+          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+        </th>
+        <th pSortableColumn="name" style="min-width: 15rem">
+          Name <p-sortIcon field="name"></p-sortIcon>
+        </th>
+        <th pSortableColumn="quantity">
+          Quantity <p-sortIcon field="quantity"></p-sortIcon>
+        </th>
+        <th pSortableColumn="price">
+          Price <p-sortIcon field="price"></p-sortIcon>
+        </th>
+        <th></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-product>
+      <tr style="font-size: 15px">
+        <td>
+          <p-tableCheckbox [value]="product"></p-tableCheckbox>
+        </td>
+        <td>{{ product.name }}</td>
+        <td>{{ product.quantity }}</td>
+        <td>{{ product.price | currency : "₾" }}</td>
+        <td>
+          <button
+            pButton
+            pRipple
+            icon="pi pi-pencil"
+            class="p-button-rounded p-button-success mx-1"
+            (click)="editItem(product)"
+          ></button>
+          <button
+            pButton
+            pRipple
+            icon="pi pi-trash"
+            class="p-button-rounded p-button-warning mx-1"
+            (click)="deleteProduct(product)"
+          ></button>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="summary">
+      <div class="flex align-items-center justify-content-between">
+        სულ არის {{ products ? products.length : 0 }} პროდუქტი.
+      </div>
+    </ng-template>
+  </p-table>
+
+  <!-- Users table -->
+  <p-table
+    *ngIf="currentMenuTab.label === 'Users'"
+    #userTable
+    [value]="users"
+    [rows]="4"
+    [paginator]="true"
+    [globalFilterFields]="['name', 'price']"
+    [tableStyle]="{ 'min-width': '75rem' }"
+    [(selection)]="selectedProducts"
+    [rowHover]="true"
+    dataKey="id"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [showCurrentPageReport]="true"
+  >
+    <ng-template pTemplate="caption">
+      <div class="flex align-items-center justify-content-between">
+        <h5 class="m-0">მომხმარებლის მართვა</h5>
+        <span class="p-input-icon-left">
+          <i class="pi pi-search"></i>
+        </span>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width: 1rem; height: 1rem">
+          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+        </th>
+        <th pSortableColumn="firstname" style="min-width: 15rem">
+          Firstname <p-sortIcon field="firstname"></p-sortIcon>
+        </th>
+        <th pSortableColumn="lastname">
+          Lastname <p-sortIcon field="lastname"></p-sortIcon>
+        </th>
+        <th pSortableColumn="email">
+          Email <p-sortIcon field="email"></p-sortIcon>
+        </th>
+        <th pSortableColumn="password">
+          Password <p-sortIcon field="password"></p-sortIcon>
+        </th>
+        <th pSortableColumn="role">
+          Role <p-sortIcon field="role"></p-sortIcon>
+        </th>
+        <th pSortableColumn="lastUpdated">
+          Create Date <p-sortIcon field="lastUpdated"></p-sortIcon>
+        </th>
+        <th></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-user>
+      <tr style="font-size: 15px">
+        <td>
+          <p-tableCheckbox [value]="user"></p-tableCheckbox>
+        </td>
+        <td>{{ user.firstname }}</td>
+        <td>{{ user.lastname }}</td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.password }}</td>
+        <td>{{ user.role }}</td>
+        <td>{{ user.lastUpdated }}</td>
+        <td>
+          <button
+            pButton
+            pRipple
+            icon="pi pi-pencil"
+            class="p-button-rounded p-button-success mx-1"
+            (click)="editItem(user)"
+          ></button>
+          <button
+            pButton
+            pRipple
+            icon="pi pi-trash"
+            class="p-button-rounded p-button-warning mx-1"
+            (click)="deleteUser(user)"
+          ></button>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="summary">
+      <div class="flex align-items-center justify-content-between">
+        სულ არის {{ products ? products.length : 0 }} პროდუქტი.
+      </div>
+    </ng-template>
+  </p-table>
+</div>
+
+<!-- add/edit product -->
+<p-dialog
+  [(visible)]="productDialog"
+  [style]="{ width: '450px' }"
+  header="პროდუქტების დეტალები"
+  [modal]="true"
+  styleClass="p-fluid"
+>
+  <ng-template pTemplate="content">
+    <div class="field">
+      <label for="name">სახელი</label>
+      <input
+        type="text"
+        pInputText
+        id="name"
+        [(ngModel)]="product.name"
+        required
+        autofocus
+      />
+      <small class="p-error" *ngIf="submitted && !product.name"
+        >სახელი აუცილებებლია</small
+      >
+    </div>
+    <div class="formgrid grid">
+      <div class="field col">
+        <label for="price">ფასი</label>
+        <p-inputNumber
+          id="price"
+          [(ngModel)]="product.price"
+          mode="currency"
+          currency="GEL"
+        ></p-inputNumber>
+      </div>
+      <div class="field col">
+        <label for="quantity">რაოდენობა</label>
+        <p-inputNumber
+          id="quantity"
+          [(ngModel)]="product.quantity"
+        ></p-inputNumber>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <button
+      pButton
+      pRipple
+      label="გაუქმება"
+      icon="pi pi-times"
+      class="p-button-text"
+      (click)="hideDialog()"
+    ></button>
+    <button
+      pButton
+      pRipple
+      label="შენახვა"
+      icon="pi pi-check"
+      class="p-button-text"
+      (click)="saveDialogResult()"
+    ></button>
+  </ng-template>
+</p-dialog>
+
+<!-- user Dialog -->
+<p-dialog
+  [(visible)]="userDialog"
+  [style]="{ width: '450px' }"
+  header="მომხმარებლის დეტალები"
+  [modal]="true"
+  styleClass="p-fluid"
+>
+  <ng-template pTemplate="content">
+    <div class="formgrid grid py-1">
+      <div class="field col">
+        <label for="role">როლი</label>
+        <p-dropdown [options]="role" [(ngModel)]="user.role"></p-dropdown>
+        <small class="p-error" *ngIf="submitted && !user.role"
+          >იმეილი აუცილებებლია</small
+        >
+      </div>
+    </div>
+    <div class="field py-1">
+      <label for="firstname">სახელი</label>
+      <input
+        type="text"
+        pInputText
+        id="firstname"
+        [(ngModel)]="user.firstname"
+        required
+        autofocus
+      />
+      <small class="p-error" *ngIf="submitted && !user.firstname"
+        >სახელი აუცილებებლია</small
+      >
+    </div>
+    <div class="formgrid grid py-1">
+      <div class="field col">
+        <label for="lastname">გვარი</label>
+        <input
+          type="text"
+          pInputText
+          id="lastname"
+          [(ngModel)]="user.lastname"
+          required
+        />
+        <small class="p-error" *ngIf="submitted && !user.lastname"
+          >გვარი აუცილებებლია</small
+        >
+      </div>
+    </div>
+    <div class="formgrid grid py-1">
+      <div class="field col">
+        <label for="email">მეილი</label>
+        <input
+          type="email"
+          pInputText
+          id="email"
+          [(ngModel)]="user.email"
+          required
+        />
+        <small class="p-error" *ngIf="submitted && !user.email"
+          >იმეილი აუცილებებლია</small
+        >
+      </div>
+    </div>
+    <div class="formgrid grid">
+      <div class="field col">
+        <label for="password">პაროლი</label>
+        <input
+          type="password"
+          pInputText
+          id="password"
+          [(ngModel)]="user.password"
+          required
+        />
+        <small class="p-error" *ngIf="submitted && !user.password"
+          >პაროლი აუცილებებლია</small
+        >
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <button
+      pButton
+      pRipple
+      label="გაუქმება"
+      icon="pi pi-times"
+      class="p-button-text"
+      (click)="hideDialog()"
+    ></button>
+    <button
+      pButton
+      pRipple
+      label="შენახვა"
+      icon="pi pi-check"
+      class="p-button-text"
+      (click)="saveDialogResult()"
+    ></button>
+  </ng-template>
+</p-dialog>
+<p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>
