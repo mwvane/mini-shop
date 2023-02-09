@@ -16,6 +16,11 @@
   background-color: white;
   flex-direction: column;
 }
+.btn-signup {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+}
 .input-icon{
   font-size: 14px;
   position: absolute;
