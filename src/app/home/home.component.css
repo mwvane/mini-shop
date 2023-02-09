@@ -46,3 +46,8 @@
 .test{
   background-color: red;
 }
+.custom-link{
+  position: absolute;
+  left: 20px;
+  text-decoration: none;
+}

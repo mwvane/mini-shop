@@ -1,10 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AdminComponent } from './admin/admin.component';
 import { ForgetPasswordComponent } from './Auth/forget-password/forget-password.component';
 import { LoginComponent } from './Auth/login/login.component';
 import { SignupComponent } from './Auth/signup/signup.component';
 import { EditItemComponent } from './edit-or-create-item/edit-or-create-item.component';
 import { AuthGuard } from './guard/auth.guard';
+import { RoleGuard } from './guard/role.guard';
 import { HomeComponent } from './home/home.component';
 
 const routes: Routes = [
@@ -14,6 +16,7 @@ const routes: Routes = [
   {path: "forget-password", component: ForgetPasswordComponent},
   {path: "home", component: HomeComponent, canActivate:[AuthGuard]},
   {path: "editItem/:id", component: EditItemComponent},
+  {path: "admin", component: AdminComponent, canActivate:[RoleGuard]}
 ];
 
 @NgModule({
