@@ -5,6 +5,7 @@ import { ThisReceiver } from '@angular/compiler';
 import { Observable } from 'rxjs';
 import { Result } from './Model/result';
 import { CartItem } from './Model/cartItem';
+import { User } from './Model/user';
 
 @Injectable({
   providedIn: 'root',
@@ -50,14 +51,17 @@ export class ItemService {
   }
 
   //admin-----------
-  removeItem(itemId:number) {
-    return this.http.post<Result>(`https://localhost:7129/api/Admin/removeItem`, itemId)
+  getAllUsers(){
+      return this.http.get<User[]>(`${this.baseUrl}/getAllUsers`)
+  }
+  removeItem(itemIds:any[]) {
+    return this.http.post<Result>(`https://localhost:7129/api/Admin/removeItem`,itemIds )
   }
   updateItem(newItem:Item){
     return this.http.post<Result>(`https://localhost:7129/api/Admin/updateItem`, newItem)
   }
   addItem(newItem:any){
     debugger
-    return this.http.post(`https://localhost:7129/api/Admin/createItem`,newItem)
+    return this.http.post<Result>(`https://localhost:7129/api/Admin/createItem`,newItem)
   }
 }

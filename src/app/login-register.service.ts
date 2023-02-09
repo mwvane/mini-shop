@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { Result } from './Model/result';
 @Injectable({
   providedIn: 'root',
 })
 export class LoginRegisterService {
   baseUrl: string = 'https://localhost:7129/api/LoginRegister';
-  userPayload:any
+  userPayload: any;
   constructor(private http: HttpClient) {
-    this.userPayload = this.decodeToken()
+    this.userPayload = this.decodeToken();
   }
   login(payload: any) {
     return this.http.post(`${this.baseUrl}/login`, {
@@ -22,8 +23,9 @@ export class LoginRegisterService {
       lastname: form.lastname,
       email: form.email,
       password: form.password,
+      role: form.role,
     };
-    return this.http.post(`${this.baseUrl}/signup`, user);
+    return this.http.post<Result>(`${this.baseUrl}/signup`, user);
   }
   storeToken(token: string) {
     localStorage.setItem('token', token);
@@ -36,15 +38,15 @@ export class LoginRegisterService {
   }
   logOut() {
     if (this.isLoggedIn()) {
-      debugger
+      debugger;
       localStorage.removeItem('token');
     }
   }
+  
   decodeToken() {
     const jwtHelper = new JwtHelperService();
-    const token:any = this.getToken();
+    const token: any = this.getToken();
     console.log(jwtHelper.decodeToken(token));
-    return jwtHelper.decodeToken(token)
-    
+    return jwtHelper.decodeToken(token);
   }
 }
