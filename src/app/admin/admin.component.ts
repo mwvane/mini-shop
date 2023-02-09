@@ -17,12 +17,12 @@ export class AdminComponent {
   productDialog: boolean = false;
   userDialog: boolean = false;
   products: Item[] = [{ name: '', price: 0, quantity: 0 }];
-  users: User[] = [{ email: '', firstname: '', lastname: '', role: '', id: 0 }];
-  user: any;
   product: any;
   selectedProducts: any;
+  users: User[] = [{ email: '', firstname: '', lastname: '', role: '', id: 0 }];
+  user: any;
+
   submitted: boolean = false;
-  statuses: any[] = [];
   menuItems: any[] = [
     { label: 'Products', icon: 'pi pi-shopping-bag' },
     { label: 'Users', icon: 'pi pi-fw pi-users' },
@@ -164,7 +164,7 @@ export class AdminComponent {
       } else {
         this.authService.signup(this.user).subscribe((data) => {
           if (data.res) {
-            this.user.id = data.res
+            this.user.id = data.res;
             this.users.unshift(this.user);
             this.msgService.success('მომხმარებელი წარმატებით შეიქმნა!');
             this.user = {};
@@ -180,7 +180,7 @@ export class AdminComponent {
         if (this.product.id) {
           this.productService.updateItem(this.product).subscribe((data) => {
             if (data.res) {
-              debugger
+              debugger;
               const index = this.findIndexById(this.product.id, this.products);
               this.products[index] = { ...this.product };
               this.msgService.success('პროდუქტი წარმატებით განახლდა!');
@@ -192,6 +192,7 @@ export class AdminComponent {
             this.productDialog = false;
           });
         } else {
+          this.product.createdBy = this.authService.userPayload.id
           this.productService.addItem(this.product).subscribe((data) => {
             if (data.res) {
               this.products.unshift(this.product);
@@ -215,18 +216,12 @@ export class AdminComponent {
     }
     return -1;
   }
-
-  createId(): string {
-    let id = '';
-    var chars =
-      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    for (var i = 0; i < 5; i++) {
-      id += chars.charAt(Math.floor(Math.random() * chars.length));
-    }
-    return id;
-  }
   onMenuItemChange(item: any) {
     console.log(this.users);
     this.currentMenuTab = item;
+  }
+  getUsername(id:number){
+    const username = this.users.find(user => user.id === id)?.email
+    return username === this.authService.userPayload.email ? `${username}(you)` : username
   }
 }

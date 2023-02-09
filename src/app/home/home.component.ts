@@ -28,7 +28,6 @@ export class HomeComponent implements OnInit {
   isCartLoading = true;
   ngOnInit(): void {
     const user = this.authService.userPayload;
-    debugger;
     if (user) {
       this.loggedUser = user;
       this.loadItems();
@@ -120,6 +119,7 @@ export class HomeComponent implements OnInit {
 
     this.service.getCartItems(this.loggedUser.id).subscribe((data) => {
       this.cartItems = data;
+      debugger
       this.isCartLoading = false;
     });
   }

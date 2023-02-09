@@ -8,7 +8,7 @@ import { ToastrService } from 'ngx-toastr';
   templateUrl: './cart-item.component.html',
   styleUrls: ['./cart-item.component.css'],
 })
-export class CartItemComponent {
+export class CartItemComponent implements OnInit {
   removeIcon = faRemove;
   @Input() cartItem: any;
   @Output() remove = new EventEmitter();
@@ -16,6 +16,10 @@ export class CartItemComponent {
   maxQuantity: any = 10;
 
   constructor(private service: ItemService, private msgService: ToastrService) {}
+  ngOnInit(): void {
+    console.log(this.cartItem)
+    debugger
+  }
   onDelete() {
     this.remove.emit();
   }

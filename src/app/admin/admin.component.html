@@ -69,6 +69,9 @@
         <th pSortableColumn="price">
           Price <p-sortIcon field="price"></p-sortIcon>
         </th>
+        <th pSortableColumn="createdBy">
+          CreatedBy <p-sortIcon field="createdBy"></p-sortIcon>
+        </th>
         <th></th>
       </tr>
     </ng-template>
@@ -80,6 +83,7 @@
         <td>{{ product.name }}</td>
         <td>{{ product.quantity }}</td>
         <td>{{ product.price | currency : "₾" }}</td>
+        <td>{{ getUsername(product.createdBy)}}</td>
         <td>
           <button
             pButton

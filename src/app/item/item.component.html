@@ -32,8 +32,8 @@
     <div class="col-1 d-flex justify-content-center align-items-center">
       <div
         *ngIf="
-          (loggedUser.role == 'seller' && loggedUser.id == item.createdBy) ||
-          loggedUser.role == 'admin'
+          (loggedUser.role == 'seller' && loggedUser.id == item.createdBy ||
+          loggedUser.role == 'admin')
         "
         class="d-flex justify-content-center align-items-center"
         style="border-radius: 0 8px 8px 0"
