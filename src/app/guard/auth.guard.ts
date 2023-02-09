@@ -6,20 +6,20 @@ import {
   RouterStateSnapshot,
   UrlTree,
 } from '@angular/router';
-import { Observable } from 'rxjs';
 import { LoginRegisterService } from '../login-register.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthGuard implements CanActivate {
-  constructor(private authService:LoginRegisterService, private router:Router){}
+  constructor(private authService:LoginRegisterService, private router:Router, private msgService: ToastrService ){}
   canActivate(): boolean {
     if(this.authService.isLoggedIn()){
       return true
     }
     else{
-      alert("Must login first")
+      this.msgService.warning("ავტორიზაცია საჭიროა","გაფრთხილება!")
       this.router.navigateByUrl("login")
       return false
     }
