@@ -1,5 +1,5 @@
 <div class="card">
-  <p-toolbar styleClass="mb-2 gap-">
+  <p-toolbar>
     <ng-template pTemplate="left">
       <button
         pButton
@@ -15,7 +15,8 @@
         label="წაშლა"
         icon="pi pi-trash"
         class="p-button-danger mx-1 p-button-sm"
-        (click)="deleteSelectedProducts()"
+        (click)="deleteSelectedProducts()
+        "
         [disabled]="!selectedProducts || !selectedProducts.length"
       ></button>
       <p-tabMenu
@@ -27,7 +28,7 @@
     </ng-template>
 
     <ng-template pTemplate="right">
-      <a href="login">გასვლა</a>
+      <a href="home" class="text-decoration-none">უკან დაბრუნება</a>
     </ng-template>
   </p-toolbar>
 
@@ -99,7 +100,7 @@
     </ng-template>
     <ng-template pTemplate="summary">
       <div class="flex align-items-center justify-content-between">
-        სულ არის {{ products ? products.length : 0 }} პროდუქტი.
+        სულ არის {{ products ? products.length : 0 }} პროდუქტი
       </div>
     </ng-template>
   </p-table>
@@ -129,9 +130,6 @@
     </ng-template>
     <ng-template pTemplate="header">
       <tr>
-        <th style="width: 1rem; height: 1rem">
-          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-        </th>
         <th pSortableColumn="firstname" style="min-width: 15rem">
           Firstname <p-sortIcon field="firstname"></p-sortIcon>
         </th>
@@ -155,9 +153,6 @@
     </ng-template>
     <ng-template pTemplate="body" let-user>
       <tr style="font-size: 15px">
-        <td>
-          <p-tableCheckbox [value]="user"></p-tableCheckbox>
-        </td>
         <td>{{ user.firstname }}</td>
         <td>{{ user.lastname }}</td>
         <td>{{ user.email }}</td>
@@ -184,7 +179,7 @@
     </ng-template>
     <ng-template pTemplate="summary">
       <div class="flex align-items-center justify-content-between">
-        სულ არის {{ products ? products.length : 0 }} პროდუქტი.
+        სულ არის {{ users ? users.length : 0 }} მომხმარებლი
       </div>
     </ng-template>
   </p-table>

@@ -2,13 +2,6 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
-import {
-  faAllergies,
-  faCheckDouble,
-  faEnvelope,
-  faLock,
-  faUser,
-} from '@fortawesome/free-solid-svg-icons';
 import { CustomValidators } from 'customValidators';
 import { LoginRegisterService } from 'src/app/login-register.service';
 
@@ -18,10 +11,6 @@ import { LoginRegisterService } from 'src/app/login-register.service';
   styleUrls: ['./signup.component.css'],
 })
 export class SignupComponent {
-  checkIcon = faCheckDouble;
-  userIcon = faUser;
-  lockIcon = faLock;
-  emailIcon = faEnvelope;
   signupForm = new FormGroup(
     {
       email: new FormControl('', [Validators.required, Validators.email]),

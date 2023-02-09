@@ -1,5 +1,6 @@
 <div class="main-container">
   <div class="custom-header shadow">
+    <a *ngIf="loggedUser.role === 'admin'" href="admin" class="custom-link">admin panel</a>
     <div>
       <i class="pi pi-shopping-cart"></i>
       [{{ cartItems.length }}]
@@ -92,3 +93,4 @@
     </div>
   </div>
 </div>
+<p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>

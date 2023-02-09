@@ -6,7 +6,6 @@ import { ToastrService } from 'ngx-toastr';
 import { User } from '../Model/user';
 import { UserService } from '../user.service';
 import { LoginRegisterService } from '../login-register.service';
-import { faL } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-admin',
@@ -22,7 +21,6 @@ export class AdminComponent {
   user: any;
   product: any;
   selectedProducts: any;
-  selectedUser: any;
   submitted: boolean = false;
   statuses: any[] = [];
   menuItems: any[] = [
@@ -41,15 +39,19 @@ export class AdminComponent {
   ) {}
 
   ngOnInit() {
+    this.loadProducts();
+    this.loadusers();
+  }
+  loadProducts() {
     this.productService
       .getAllItems()
       .subscribe((data) => (this.products = data));
+  }
+  loadusers() {
     this.productService.getAllUsers().subscribe((data) => {
       this.users = data;
-      debugger
     });
   }
-
   openNew() {
     if (this.currentMenuTab.label === 'Users') {
       debugger;
@@ -70,15 +72,19 @@ export class AdminComponent {
       header: 'დაადასტურე',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        ////////////'''''''''''''''''''''''
         const selectedProducts = this.products
           .filter((val) => this.selectedProducts.includes(val))
           .map((item) => {
             return item.id;
           });
-        this.productService
-          .removeItem(selectedProducts)
-          .subscribe((data) => {});
+        this.productService.removeItem(selectedProducts).subscribe((data) => {
+          if (data.res) {
+            this.loadProducts();
+            this.msgService.success('წარმატებით წაიშალა!');
+          } else {
+            this.msgService.error(data.errors.join('\n'));
+          }
+        });
         this.selectedProducts = null;
       },
     });
@@ -101,7 +107,8 @@ export class AdminComponent {
       header: 'დაადასტურე',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        this.productService.removeItem(product.id).subscribe((data) => {
+        this.productService.removeItem([product.id]).subscribe((data) => {
+          debugger;
           if (data.res) {
             this.products = this.products.filter(
               (val) => val.id !== product.id
@@ -120,7 +127,7 @@ export class AdminComponent {
       header: 'დაადასტურე',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        this.userService.RemoveUser(user.id).subscribe((data) => {
+        this.userService.RemoveUser([user.id]).subscribe((data) => {
           if (data.res) {
             debugger;
             this.users = this.users.filter((val) => val.id !== user.id);
@@ -140,11 +147,9 @@ export class AdminComponent {
 
   saveDialogResult() {
     this.submitted = true;
-
     if (this.currentMenuTab.label === 'Users') {
       if (this.user.id) {
         this.userService.UpdateUser(this.user).subscribe((data) => {
-          debugger;
           if (data.res) {
             const index = this.findIndexById(this.user.id, this.users);
             this.users[index] = { ...this.user };
@@ -159,8 +164,9 @@ export class AdminComponent {
       } else {
         this.authService.signup(this.user).subscribe((data) => {
           if (data.res) {
+            this.user.id = data.res
             this.users.unshift(this.user);
-            this.msgService.success('მომხმარებელი წარმატებით განახლდა!');
+            this.msgService.success('მომხმარებელი წარმატებით შეიქმნა!');
             this.user = {};
             this.users = [...this.users];
             this.userDialog = false;
@@ -172,16 +178,30 @@ export class AdminComponent {
     if (this.currentMenuTab.label === 'Products') {
       if (this.product.name.trim()) {
         if (this.product.id) {
-          this.products[this.findIndexById(this.product.id, this.products)] =
-            this.product;
+          this.productService.updateItem(this.product).subscribe((data) => {
+            if (data.res) {
+              debugger
+              const index = this.findIndexById(this.product.id, this.products);
+              this.products[index] = { ...this.product };
+              this.msgService.success('პროდუქტი წარმატებით განახლდა!');
+            } else {
+              this.msgService.error(data.errors.join('\n'));
+            }
+            this.product = {};
+            this.product = [...this.users];
+            this.productDialog = false;
+          });
         } else {
-          this.product.id = this.createId();
-          this.products.push(this.product);
+          this.productService.addItem(this.product).subscribe((data) => {
+            if (data.res) {
+              this.products.unshift(this.product);
+              this.msgService.success('პროდუქტი წარმატებით შეიქმნა!');
+              this.product = {};
+              this.products = [...this.products];
+              this.productDialog = false;
+            }
+          });
         }
-
-        this.products = [...this.products];
-        this.productDialog = false;
-        this.product = {};
       }
     }
   }
