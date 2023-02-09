@@ -25,6 +25,15 @@ import { ToastrModule } from 'ngx-toastr';
 import { AccordionModule } from 'primeng/accordion';
 import { ButtonModule } from 'primeng/button';
 import { TooltipModule } from 'primeng/tooltip';
+import { AdminComponent } from './admin/admin.component';
+import { DropdownModule } from 'primeng/dropdown';
+import { DialogModule } from 'primeng/dialog';
+import { TableModule } from 'primeng/table';
+import { ToolbarModule } from 'primeng/toolbar';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { InputTextModule } from 'primeng/inputtext';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { TabMenuModule } from 'primeng/tabmenu';
 
 @NgModule({
   declarations: [
@@ -38,6 +47,7 @@ import { TooltipModule } from 'primeng/tooltip';
     CartItemComponent,
     EditItemComponent,
     YesNoComponent,
+    AdminComponent,
   ],
   imports: [
     BrowserModule,
@@ -56,6 +66,14 @@ import { TooltipModule } from 'primeng/tooltip';
     AccordionModule,
     ButtonModule,
     TooltipModule,
+    DropdownModule,
+    DialogModule,
+    TableModule,
+    ToolbarModule,
+    ConfirmDialogModule,
+    InputTextModule,
+    InputNumberModule,
+    TabMenuModule,
   ],
   providers: [
     {
