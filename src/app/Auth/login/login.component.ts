@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { LoginRegisterService } from 'src/app/login-register.service';
+import { LoginRegisterService } from 'src/app/service/login-register.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',

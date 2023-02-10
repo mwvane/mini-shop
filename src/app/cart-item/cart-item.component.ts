@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { faRemove } from '@fortawesome/free-solid-svg-icons';
-import { ItemService } from '../item.service';
+import { ItemService } from '../service/item.service';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({

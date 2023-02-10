@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ItemService } from '../item.service';
+import { ItemService } from '../service/item.service';
 import { Item } from '../Model/item';
 import { CartItem } from '../Model/cartItem';
-import { LoginRegisterService } from '../login-register.service';
+import { LoginRegisterService } from '../service/login-register.service';
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmationService } from 'primeng/api';
 

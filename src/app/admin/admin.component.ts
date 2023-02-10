@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { ConfirmationService } from 'primeng/api';
-import { ItemService } from '../item.service';
+import { ItemService } from '../service/item.service';
 import { Item } from '../Model/item';
 import { ToastrService } from 'ngx-toastr';
 import { User } from '../Model/user';
-import { UserService } from '../user.service';
-import { LoginRegisterService } from '../login-register.service';
+import { UserService } from '../service/user.service';
+import { LoginRegisterService } from '../service/login-register.service';
 
 @Component({
   selector: 'app-admin',
@@ -171,6 +171,9 @@ export class AdminComponent {
             this.users = [...this.users];
             this.userDialog = false;
           }
+          else{
+            this.msgService.error(data.errors.join('\n'));
+          }
         });
       }
     }
@@ -195,8 +198,8 @@ export class AdminComponent {
           this.productService.addItem(this.product).subscribe((data) => {
             if (data.res) {
               this.product.createdBy = this.authService.userPayload.id;
-              debugger
-              this.products.unshift({...this.product});
+              debugger;
+              this.products.unshift({ ...this.product });
               this.msgService.success('პროდუქტი წარმატებით შეიქმნა!');
               this.product = {};
               this.products = [...this.products];

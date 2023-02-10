@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
-import { LoginRegisterService } from '../login-register.service';
+import { LoginRegisterService } from '../service/login-register.service';
 import { ToastrService } from 'ngx-toastr';
 
 @Injectable({

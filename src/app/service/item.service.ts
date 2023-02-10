@@ -1,11 +1,9 @@
-import { EnvironmentInjector, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Item } from './Model/item';
-import { ThisReceiver } from '@angular/compiler';
-import { Observable } from 'rxjs';
-import { Result } from './Model/result';
-import { CartItem } from './Model/cartItem';
-import { User } from './Model/user';
+import { Item } from '../Model/item';
+import { Result } from '../Model/result';
+import { CartItem } from '../Model/cartItem';
+import { User } from '../Model/user';
 
 @Injectable({
   providedIn: 'root',
@@ -16,12 +14,14 @@ export class ItemService {
   getAllItems() {
     return this.http.get<Item[]>(`${this.baseUrl}/getAllItems`);
   }
-  getItem(id:number){
-    return this.http.get<Item>(`${this.baseUrl}/getItem?id=${id}`)
+  getItem(id: number) {
+    return this.http.get<Item>(`${this.baseUrl}/getItem?id=${id}`);
   }
 
   getCartItems(userId: number) {
-    return this.http.get<CartItem[]>(`${this.baseUrl}/getCartItems?id=${userId}`);
+    return this.http.get<CartItem[]>(
+      `${this.baseUrl}/getCartItems?id=${userId}`
+    );
   }
 
   getItemQuantity(id: number) {
@@ -51,16 +51,26 @@ export class ItemService {
   }
 
   //admin-----------
-  getAllUsers(){
-      return this.http.get<User[]>(`${this.baseUrl}/getAllUsers`)
+  getAllUsers() {
+    return this.http.get<User[]>(`${this.baseUrl}/getAllUsers`);
   }
-  removeItem(itemIds:any[]) {
-    return this.http.post<Result>(`https://localhost:7129/api/Admin/removeItem`,itemIds )
+  removeItem(itemIds: any[]) {
+    return this.http.post<Result>(
+      `https://localhost:7129/api/Admin/removeItem`,
+      itemIds
+    );
   }
-  updateItem(newItem:Item){
-    return this.http.post<Result>(`https://localhost:7129/api/Admin/updateItem`, newItem)
+  updateItem(newItem: Item) {
+    return this.http.post<Result>(
+      `https://localhost:7129/api/Admin/updateItem`,
+      newItem
+    );
   }
-  addItem(newItem:any){ 
-    return this.http.post<Result>(`https://localhost:7129/api/Admin/createItem`,newItem)
+  addItem(newItem: any) {
+    debugger;
+    return this.http.post<Result>(
+      `https://localhost:7129/api/Admin/createItem`,
+      newItem
+    );
   }
 }

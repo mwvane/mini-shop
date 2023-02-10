@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { CustomValidators } from 'customValidators';
-import { LoginRegisterService } from 'src/app/login-register.service';
+import { LoginRegisterService } from 'src/app/service/login-register.service';
 
 @Component({
   selector: 'app-signup',

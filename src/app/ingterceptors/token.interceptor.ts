@@ -7,7 +7,7 @@ import {
   HttpErrorResponse,
 } from '@angular/common/http';
 import { catchError, Observable, throwError } from 'rxjs';
-import { LoginRegisterService } from '../login-register.service';
+import { LoginRegisterService } from '../service/login-register.service';
 import { Router } from '@angular/router';
 
 @Injectable()
