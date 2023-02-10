@@ -7,13 +7,13 @@ import {
   HttpErrorResponse,
 } from '@angular/common/http';
 import { catchError, Observable, throwError } from 'rxjs';
-import { LoginRegisterService } from '../service/login-register.service';
+import { AuthService } from '../service/auth.service';
 import { Router } from '@angular/router';
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
   constructor(
-    private authService: LoginRegisterService,
+    private authService: AuthService,
     private router: Router
   ) {}
 

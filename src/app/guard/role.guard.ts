@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
-import { LoginRegisterService } from '../service/login-register.service';
+import { AuthService } from '../service/auth.service';
 import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
@@ -8,7 +8,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class RoleGuard implements CanActivate {
   constructor(
-    private authService: LoginRegisterService,
+    private authService: AuthService,
     private msgService: ToastrService,
     private router: Router
   ) {}

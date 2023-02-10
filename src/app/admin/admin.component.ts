@@ -5,7 +5,7 @@ import { Item } from '../Model/item';
 import { ToastrService } from 'ngx-toastr';
 import { User } from '../Model/user';
 import { UserService } from '../service/user.service';
-import { LoginRegisterService } from '../service/login-register.service';
+import { AuthService } from '../service/auth.service';
 
 @Component({
   selector: 'app-admin',
@@ -33,7 +33,7 @@ export class AdminComponent {
   constructor(
     private productService: ItemService,
     private userService: UserService,
-    private authService: LoginRegisterService,
+    private authService: AuthService,
     private confirmationService: ConfirmationService,
     private msgService: ToastrService
   ) {}
@@ -170,8 +170,7 @@ export class AdminComponent {
             this.user = {};
             this.users = [...this.users];
             this.userDialog = false;
-          }
-          else{
+          } else {
             this.msgService.error(data.errors.join('\n'));
           }
         });

@@ -5,7 +5,7 @@ import { Result } from '../Model/result';
 @Injectable({
   providedIn: 'root',
 })
-export class LoginRegisterService {
+export class AuthService {
   baseUrl: string = 'https://localhost:7129/api/LoginRegister';
   userPayload: any;
   constructor(private http: HttpClient) {
@@ -42,7 +42,7 @@ export class LoginRegisterService {
       localStorage.removeItem('token');
     }
   }
-  
+
   decodeToken() {
     const jwtHelper = new JwtHelperService();
     const token: any = this.getToken();

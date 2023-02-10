@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { CustomValidators } from 'customValidators';
-import { LoginRegisterService } from 'src/app/service/login-register.service';
+import { AuthService } from 'src/app/service/auth.service';
 
 @Component({
   selector: 'app-signup',
@@ -35,7 +35,7 @@ export class SignupComponent {
   }
   constructor(
     private router: Router,
-    private service: LoginRegisterService,
+    private service: AuthService,
     private toast: ToastrService
   ) {}
   onSubmit() {
@@ -43,7 +43,7 @@ export class SignupComponent {
       const result: any = data;
       if (result.res) {
         console.log('userCreated');
-        this.toast.success("მომხმარებელი წარმატებით შეიქმნა")
+        this.toast.success('მომხმარებელი წარმატებით შეიქმნა');
         this.router.navigateByUrl('login');
       } else {
         this.toast.error(result.errors.join('\n'));

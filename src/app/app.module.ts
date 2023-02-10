@@ -19,7 +19,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { YesNoComponent } from './dialogs/yes-no/yes-no.component';
 import { TokenInterceptor } from './ingterceptors/token.interceptor';
 import { ToastrModule } from 'ngx-toastr';
 import { AccordionModule } from 'primeng/accordion';
@@ -46,7 +45,6 @@ import { TabMenuModule } from 'primeng/tabmenu';
     QuantitySelectorComponent,
     CartItemComponent,
     EditItemComponent,
-    YesNoComponent,
     AdminComponent,
   ],
   imports: [

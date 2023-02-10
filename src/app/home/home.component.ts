@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { ItemService } from '../service/item.service';
 import { Item } from '../Model/item';
 import { CartItem } from '../Model/cartItem';
-import { LoginRegisterService } from '../service/login-register.service';
+import { AuthService } from '../service/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmationService } from 'primeng/api';
 
@@ -16,7 +16,7 @@ import { ConfirmationService } from 'primeng/api';
 export class HomeComponent implements OnInit {
   constructor(
     private service: ItemService,
-    private authService: LoginRegisterService,
+    private authService: AuthService,
     private router: Router,
     private dialog: ConfirmationService,
     private msgService: ToastrService

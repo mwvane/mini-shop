@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Route, Router } from '@angular/router';
 import { ItemService } from '../service/item.service';
-import { LoginRegisterService } from '../service/login-register.service';
+import { AuthService } from '../service/auth.service';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -23,12 +23,12 @@ export class EditItemComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private service: ItemService,
-    private authService: LoginRegisterService,
+    private authService: AuthService,
     private router: Router,
-    private toast: ToastrService,
+    private toast: ToastrService
   ) {}
   ngOnInit(): void {
-    this.loggedUser = this.authService.userPayload
+    this.loggedUser = this.authService.userPayload;
     this.route.params.subscribe((params) => {
       const id = params['id'];
       if (id) {
@@ -53,7 +53,7 @@ export class EditItemComponent implements OnInit {
             if (!data.res) {
               this.toast.error(data.errors.join('\n'));
             } else {
-              this.toast.success("პროდუქტი განახლდა წარმატებით")
+              this.toast.success('პროდუქტი განახლდა წარმატებით');
               this.router.navigateByUrl('');
             }
           });
@@ -68,7 +68,7 @@ export class EditItemComponent implements OnInit {
           createdBy: this.loggedUser.id,
         })
         .subscribe((data) => {
-          this.toast.success("პროდუქტი შეიქმნა წარმატებით")
+          this.toast.success('პროდუქტი შეიქმნა წარმატებით');
           this.router.navigateByUrl('');
         });
     }

@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { LoginRegisterService } from 'src/app/service/login-register.service';
+import { AuthService } from 'src/app/service/auth.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -15,7 +15,7 @@ export class LoginComponent {
   });
   constructor(
     private router: Router,
-    private service: LoginRegisterService,
+    private service: AuthService,
     private toast: ToastrService
   ) {}
   onSignup() {
