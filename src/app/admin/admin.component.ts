@@ -192,10 +192,11 @@ export class AdminComponent {
             this.productDialog = false;
           });
         } else {
-          this.product.createdBy = this.authService.userPayload.id
           this.productService.addItem(this.product).subscribe((data) => {
             if (data.res) {
-              this.products.unshift(this.product);
+              this.product.createdBy = this.authService.userPayload.id;
+              debugger
+              this.products.unshift({...this.product});
               this.msgService.success('პროდუქტი წარმატებით შეიქმნა!');
               this.product = {};
               this.products = [...this.products];
@@ -220,8 +221,10 @@ export class AdminComponent {
     console.log(this.users);
     this.currentMenuTab = item;
   }
-  getUsername(id:number){
-    const username = this.users.find(user => user.id === id)?.email
-    return username === this.authService.userPayload.email ? `${username}(you)` : username
+  getUsername(id: number) {
+    const username = this.users.find((user) => user.id == id)?.email;
+    return username === this.authService.userPayload.email
+      ? `${username}(you)`
+      : username;
   }
 }
