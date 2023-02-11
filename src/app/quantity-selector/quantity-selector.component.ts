@@ -11,10 +11,12 @@ export class QuantitySelectorComponent {
   @Input() currentQuantity: number = 1;
   @Output() increase = new EventEmitter();
   @Output() decrease = new EventEmitter();
-  onPlus() {
+  onPlus(e:Event) {
+    e.stopPropagation()
     this.increase.emit();
   }
-  onMinus() {
+  onMinus(e:Event) {
+    e.stopPropagation()
     if (this.currentQuantity > 1) {
       this.decrease.emit();
     }

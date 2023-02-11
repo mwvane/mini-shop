@@ -1,10 +1,10 @@
 <div class="container">
   <div class="row selector g-0">
-    <div class="col-4 minus-btn btn-selector" (click)="onMinus()">
+    <div class="col-4 minus-btn btn-selector" (click)="onMinus($event)">
       <fa-icon [icon]="minusIcon"></fa-icon>
     </div>
     <div class="col-4 selector-value">{{ currentQuantity }}</div>
-    <div class="col-4 plus-btn btn-selector" (click)="onPlus()">
+    <div class="col-4 plus-btn btn-selector" (click)="onPlus($event)">
       <fa-icon [icon]="plusIcon"></fa-icon>
     </div>
   </div>
