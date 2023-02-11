@@ -1,6 +1,8 @@
 <div class="main-container">
   <div class="custom-header shadow">
-    <a *ngIf="loggedUser.role === 'admin'" href="admin" class="custom-link">admin panel</a>
+    <a *ngIf="loggedUser.role === 'admin'" href="admin" class="custom-link"
+      >admin panel</a
+    >
     <div>
       <i class="pi pi-shopping-cart"></i>
       [{{ cartItems.length }}]
@@ -86,6 +88,7 @@
               [cartItem]="item"
               (remove)="onCartItemDelete(item.id)"
               (change)="onCartItemChange($event, item)"
+              (open)="onCartItemOpen($event)"
             ></app-cart-item>
           </div>
         </div>
@@ -94,3 +97,53 @@
   </div>
 </div>
 <p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>
+<p-dialog
+  [(visible)]="isbuyModalOpen"
+  [style]="{ width: '450px' }"
+  header="პროდუქტების დეტალები"
+  [modal]="true"
+  styleClass="p-fluid"
+>
+  <ng-template pTemplate="body">
+    <div class="details">
+      <h4>Name: {{selectedCartItem.item.name}}</h4>
+      <p><i class="pi pi-dollar"></i>Peice: {{selectedCartItem.item.price}}</p>
+      <div class="d-flex align-items-center">
+        <span>Quantity: {{selectedCartItem.quantity}}</span>
+        <app-quantity-selector [currentQuantity]="selectedCartItem.quantity" class="px-3"></app-quantity-selector>
+      </div>
+      <p>Total ptice: {{selectedCartItem.quantity * selectedCartItem.item.price}} ₾</p>
+    </div>
+    <div class="row g-0 py-4">
+      <div class="col-10">
+        <span class="p-float-label">
+          <input id="float-input" type="text" pInputText />
+          <label for="float-input">პრომო კოდი</label>
+        </span>
+      </div>
+      <div class="col">
+        <button
+          pButton
+          class="p-button-rounded p-button-sm p-button-text p-button-warning mx-2"
+          icon="pi pi-check"
+        ></button>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <button
+      pButton
+      pRipple
+      label="გაუქმება"
+      icon="pi pi-times"
+      class="p-button-text p-button-danger"
+    ></button>
+    <button
+      pButton
+      pRipple
+      label="ყიდვა"
+      icon="pi pi-dollar"
+      class="p-button-text p-button-success"
+    ></button>
+  </ng-template>
+</p-dialog>

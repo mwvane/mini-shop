@@ -19,13 +19,16 @@ export class HomeComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private dialog: ConfirmationService,
-    private msgService: ToastrService
+    private msgService: ToastrService,
   ) {}
   items: Item[] = [];
   loggedUser: any;
   cartItems: CartItem[] = [];
+  selectedCartItem: any
   isItemsLoading = true;
   isCartLoading = true;
+  isbuyModalOpen: boolean = false
+
   ngOnInit(): void {
     const user = this.authService.userPayload;
     if (user) {
@@ -57,8 +60,11 @@ export class HomeComponent implements OnInit {
         break;
       }
   }
+  onCartItemOpen(cartItem: CartItem){
+    this.selectedCartItem = cartItem
+    this.isbuyModalOpen = true
+  }
   onCartItemDelete(id?: number) {
-    debugger
     this.dialog.confirm({
       message: 'ნამდვილად გინდათ კალათიდან პროდუქტის წაშლა?',
       header: 'კალათიდან პროდუქტის წაშლა',
