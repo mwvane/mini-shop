@@ -1,4 +1,4 @@
-<div class="container my-3">
+<div class="container my-3" (click)="onItemClick()">
   <div class="cart-item-header w-100">
     <div class="row text-center p-2">
       <div class="col-6 text-center">პროდუქტის დასახელება</div>
@@ -33,7 +33,7 @@
       type="button"
       icon="pi pi-times"
       class="p-button-rounded p-button-danger btn-remove"
-      (click)="onDelete()"
+      (click)="onDelete($event)"
       pTooltip="კალათიდან წაშლა"
       tooltipPosition="right"
     ></button>
