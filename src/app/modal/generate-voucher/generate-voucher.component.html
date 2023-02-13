@@ -1,0 +1,62 @@
+<p-dialog
+  [(visible)]="openDialog"
+  [style]="{ width: '450px' }"
+  header="ვაუჩერის მართვა"
+  [modal]="true"
+  styleClass="p-fluid"
+  (onHide)="onClose()"
+>
+  <ng-template pTemplate="body">
+    <div style="font-size: 18px">
+      <div>
+        <label for="validDate">ხანგრძლივობა</label>
+        <div class="w-100">
+          <span class="text-warning"><i class="pi pi-calendar"></i>{{data.validDate}}</span>
+          <p-dropdown class="w-100" [options]="days" (onChange)="onValidateChange($event)"></p-dropdown>
+        </div>
+      </div>
+      <div class="d-flex align-items-center my-2">
+        <span>key: {{ data.key }}</span
+        ><button
+          *ngIf="data.key"
+          pButton
+          class="p-button-rounded p-button-sm p-button-secondary p-button-text mx-2"
+          icon="pi pi-copy"
+          (click)="onCopy()"
+        ></button>
+        <button
+          *ngIf="!data.key"
+          pButton
+          class="p-button-rounded p-button-sm p-button-secondary p-button-text mx-2"
+          icon="pi pi-refresh"
+          (click)="onGenerateKey()"
+        ></button>
+      </div>    
+    </div>
+    <div>
+      <label for="price">ფასი</label>
+      <p-inputNumber [(ngModel)]="data.price"></p-inputNumber>
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <button
+      pButton
+      pRipple
+      label="გაუქმება"
+      icon="pi pi-times"
+      class="p-button-text"
+      (click)="onClose()"
+    ></button>
+    <button
+      [disabled]="!data.key"
+      pButton
+      pRipple
+      label="შენახვა"
+      icon="pi pi-check"
+      class="p-button-text"
+      (click)="onSubmit()"
+    ></button>
+  </ng-template>
+</p-dialog>
+<p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>
