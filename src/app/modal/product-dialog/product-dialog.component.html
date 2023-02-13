@@ -1,0 +1,62 @@
+<p-dialog
+  [(visible)]="openDialog"
+  [style]="{ width: '450px' }"
+  header="პროდუქტების დეტალები"
+  [modal]="true"
+  styleClass="p-fluid"
+  (onHide)="onClose()"
+>
+  <ng-template pTemplate="content">
+    <div class="field">
+      <label for="name">სახელი</label>
+      <input
+        type="text"
+        pInputText
+        id="name"
+        [(ngModel)]="data.name"
+        required
+        autofocus
+      />
+      <small class="p-error" *ngIf="submitted && !data.name"
+        >სახელი აუცილებებლია</small
+      >
+    </div>
+    <div class="formgrid grid">
+      <div class="field col">
+        <label for="price">ფასი</label>
+        <p-inputNumber
+          id="price"
+          [(ngModel)]="data.price"
+          mode="currency"
+          currency="GEL"
+        ></p-inputNumber>
+      </div>
+      <div class="field col">
+        <label for="quantity">რაოდენობა</label>
+        <p-inputNumber
+          id="quantity"
+          [(ngModel)]="data.quantity"
+        ></p-inputNumber>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <button
+      pButton
+      pRipple
+      label="გაუქმება"
+      icon="pi pi-times"
+      class="p-button-text"
+      (click)="onClose()"
+    ></button>
+    <button
+      pButton
+      pRipple
+      label="შენახვა"
+      icon="pi pi-check"
+      class="p-button-text"
+      (click)="onSubmit()"
+    ></button>
+  </ng-template>
+</p-dialog>
