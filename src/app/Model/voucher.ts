@@ -1,6 +1,7 @@
 export interface Voucher{
     key: string
     price: number
-    isActive:boolean
-    valdate: Date
+    isValid:boolean
+    createdBy:number
+    validDate?: Date
 }
