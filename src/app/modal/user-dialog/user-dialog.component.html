@@ -1,0 +1,98 @@
+<p-dialog
+  [(visible)]="openDialog"
+  [style]="{ width: '450px' }"
+  header="მომხმარებლის დეტალები"
+  [modal]="true"
+  styleClass="p-fluid"
+  (onHide)="onClose()"
+>
+  <ng-template pTemplate="content">
+    <div class="formgrid grid py-1">
+      <div class="field col">
+        <label for="role">როლი</label>
+        <p-dropdown [options]="roles" [(ngModel)]="data.role"></p-dropdown>
+        <small class="p-error" *ngIf="submitted && !data.role"
+          >იმეილი აუცილებებლია</small
+        >
+      </div>
+    </div>
+    <div class="field py-1">
+      <label for="firstname">სახელი</label>
+      <input
+        type="text"
+        pInputText
+        id="firstname"
+        [(ngModel)]="data.firstname"
+        required
+        autofocus
+      />
+      <small class="p-error" *ngIf="submitted && !data.firstname"
+        >სახელი აუცილებებლია</small
+      >
+    </div>
+    <div class="formgrid grid py-1">
+      <div class="field col">
+        <label for="lastname">გვარი</label>
+        <input
+          type="text"
+          pInputText
+          id="lastname"
+          [(ngModel)]="data.lastname"
+          required
+        />
+        <small class="p-error" *ngIf="submitted && !data.lastname"
+          >გვარი აუცილებებლია</small
+        >
+      </div>
+    </div>
+    <div class="formgrid grid py-1">
+      <div class="field col">
+        <label for="email">მეილი</label>
+        <input
+          type="email"
+          pInputText
+          id="email"
+          [(ngModel)]="data.email"
+          required
+        />
+        <small class="p-error" *ngIf="submitted && !data.email"
+          >იმეილი აუცილებებლია</small
+        >
+      </div>
+    </div>
+    <div class="formgrid grid">
+      <div class="field col">
+        <label for="password">პაროლი</label>
+        <input
+          type="password"
+          pInputText
+          id="password"
+          [(ngModel)]="data.password"
+          required
+        />
+        <small class="p-error" *ngIf="submitted && !data.password"
+          >პაროლი აუცილებებლია</small
+        >
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <button
+      pButton
+      pRipple
+      label="გაუქმება"
+      icon="pi pi-times"
+      class="p-button-text"
+      (click)="onClose()"
+    ></button>
+    <button
+      pButton
+      pRipple
+      label="შენახვა"
+      icon="pi pi-check"
+      class="p-button-text"
+      (click)="onSubmit()"
+    ></button>
+  </ng-template>
+</p-dialog>
