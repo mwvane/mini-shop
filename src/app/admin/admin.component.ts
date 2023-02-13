@@ -6,6 +6,8 @@ import { ToastrService } from 'ngx-toastr';
 import { User } from '../Model/user';
 import { UserService } from '../service/user.service';
 import { AuthService } from '../service/auth.service';
+import { Voucher } from '../Model/voucher';
+import { VoucherService } from '../service/voucher.service';
 
 @Component({
   selector: 'app-admin',
@@ -18,22 +20,28 @@ export class AdminComponent {
   userDialog: boolean = false;
   products: Item[] = [{ name: '', price: 0, quantity: 0 }];
   product: any;
+  vouchers: Voucher[] = [{ key: '', price: 0, isValid: false, createdBy: 0 }];
+  voucher: any;
+  voucherDialog: boolean = false;
   selectedProducts: any;
-  users: User[] = [{ email: '', firstname: '', lastname: '', role: '', id: 0 }];
+  users: User[] = [
+    { email: '', firstname: '', lastname: '', password: '', role: '', id: 0 },
+  ];
   user: any;
 
   submitted: boolean = false;
   menuItems: any[] = [
     { label: 'Products', icon: 'pi pi-shopping-bag' },
     { label: 'Users', icon: 'pi pi-fw pi-users' },
+    { label: 'Vouchers', icon: 'pi pi-money-bill' },
   ];
-  role: string[] = ['admin', 'user', 'seller'];
   currentMenuTab: any = this.menuItems[0];
 
   constructor(
     private productService: ItemService,
     private userService: UserService,
     private authService: AuthService,
+    private voucherService: VoucherService,
     private confirmationService: ConfirmationService,
     private msgService: ToastrService
   ) {}
@@ -41,6 +49,7 @@ export class AdminComponent {
   ngOnInit() {
     this.loadProducts();
     this.loadusers();
+    this.loadVouchers();
   }
   loadProducts() {
     this.productService
@@ -52,18 +61,25 @@ export class AdminComponent {
       this.users = data;
     });
   }
+  loadVouchers() {
+    this.voucherService
+      .getAllVouchers()
+      .subscribe((data) => (this.vouchers = data));
+  }
   openNew() {
     if (this.currentMenuTab.label === 'Users') {
-      debugger;
       this.user = {};
-      this.submitted = false;
       this.userDialog = true;
     }
     if (this.currentMenuTab.label === 'Products') {
       this.product = {};
-      this.submitted = false;
       this.productDialog = true;
     }
+    if (this.currentMenuTab.label === 'Vouchers') {
+      this.voucher = {};
+      this.voucherDialog = true;
+    }
+    this.submitted = false;
   }
 
   deleteSelectedProducts() {
@@ -91,6 +107,8 @@ export class AdminComponent {
   }
 
   editItem(item: any) {
+    debugger
+
     if (this.currentMenuTab.label === 'Users') {
       this.user = { ...item };
       this.userDialog = true;
@@ -98,6 +116,10 @@ export class AdminComponent {
     if (this.currentMenuTab.label === 'Products') {
       this.product = { ...item };
       this.productDialog = true;
+    }
+    if (this.currentMenuTab.label === 'Vouchers') {
+      this.voucher = { ...item };
+      this.voucherDialog = true;
     }
   }
 
@@ -108,7 +130,6 @@ export class AdminComponent {
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
         this.productService.removeItem([product.id]).subscribe((data) => {
-          debugger;
           if (data.res) {
             this.products = this.products.filter(
               (val) => val.id !== product.id
@@ -129,7 +150,6 @@ export class AdminComponent {
       accept: () => {
         this.userService.RemoveUser([user.id]).subscribe((data) => {
           if (data.res) {
-            debugger;
             this.users = this.users.filter((val) => val.id !== user.id);
             this.msgService.success('მომხმარებელი წარმატებით წაიშალა!');
             this.user = {};
@@ -145,14 +165,14 @@ export class AdminComponent {
     this.userDialog = false;
   }
 
-  saveDialogResult() {
+  saveDialogResult(result: any) {
     this.submitted = true;
     if (this.currentMenuTab.label === 'Users') {
       if (this.user.id) {
-        this.userService.UpdateUser(this.user).subscribe((data) => {
+        this.userService.UpdateUser(result).subscribe((data) => {
           if (data.res) {
-            const index = this.findIndexById(this.user.id, this.users);
-            this.users[index] = { ...this.user };
+            const index = this.findIndexById(result.id, this.users);
+            this.users[index] = { ...result };
             this.msgService.success('მომხმარებელი წარმატებით განახლდა!');
           } else {
             this.msgService.error(data.errors.join('\n'));
@@ -162,10 +182,10 @@ export class AdminComponent {
           this.userDialog = false;
         });
       } else {
-        this.authService.signup(this.user).subscribe((data) => {
+        this.authService.signup(result).subscribe((data) => {
           if (data.res) {
-            this.user.id = data.res;
-            this.users.unshift(this.user);
+            result.id = data.res;
+            this.users.unshift(result);
             this.msgService.success('მომხმარებელი წარმატებით შეიქმნა!');
             this.user = {};
             this.users = [...this.users];
@@ -182,7 +202,6 @@ export class AdminComponent {
         if (this.product.id) {
           this.productService.updateItem(this.product).subscribe((data) => {
             if (data.res) {
-              debugger;
               const index = this.findIndexById(this.product.id, this.products);
               this.products[index] = { ...this.product };
               this.msgService.success('პროდუქტი წარმატებით განახლდა!');
@@ -197,7 +216,6 @@ export class AdminComponent {
           this.productService.addItem(this.product).subscribe((data) => {
             if (data.res) {
               this.product.createdBy = this.authService.userPayload.id;
-              debugger;
               this.products.unshift({ ...this.product });
               this.msgService.success('პროდუქტი წარმატებით შეიქმნა!');
               this.product = {};
@@ -208,11 +226,32 @@ export class AdminComponent {
         }
       }
     }
-  }
+    if (this.currentMenuTab.label === 'Vouchers') {
+      if (this.voucher.id) {
+      } else {
+        this.voucherService.create(result).subscribe((data) => {
+      debugger
 
+          if (data.res) {
+            result.id = data.res;
+            this.vouchers.unshift(result);
+            this.msgService.success('ვაუჩერი წარმატებით შეიქმნა');
+          } else {
+            this.msgService.error(data.errors.join('\n'));
+          }
+        });
+      }
+      this.voucher = {}
+      this.voucherDialog = false
+    }
+  }
+  onGenerateKey() {
+    this.voucherService
+      .generateKey()
+      .subscribe((data) => console.log(data));
+  }
   findIndexById(id: number, array: any[]): number {
     for (let [index, item] of array.entries()) {
-      debugger;
       if (item.id === id) {
         return index;
       }
@@ -220,7 +259,6 @@ export class AdminComponent {
     return -1;
   }
   onMenuItemChange(item: any) {
-    console.log(this.users);
     this.currentMenuTab = item;
   }
   getUsername(id: number) {

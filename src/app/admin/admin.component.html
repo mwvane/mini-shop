@@ -15,8 +15,7 @@
         label="წაშლა"
         icon="pi pi-trash"
         class="p-button-danger mx-1 p-button-sm"
-        (click)="deleteSelectedProducts()
-        "
+        (click)="deleteSelectedProducts()"
         [disabled]="!selectedProducts || !selectedProducts.length"
       ></button>
       <p-tabMenu
@@ -83,7 +82,7 @@
         <td>{{ product.name }}</td>
         <td>{{ product.quantity }}</td>
         <td>{{ product.price | currency : "₾" }}</td>
-        <td>{{ getUsername(product.createdBy)}}</td>
+        <td>{{ getUsername(product.createdBy) }}</td>
         <td>
           <button
             pButton
@@ -189,165 +188,108 @@
   </p-table>
 </div>
 
-<!-- add/edit product -->
-<p-dialog
-  [(visible)]="productDialog"
-  [style]="{ width: '450px' }"
-  header="პროდუქტების დეტალები"
-  [modal]="true"
-  styleClass="p-fluid"
+<!-- Vaucher table -->
+<p-table
+  *ngIf="currentMenuTab.label === 'Vouchers'"
+  #voucherTable
+  [value]="vouchers"
+  [rows]="4"
+  [paginator]="true"
+  [globalFilterFields]="['name', 'price']"
+  [tableStyle]="{ 'min-width': '75rem' }"
+  [(selection)]="selectedProducts"
+  [rowHover]="true"
+  dataKey="id"
+  currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+  [showCurrentPageReport]="true"
 >
-  <ng-template pTemplate="content">
-    <div class="field">
-      <label for="name">სახელი</label>
-      <input
-        type="text"
-        pInputText
-        id="name"
-        [(ngModel)]="product.name"
-        required
-        autofocus
-      />
-      <small class="p-error" *ngIf="submitted && !product.name"
-        >სახელი აუცილებებლია</small
-      >
-    </div>
-    <div class="formgrid grid">
-      <div class="field col">
-        <label for="price">ფასი</label>
-        <p-inputNumber
-          id="price"
-          [(ngModel)]="product.price"
-          mode="currency"
-          currency="GEL"
-        ></p-inputNumber>
-      </div>
-      <div class="field col">
-        <label for="quantity">რაოდენობა</label>
-        <p-inputNumber
-          id="quantity"
-          [(ngModel)]="product.quantity"
-        ></p-inputNumber>
-      </div>
+  <ng-template pTemplate="caption">
+    <div class="flex align-items-center justify-content-between">
+      <h5 class="m-0">პროდუქტების მართვა</h5>
+      <span class="p-input-icon-left">
+        <i class="pi pi-search"></i>
+      </span>
     </div>
   </ng-template>
+  <ng-template pTemplate="header">
+    <tr>
+      <th style="width: 1rem; height: 1rem">
+        <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+      </th>
+      <th pSortableColumn="Key" style="min-width: 15rem">
+        Key <p-sortIcon field="key"></p-sortIcon>
+      </th>
+      <th pSortableColumn="price">
+        Price <p-sortIcon field="price"></p-sortIcon>
+      </th>
+      <th pSortableColumn="isValid">
+        Valid Status <p-sortIcon field="isValid"></p-sortIcon>
+      </th>
+      <th pSortableColumn="validDate">
+        Valid date <p-sortIcon field="validDate"></p-sortIcon>
+      </th>
+      <th pSortableColumn="createdBy">
+        Created by <p-sortIcon field="createdBy"></p-sortIcon>
+      </th>
+      <th></th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-voucher>
+    <tr style="font-size: 15px">
+      <td>
+        <p-tableCheckbox [value]="vouchers"></p-tableCheckbox>
+      </td>
+      <td>{{ voucher.key }}</td>
+      <td>{{ voucher.price }}</td>
+      <td>{{ voucher.isValid }}</td>
+      <td>{{ voucher.validDate }}</td>
+      <td>{{ getUsername(voucher.createdBy) }}</td>
+      <td>
+        <button
+          pButton
+          pRipple
+          icon="pi pi-pencil"
+          class="p-button-rounded p-button-success mx-1"
+          (click)="editItem(voucher)"
+        ></button>
+        <button
+          pButton
+          pRipple
+          icon="pi pi-trash"
+          class="p-button-rounded p-button-warning mx-1"
+          (click)="deleteProduct(voucher)"
+        ></button>
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="summary">
+    <div class="flex align-items-center justify-content-between">
+      სულ არის {{ products ? products.length : 0 }} პროდუქტი
+    </div>
+  </ng-template>
+</p-table>
 
-  <ng-template pTemplate="footer">
-    <button
-      pButton
-      pRipple
-      label="გაუქმება"
-      icon="pi pi-times"
-      class="p-button-text"
-      (click)="hideDialog()"
-    ></button>
-    <button
-      pButton
-      pRipple
-      label="შენახვა"
-      icon="pi pi-check"
-      class="p-button-text"
-      (click)="saveDialogResult()"
-    ></button>
-  </ng-template>
-</p-dialog>
+<!-- add/edit product -->
+<app-product-dialog
+  [openDialog]="productDialog"
+  (close)="hideDialog()"
+  (submit)="saveDialogResult($event)"
+  [data]="product"
+></app-product-dialog>
 
 <!-- user Dialog -->
-<p-dialog
-  [(visible)]="userDialog"
-  [style]="{ width: '450px' }"
-  header="მომხმარებლის დეტალები"
-  [modal]="true"
-  styleClass="p-fluid"
->
-  <ng-template pTemplate="content">
-    <div class="formgrid grid py-1">
-      <div class="field col">
-        <label for="role">როლი</label>
-        <p-dropdown [options]="role" [(ngModel)]="user.role"></p-dropdown>
-        <small class="p-error" *ngIf="submitted && !user.role"
-          >იმეილი აუცილებებლია</small
-        >
-      </div>
-    </div>
-    <div class="field py-1">
-      <label for="firstname">სახელი</label>
-      <input
-        type="text"
-        pInputText
-        id="firstname"
-        [(ngModel)]="user.firstname"
-        required
-        autofocus
-      />
-      <small class="p-error" *ngIf="submitted && !user.firstname"
-        >სახელი აუცილებებლია</small
-      >
-    </div>
-    <div class="formgrid grid py-1">
-      <div class="field col">
-        <label for="lastname">გვარი</label>
-        <input
-          type="text"
-          pInputText
-          id="lastname"
-          [(ngModel)]="user.lastname"
-          required
-        />
-        <small class="p-error" *ngIf="submitted && !user.lastname"
-          >გვარი აუცილებებლია</small
-        >
-      </div>
-    </div>
-    <div class="formgrid grid py-1">
-      <div class="field col">
-        <label for="email">მეილი</label>
-        <input
-          type="email"
-          pInputText
-          id="email"
-          [(ngModel)]="user.email"
-          required
-        />
-        <small class="p-error" *ngIf="submitted && !user.email"
-          >იმეილი აუცილებებლია</small
-        >
-      </div>
-    </div>
-    <div class="formgrid grid">
-      <div class="field col">
-        <label for="password">პაროლი</label>
-        <input
-          type="password"
-          pInputText
-          id="password"
-          [(ngModel)]="user.password"
-          required
-        />
-        <small class="p-error" *ngIf="submitted && !user.password"
-          >პაროლი აუცილებებლია</small
-        >
-      </div>
-    </div>
-  </ng-template>
+<app-user-dialog
+  [openDialog]="userDialog"
+  (close)="hideDialog()"
+  (submit)="saveDialogResult($event)"
+  [data]="user"
+></app-user-dialog>
 
-  <ng-template pTemplate="footer">
-    <button
-      pButton
-      pRipple
-      label="გაუქმება"
-      icon="pi pi-times"
-      class="p-button-text"
-      (click)="hideDialog()"
-    ></button>
-    <button
-      pButton
-      pRipple
-      label="შენახვა"
-      icon="pi pi-check"
-      class="p-button-text"
-      (click)="saveDialogResult()"
-    ></button>
-  </ng-template>
-</p-dialog>
-<p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>
+<!-- Voucher dialog -->
+<app-generate-voucher
+  *ngIf="voucherDialog"
+  [openDialog]="voucherDialog"
+  (close)="hideDialog()"
+  [data]="voucher"
+  (submit)="saveDialogResult($event)"
+></app-generate-voucher>

@@ -33,6 +33,10 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { TabMenuModule } from 'primeng/tabmenu';
+import {CalendarModule} from 'primeng/calendar';
+import { GenerateVoucherComponent } from './modal/generate-voucher/generate-voucher.component';
+import { UserDialogComponent } from './modal/user-dialog/user-dialog.component';
+import { ProductDialogComponent } from './modal/product-dialog/product-dialog.component';
 
 @NgModule({
   declarations: [
@@ -46,6 +50,9 @@ import { TabMenuModule } from 'primeng/tabmenu';
     CartItemComponent,
     EditItemComponent,
     AdminComponent,
+    GenerateVoucherComponent,
+    UserDialogComponent,
+    ProductDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -72,6 +79,7 @@ import { TabMenuModule } from 'primeng/tabmenu';
     InputTextModule,
     InputNumberModule,
     TabMenuModule,
+    CalendarModule,
   ],
   providers: [
     {
