@@ -1,0 +1,25 @@
+<p-dialog
+  [(visible)]="openDialog"
+  [style]="{ width: 'auto' }"
+  [modal]="true"
+  header="ჩემი პროდუქტები"
+  styleClass="p-fluid"
+  (onHide)="onClose()"
+>
+<p-table [value]="data" styleClass="p-datatable-striped" [tableStyle]="{'min-width': '50rem'}">
+    <ng-template pTemplate="header">
+        <tr>
+            <th>Name</th>
+            <th>Quantity</th>
+            <th>TotalPrice</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-product>
+        <tr>
+            <td>{{product.product.name}}</td>
+            <td>{{product.quantity}}</td>
+            <td>{{product.totalPrice}}</td>
+        </tr>
+    </ng-template>
+</p-table>
+</p-dialog>
