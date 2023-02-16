@@ -38,6 +38,7 @@ import { GenerateVoucherComponent } from './modal/generate-voucher/generate-vouc
 import { UserDialogComponent } from './modal/user-dialog/user-dialog.component';
 import { ProductDialogComponent } from './modal/product-dialog/product-dialog.component';
 import { MyProductsComponent } from './modal/my-products/my-products.component';
+import { BuyComponent } from './modal/buy/buy.component';
 
 @NgModule({
   declarations: [
@@ -55,6 +56,7 @@ import { MyProductsComponent } from './modal/my-products/my-products.component';
     UserDialogComponent,
     ProductDialogComponent,
     MyProductsComponent,
+    BuyComponent,
   ],
   imports: [
     BrowserModule,

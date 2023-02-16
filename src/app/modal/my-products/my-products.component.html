@@ -7,7 +7,7 @@
   (onHide)="onClose()"
 >
 <p-table [value]="data" styleClass="p-datatable-striped" [tableStyle]="{'min-width': '50rem'}">
-    <ng-template pTemplate="header">
+    <ng-template pTemplate="header" class="my-2">
         <tr>
             <th>Name</th>
             <th>Quantity</th>
@@ -16,9 +16,9 @@
     </ng-template>
     <ng-template pTemplate="body" let-product>
         <tr>
-            <td>{{product.product.name}}</td>
+            <td>{{product.productName}}</td>
             <td>{{product.quantity}}</td>
-            <td>{{product.totalPrice}}</td>
+            <td>{{product.totalPrice}} ₾</td>
         </tr>
     </ng-template>
 </p-table>

@@ -2,7 +2,8 @@ import { Item } from "./item";
 
 export interface SoldProduct {
   id?: number;
-  product?: Item;
+  productId?: number;
+  productName: string;
   userId?: number;
   quantity: number;
   totalPrice: number;

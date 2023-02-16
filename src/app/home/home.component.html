@@ -3,18 +3,27 @@
     <a *ngIf="loggedUser.role === 'admin'" href="admin" class="custom-link"
       >admin panel</a
     >
+    <div>
+      <button
+        *ngIf="loggedUser.role === 'admin' || loggedUser.role === 'seller'"
+        pButton
+        label="Generate voucher"
+        class="p-button-rounded p-button-sm p-button-text px-1 mx-2"
+        icon="pi pi-money-bill"
+        style="height: 12px; font-size: 10px; color: #67d965"
+        (click)="openVoucherDialog()"
+      ></button>
+    </div>
     <div class="d-flex align-items-center">
       <div>
         <button
-        pButton
-        label="My Products"
-        class="p-button-rounded p-button-sm p-button-text px-1 mx-2"
-        icon="pi pi-credit-card"
-        style="height: 12px; font-size: 10px;"
-        (click)="onMyProduct()"
-        >
-
-        </button>
+          pButton
+          label="My Products"
+          class="p-button-rounded p-button-sm p-button-text px-1 mx-2"
+          icon="pi pi-credit-card"
+          style="height: 12px; font-size: 10px"
+          (click)="onMyProduct()"
+        ></button>
       </div>
       <i class="pi pi-shopping-cart"></i>
       [{{ cartItems.length }}]
@@ -111,70 +120,24 @@
   </div>
 </div>
 <p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>
-<p-dialog
-  [(visible)]="isbuyModalOpen"
-  [style]="{ width: '450px' }"
-  header="პროდუქტების დეტალები"
-  [modal]="true"
-  styleClass="p-fluid"
->
-  <ng-template pTemplate="body">
-    <div class="details">
-      <h4>Name: {{ selectedCartItem.item.name }}</h4>
-      <p>
-        <i class="pi pi-dollar"></i>Peice: {{ selectedCartItem.item.price }}
-      </p>
-      <div class="d-flex align-items-center my-3">
-        <span>Quantity: {{ selectedCartItem.quantity }}</span>
-        <app-quantity-selector
-          [currentQuantity]="selectedCartItem.quantity"
-          class="px-3"
-          (decrease)="onQuantityDecrease(selectedCartItem)"
-          (increase)="onQuantityIncrease(selectedCartItem)"
-        ></app-quantity-selector>
-      </div>
-      <p>
-        Total ptice:
-        {{
-          selectedCartItem.quantity * selectedCartItem.item.price -
-            selectedCartItem.voucherPrice
-        }}
-      </p>
-    </div>
-    <div *ngIf="!selectedCartItem.voucherPrice" class="row g-0 py-4">
-      <div class="col-10">
-        <span class="p-float-label">
-          <input id="float-input" type="text" pInputText #key />
-          <label for="float-input">ფასდაკლების კოდი</label>
-        </span>
-      </div>
-      <div class="col">
-        <button
-          pButton
-          class="p-button-rounded p-button-sm p-button-text p-button-warning mx-2"
-          icon="pi pi-check"
-          (click)="onCheckVoucherKey(key.value)"
-        ></button>
-      </div>
-    </div>
-  </ng-template>
-  <ng-template pTemplate="footer">
-    <button
-      pButton
-      pRipple
-      label="გაუქმება"
-      icon="pi pi-times"
-      class="p-button-text p-button-danger"
-      (click)="onBuyDialogClose()"
-    ></button>
-    <button
-      pButton
-      pRipple
-      label="ყიდვა"
-      icon="pi pi-dollar"
-      class="p-button-text p-button-success"
-      (click)="onBuy(selectedCartItem)"
-    ></button>
-  </ng-template>
-</p-dialog>
-<app-my-products [openDialog]="myProductDialog" [data]="myProducts"></app-my-products>
+<app-buy
+  [data]="selectedCartItem"
+  [openDialog]="openBuyDialog"
+  (checkVoucherKey)="onCheckVoucherKey($event)"
+  (increaseQuantity)="onQuantityIncrease(selectedCartItem)"
+  (decreaseQuantity)="onQuantityDecrease(selectedCartItem)"
+  (submit)="onBuy(selectedCartItem)"
+  (close)="onBuyDialogClose()"
+></app-buy>
+
+<app-my-products
+  [openDialog]="myProductDialog"
+  [data]="myProducts"
+  (close)="onMyProductModalClose()"
+></app-my-products>
+
+<app-generate-voucher
+  [openDialog]="voucherDialog"
+  (close)="onVoucherDialogClose()"
+  (submit)="onCreateVoucher($event)"
+></app-generate-voucher>
