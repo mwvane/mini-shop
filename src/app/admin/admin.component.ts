@@ -20,7 +20,9 @@ export class AdminComponent {
   userDialog: boolean = false;
   products: Item[] = [{ name: '', price: 0, quantity: 0 }];
   product: any;
-  vouchers: Voucher[] = [{ key: '', price: 0, isValid: false, createdBy: 0 }];
+  vouchers: Voucher[] = [
+    { key: '', price: 0, isValid: false, createdBy: 0, isUsed: false },
+  ];
   voucher: any;
   voucherDialog: boolean = false;
   selectedProducts: any;
@@ -107,7 +109,7 @@ export class AdminComponent {
   }
 
   editItem(item: any) {
-    debugger
+    debugger;
 
     if (this.currentMenuTab.label === 'Users') {
       this.user = { ...item };
@@ -159,10 +161,28 @@ export class AdminComponent {
     });
   }
 
+  deleteVoucher(voucher: any) {
+    this.confirmationService.confirm({
+      message: 'ნამდვილად გინდათ წაშლა ? ' + voucher.key + '?',
+      header: 'დაადასტურე',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.voucherService.delete([voucher.id]).subscribe((data) => {
+          if (data.res) {
+            this.vouchers = this.vouchers.filter((val) => val.id != voucher.id);
+            this.msgService.success('ვაუჩერი წარმატებით წაიშალა!');
+            this.voucher = {};
+          }
+        });
+      },
+    });
+  }
+
   hideDialog() {
     this.productDialog = false;
     this.submitted = false;
     this.userDialog = false;
+    this.voucherDialog = false;
   }
 
   saveDialogResult(result: any) {
@@ -172,6 +192,7 @@ export class AdminComponent {
         this.userService.UpdateUser(result).subscribe((data) => {
           if (data.res) {
             const index = this.findIndexById(result.id, this.users);
+            result.lastUpdated = Date.now();
             this.users[index] = { ...result };
             this.msgService.success('მომხმარებელი წარმატებით განახლდა!');
           } else {
@@ -228,12 +249,19 @@ export class AdminComponent {
     }
     if (this.currentMenuTab.label === 'Vouchers') {
       if (this.voucher.id) {
+        this.voucherService.update(result).subscribe((data) => {
+          if (data.res) {
+            const index = this.findIndexById(result.id, this.vouchers);
+            this.vouchers[index] = { ...result };
+            this.msgService.success('ვაუჩერი წარმატებით განახლდა');
+          } else {
+            this.msgService.error(data.errors.join('\n'));
+          }
+        });
       } else {
         this.voucherService.create(result).subscribe((data) => {
-      debugger
-
           if (data.res) {
-            result.id = data.res;
+            result = data.res;
             this.vouchers.unshift(result);
             this.msgService.success('ვაუჩერი წარმატებით შეიქმნა');
           } else {
@@ -241,14 +269,12 @@ export class AdminComponent {
           }
         });
       }
-      this.voucher = {}
-      this.voucherDialog = false
+      this.voucher = {};
+      this.voucherDialog = false;
     }
   }
   onGenerateKey() {
-    this.voucherService
-      .generateKey()
-      .subscribe((data) => console.log(data));
+    this.voucherService.generateKey().subscribe((data) => console.log(data));
   }
   findIndexById(id: number, array: any[]): number {
     for (let [index, item] of array.entries()) {

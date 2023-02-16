@@ -10,7 +10,10 @@ import { VoucherService } from 'src/app/service/voucher.service';
   styleUrls: ['./generate-voucher.component.css'],
 })
 export class GenerateVoucherComponent {
-  constructor(private voucherService: VoucherService, private msgService: ToastrService) {}
+  constructor(
+    private voucherService: VoucherService,
+    private msgService: ToastrService
+  ) {}
   @Input() openDialog: boolean = false;
   @Input() data: Voucher = {
     key: '',
@@ -18,6 +21,7 @@ export class GenerateVoucherComponent {
     isValid: false,
     validDate: this.addDays(5),
     createdBy: 0,
+    isUsed: false,
   };
   @Output() submit = new EventEmitter();
   @Output() close = new EventEmitter();
@@ -44,7 +48,7 @@ export class GenerateVoucherComponent {
   }
   onCopy() {
     navigator.clipboard.writeText(this.data.key);
-    this.msgService.success("გასაღები დაკოპირდა")
+    this.msgService.success('გასაღები დაკოპირდა');
   }
   private addDays(days: number) {
     let dateNow = new Date();

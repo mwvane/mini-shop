@@ -7,7 +7,10 @@ import { ToastrService } from 'ngx-toastr';
   templateUrl: './cart-item.component.html',
   styleUrls: ['./cart-item.component.css'],
 })
-export class CartItemComponent {
+export class CartItemComponent implements OnInit {
+  ngOnInit(): void {
+    console.log(this.cartItem)
+  }
   @Input() cartItem: any;
   @Input() voucherPrice: number = 0;
   @Output() remove = new EventEmitter();

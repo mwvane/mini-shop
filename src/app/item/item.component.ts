@@ -19,7 +19,7 @@ export class ItemComponent {
     e.stopPropagation();
     e.preventDefault();
     if (this.item.quantity) {
-      this.addToCart.emit();
+      this.addToCart.emit(this.item);
     } else {
       this.msgService.warning('პროდუქტის მარაგი ამოიწურა');
     }

@@ -37,6 +37,7 @@ import {CalendarModule} from 'primeng/calendar';
 import { GenerateVoucherComponent } from './modal/generate-voucher/generate-voucher.component';
 import { UserDialogComponent } from './modal/user-dialog/user-dialog.component';
 import { ProductDialogComponent } from './modal/product-dialog/product-dialog.component';
+import { MyProductsComponent } from './modal/my-products/my-products.component';
 
 @NgModule({
   declarations: [
@@ -53,6 +54,7 @@ import { ProductDialogComponent } from './modal/product-dialog/product-dialog.co
     GenerateVoucherComponent,
     UserDialogComponent,
     ProductDialogComponent,
+    MyProductsComponent,
   ],
   imports: [
     BrowserModule,

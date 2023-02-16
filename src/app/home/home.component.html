@@ -3,7 +3,19 @@
     <a *ngIf="loggedUser.role === 'admin'" href="admin" class="custom-link"
       >admin panel</a
     >
-    <div>
+    <div class="d-flex align-items-center">
+      <div>
+        <button
+        pButton
+        label="My Products"
+        class="p-button-rounded p-button-sm p-button-text px-1 mx-2"
+        icon="pi pi-credit-card"
+        style="height: 12px; font-size: 10px;"
+        (click)="onMyProduct()"
+        >
+
+        </button>
+      </div>
       <i class="pi pi-shopping-cart"></i>
       [{{ cartItems.length }}]
     </div>
@@ -49,7 +61,7 @@
                 [loggedUser]="loggedUser"
                 (removeItem)="onRemoveItem($event)"
                 (editItem)="onEditItem($event)"
-                (addToCart)="onAddToCart(item)"
+                (addToCart)="onAddToCart($event)"
                 ><h1></h1
               ></app-item>
             </div>
@@ -123,7 +135,10 @@
       </div>
       <p>
         Total ptice:
-        {{selectedCartItem.quantity * selectedCartItem.item.price - selectedCartItem.voucherPrice}}
+        {{
+          selectedCartItem.quantity * selectedCartItem.item.price -
+            selectedCartItem.voucherPrice
+        }}
       </p>
     </div>
     <div *ngIf="!selectedCartItem.voucherPrice" class="row g-0 py-4">
@@ -150,6 +165,7 @@
       label="გაუქმება"
       icon="pi pi-times"
       class="p-button-text p-button-danger"
+      (click)="onBuyDialogClose()"
     ></button>
     <button
       pButton
@@ -157,6 +173,8 @@
       label="ყიდვა"
       icon="pi pi-dollar"
       class="p-button-text p-button-success"
+      (click)="onBuy(selectedCartItem)"
     ></button>
   </ng-template>
 </p-dialog>
+<app-my-products [openDialog]="myProductDialog" [data]="myProducts"></app-my-products>

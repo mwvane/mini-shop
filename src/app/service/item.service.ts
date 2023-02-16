@@ -42,12 +42,20 @@ export class ItemService {
   deleteCartItem(id: number) {
     return this.http.post(`${this.baseUrl}/deleteCartItem`, id);
   }
-  addToCart(item: Item, userId: number, quantity: number = 0) {
-    return this.http.post<Result>(`${this.baseUrl}/addToCart`, {
-      itemId: item.id,
-      userId: userId,
-      quantity,
-    });
+  addToCart(cartItem:CartItem) {
+    return this.http.post<Result>(`${this.baseUrl}/addToCart`, cartItem);
+  }
+  updateCartItem(cartItem: CartItem){
+    return this.http.post<Result>(`${this.baseUrl}/updateCartItem`,cartItem)
+  }
+  buyProduct(id:number){
+    return this.http.post<Result>(`${this.baseUrl}/buyProduct`,id)
+  }
+  getSoldProducts(userId:number){
+    return this.http.get<Result>(`${this.baseUrl}/getSoldProducts?userId=${userId}`)
+  }
+  getProductById(id:number){
+    return this.http.get(`${this.baseUrl}/getProductById?id=${id}`)
   }
 
   //admin-----------
