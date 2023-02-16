@@ -9,47 +9,21 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class CartItemComponent {
   @Input() cartItem: any;
+  @Input() voucherPrice: number = 0;
   @Output() remove = new EventEmitter();
-  @Output() change = new EventEmitter();
   @Output() open = new EventEmitter();
+  @Output() decrease = new EventEmitter();
+  @Output() increase = new EventEmitter();
   maxQuantity: any = 10;
-
-  constructor(
-    private service: ItemService,
-    private msgService: ToastrService
-  ) {}
   onDelete(e: Event) {
     e.stopPropagation();
     this.remove.emit();
   }
   onQuantityIncrease() {
-    let result: any;
-    console.log(this.cartItem);
-    this.service
-      .updateCartItemQuantity(this.cartItem.id, 1)
-      .subscribe((data) => {
-        result = data;
-        if (result.res != null) {
-          this.cartItem.quantity++;
-          this.change.emit(result.res);
-        } else {
-          this.msgService.warning(result.errors.join('\n'));
-        }
-      });
+    this.increase.emit();
   }
   onQuantityDecrease() {
-    let result: any;
-    this.service
-      .updateCartItemQuantity(this.cartItem.id, -1)
-      .subscribe((data) => {
-        result = data;
-        if (result.res != null) {
-          this.cartItem.quantity--;
-          this.change.emit(result.res);
-        } else {
-          this.msgService.warning(result.errors.join('\n'));
-        }
-      });
+    this.decrease.emit();
   }
   onItemClick() {
     this.open.emit(this.cartItem);
