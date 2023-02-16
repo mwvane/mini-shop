@@ -3,7 +3,9 @@ import { User } from './user';
 
 export interface CartItem {
   id?: number;
-  item: Item;
+  itemId?: number;
   quantity: number;
-  user: User;
+  totalPrice: number;
+  voucherPrice: number;
+  userId?: number;
 }
