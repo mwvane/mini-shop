@@ -6,6 +6,7 @@ import { CartItem } from '../Model/cartItem';
 import { AuthService } from '../service/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmationService } from 'primeng/api';
+import { VoucherService } from '../service/voucher.service';
 
 @Component({
   selector: 'app-home',
@@ -17,18 +18,19 @@ export class HomeComponent implements OnInit {
   constructor(
     private service: ItemService,
     private authService: AuthService,
+    private voucherService: VoucherService,
     private router: Router,
     private dialog: ConfirmationService,
-    private msgService: ToastrService,
+    private msgService: ToastrService
   ) {}
   items: Item[] = [];
   loggedUser: any;
   cartItems: CartItem[] = [];
-  selectedCartItem: any
+  selectedCartItem: any;
   isItemsLoading = true;
   isCartLoading = true;
-  isbuyModalOpen: boolean = false
-
+  isbuyModalOpen: boolean = false;
+  isVoucherKeyConfirmed = false;
   ngOnInit(): void {
     const user = this.authService.userPayload;
     if (user) {
@@ -38,17 +40,19 @@ export class HomeComponent implements OnInit {
     }
   }
   onAddToCart(item: Item) {
-    this.service.addToCart(item, this.loggedUser.id).subscribe((data) => {
+    const cartItem: CartItem = {
+      itemId: item.id,
+      userId: this.authService.userPayload.id,
+      quantity: 1,
+      totalPrice: item.price,
+      voucherPrice: 0,
+    };
+    this.service.addToCart(cartItem).subscribe((data) => {
       if (!data.res) {
         this.msgService.warning(data.errors.join('\n'));
       } else {
-        const newItem: CartItem = {
-          id: Number(data.res),
-          item: item,
-          quantity: 1,
-          user: this.loggedUser,
-        };
-        this.cartItems.unshift(newItem);
+        const item: any = data.res;
+        this.cartItems.unshift(item);
         item.quantity--;
       }
     });
@@ -60,9 +64,9 @@ export class HomeComponent implements OnInit {
         break;
       }
   }
-  onCartItemOpen(cartItem: CartItem){
-    this.selectedCartItem = cartItem
-    this.isbuyModalOpen = true
+  onCartItemOpen(cartItem: CartItem) {
+    this.selectedCartItem = cartItem;
+    this.isbuyModalOpen = true;
   }
   onCartItemDelete(id?: number) {
     this.dialog.confirm({
@@ -105,8 +109,7 @@ export class HomeComponent implements OnInit {
             this.items = this.items.filter((item) => item.id != itemId);
             this.msgService.success('პროდუქტი წარმატებით წაიშალა!');
             this.loadCartItems();
-          }
-          else{
+          } else {
             this.msgService.success('პროდუქტი ვერ წაიშალა!');
           }
         });
@@ -122,10 +125,9 @@ export class HomeComponent implements OnInit {
   }
   loadCartItems() {
     this.isCartLoading = true;
-
     this.service.getCartItems(this.loggedUser.id).subscribe((data) => {
       this.cartItems = data;
-      debugger
+      debugger;
       this.isCartLoading = false;
     });
   }
@@ -137,4 +139,49 @@ export class HomeComponent implements OnInit {
       this.isItemsLoading = false;
     });
   }
+  onCheckVoucherKey(key: string) {
+    this.voucherService.getVoucher(key).subscribe((data) => {
+      if (data.res) {
+        let res: any = data.res;
+        this.isVoucherKeyConfirmed = true;
+        this.selectedCartItem.voucherPrice = res.price;
+        if (this.selectedCartItem.totalPrice > res.price) {
+          this.service
+            .updateCartItem(this.selectedCartItem)
+            .subscribe((data) => {
+              if (data.res) {
+                this.msgService.success(
+                  `მითითებულ პროდუქტზე დაგაკლდათ ${res.price} ₾`
+                );
+              }
+            });
+        } else {
+        }
+      } else {
+        this.msgService.error(data.errors.join('\n'));
+      }
+    });
+  }
+   onQuantityDecrease(item:any){
+    this.service
+      .updateCartItemQuantity(item.id, -1)
+      .subscribe((data) => {
+        if (data.res != null) {
+          item.quantity--;
+        } else {
+          this.msgService.warning(data.errors.join('\n'));
+        }
+      });
+   }
+   onQuantityIncrease(item:any){
+    this.service
+      .updateCartItemQuantity(item.id, 1)
+      .subscribe((data) => {
+        if (data.res != null) {
+          item.quantity++;
+        } else {
+          this.msgService.warning(data.errors.join('\n'));
+        }
+      });
+   }
 }
