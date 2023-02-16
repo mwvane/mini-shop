@@ -1,0 +1,67 @@
+<p-dialog
+  [(visible)]="openDialog"
+  [style]="{ width: '450px' }"
+  header="პროდუქტების დეტალები"
+  [modal]="true"
+  styleClass="p-fluid"
+  (onHide)="onClose()"
+>
+  <ng-template pTemplate="body">
+    <div class="details">
+      <h4>Name: {{ data.name }}</h4>
+      <p>
+        <i class="pi pi-dollar"></i>Peice: {{ data.item.price }}
+      </p>
+      <div class="d-flex align-items-center my-3">
+        <span>Quantity: {{ data.quantity }}</span>
+        <app-quantity-selector
+          [currentQuantity]="data.quantity"
+          (increase)="onIncrease()"
+          (decrease)="onDecrease()"
+          class="px-3"
+        ></app-quantity-selector>
+      </div>
+      <p>
+        Total ptice:
+        {{
+          data.quantity * data.item.price -
+            data.voucherPrice
+        }}
+      </p>
+    </div>
+    <div *ngIf="!data.voucherPrice" class="row g-0 py-4">
+      <div class="col-10">
+        <span class="p-float-label">
+          <input id="float-input" type="text" pInputText #key />
+          <label for="float-input">ფასდაკლების კოდი</label>
+        </span>
+      </div>
+      <div class="col">
+        <button
+          pButton
+          class="p-button-rounded p-button-sm p-button-text p-button-warning mx-2"
+          icon="pi pi-check"
+          (click)="onCheckKey(key.value)"
+        ></button>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <button
+      pButton
+      pRipple
+      label="გაუქმება"
+      icon="pi pi-times"
+      class="p-button-text p-button-danger"
+      (click)="onClose()"
+    ></button>
+    <button
+      pButton
+      pRipple
+      label="ყიდვა"
+      icon="pi pi-dollar"
+      class="p-button-text p-button-success"
+      (click)="onSubmit()"
+    ></button>
+  </ng-template>
+</p-dialog>
