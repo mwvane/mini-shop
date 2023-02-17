@@ -12,6 +12,7 @@
             <th>Name</th>
             <th>Quantity</th>
             <th>TotalPrice</th>
+            <th>Vouvher Price</th>
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-product>
@@ -19,6 +20,7 @@
             <td>{{product.productName}}</td>
             <td>{{product.quantity}}</td>
             <td>{{product.totalPrice}} ₾</td>
+            <td>{{product.voucherPrice}} ₾</td>
         </tr>
     </ng-template>
 </p-table>

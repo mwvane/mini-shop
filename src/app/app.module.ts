@@ -39,6 +39,8 @@ import { UserDialogComponent } from './modal/user-dialog/user-dialog.component';
 import { ProductDialogComponent } from './modal/product-dialog/product-dialog.component';
 import { MyProductsComponent } from './modal/my-products/my-products.component';
 import { BuyComponent } from './modal/buy/buy.component';
+import {SlideMenuModule} from 'primeng/slidemenu';
+import { ShowVoucherComponent } from './modal/show-voucher/show-voucher.component';
 
 @NgModule({
   declarations: [
@@ -57,6 +59,7 @@ import { BuyComponent } from './modal/buy/buy.component';
     ProductDialogComponent,
     MyProductsComponent,
     BuyComponent,
+    ShowVoucherComponent,
   ],
   imports: [
     BrowserModule,
@@ -84,6 +87,7 @@ import { BuyComponent } from './modal/buy/buy.component';
     InputNumberModule,
     TabMenuModule,
     CalendarModule,
+    SlideMenuModule
   ],
   providers: [
     {

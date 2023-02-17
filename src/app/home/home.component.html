@@ -1,9 +1,17 @@
 <div class="main-container">
   <div class="custom-header shadow">
     <a *ngIf="loggedUser.role === 'admin'" href="admin" class="custom-link"
-      >admin panel</a
-    >
+      >admin panel</a>
     <div>
+      <button
+        *ngIf="loggedUser.role === 'admin' || loggedUser.role === 'seller'"
+        pButton
+        label="Show vouchers"
+        class="p-button-rounded p-button-sm p-button-text px-1 mx-2"
+        icon="pi pi-dollar"
+        style="height: 12px; font-size: 10px; color: #67d965"
+        (click)="openVoucherShowModal()"
+      ></button>
       <button
         *ngIf="loggedUser.role === 'admin' || loggedUser.role === 'seller'"
         pButton
@@ -122,7 +130,7 @@
 <p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>
 <app-buy
   [data]="selectedCartItem"
-  [openDialog]="openBuyDialog"
+  [openDialog]="buyModal"
   (checkVoucherKey)="onCheckVoucherKey($event)"
   (increaseQuantity)="onQuantityIncrease(selectedCartItem)"
   (decreaseQuantity)="onQuantityDecrease(selectedCartItem)"
@@ -131,13 +139,17 @@
 ></app-buy>
 
 <app-my-products
-  [openDialog]="myProductDialog"
+  [openDialog]="myProductModal"
   [data]="myProducts"
   (close)="onMyProductModalClose()"
 ></app-my-products>
 
 <app-generate-voucher
-  [openDialog]="voucherDialog"
+  [openDialog]="voucherCreateModal"
   (close)="onVoucherDialogClose()"
   (submit)="onCreateVoucher($event)"
 ></app-generate-voucher>
+
+<app-show-voucher [openDialog]="voucherShowModal" (close)="onVoucherShowModalClose()" [data]="vouchers">
+
+</app-show-voucher>

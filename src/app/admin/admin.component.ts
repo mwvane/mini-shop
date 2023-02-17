@@ -16,15 +16,15 @@ import { VoucherService } from '../service/voucher.service';
   providers: [ConfirmationService],
 })
 export class AdminComponent {
-  productDialog: boolean = false;
-  userDialog: boolean = false;
+  productModal: boolean = false;
+  userModal: boolean = false;
   products: Item[] = [{ name: '', price: 0, quantity: 0 }];
   product: any;
   vouchers: Voucher[] = [
     { key: '', price: 0, isValid: false, createdBy: 0, isUsed: false },
   ];
-  voucher: any;
-  voucherDialog: boolean = false;
+  voucher: Voucher = this.getEmptyVoucher()
+  voucherModal: boolean = false;
   selectedProducts: any;
   users: User[] = [
     { email: '', firstname: '', lastname: '', password: '', role: '', id: 0 },
@@ -53,6 +53,22 @@ export class AdminComponent {
     this.loadusers();
     this.loadVouchers();
   }
+  getEmptyVoucher() {
+    return {
+      price: 10,
+      key: '',
+      isUsed: false,
+      validDate: this.addDays(5),
+      isValid: true,
+      createdBy: 0,
+    };
+  }
+  addDays(days: number) {
+    let dateNow = new Date();
+    let validate = new Date();
+    validate.setDate(dateNow.getDate() + days);
+    return validate;
+  }
   loadProducts() {
     this.productService
       .getAllItems()
@@ -71,15 +87,15 @@ export class AdminComponent {
   openNew() {
     if (this.currentMenuTab.label === 'Users') {
       this.user = {};
-      this.userDialog = true;
+      this.userModal = true;
     }
     if (this.currentMenuTab.label === 'Products') {
       this.product = {};
-      this.productDialog = true;
+      this.productModal = true;
     }
     if (this.currentMenuTab.label === 'Vouchers') {
-      this.voucher = {};
-      this.voucherDialog = true;
+      this.voucher = this.getEmptyVoucher();
+      this.voucherModal = true;
     }
     this.submitted = false;
   }
@@ -113,15 +129,15 @@ export class AdminComponent {
 
     if (this.currentMenuTab.label === 'Users') {
       this.user = { ...item };
-      this.userDialog = true;
+      this.userModal = true;
     }
     if (this.currentMenuTab.label === 'Products') {
       this.product = { ...item };
-      this.productDialog = true;
+      this.productModal = true;
     }
     if (this.currentMenuTab.label === 'Vouchers') {
       this.voucher = { ...item };
-      this.voucherDialog = true;
+      this.voucherModal = true;
     }
   }
 
@@ -154,7 +170,7 @@ export class AdminComponent {
           if (data.res) {
             this.users = this.users.filter((val) => val.id !== user.id);
             this.msgService.success('მომხმარებელი წარმატებით წაიშალა!');
-            this.user = {};
+            this.user = this.getEmptyVoucher()
           }
         });
       },
@@ -171,7 +187,7 @@ export class AdminComponent {
           if (data.res) {
             this.vouchers = this.vouchers.filter((val) => val.id != voucher.id);
             this.msgService.success('ვაუჩერი წარმატებით წაიშალა!');
-            this.voucher = {};
+            this.voucher = this.getEmptyVoucher()
           }
         });
       },
@@ -179,10 +195,10 @@ export class AdminComponent {
   }
 
   hideDialog() {
-    this.productDialog = false;
+    this.productModal = false;
     this.submitted = false;
-    this.userDialog = false;
-    this.voucherDialog = false;
+    this.userModal = false;
+    this.voucherModal = false;
   }
 
   saveDialogResult(result: any) {
@@ -200,7 +216,7 @@ export class AdminComponent {
           }
           this.user = {};
           this.users = [...this.users];
-          this.userDialog = false;
+          this.userModal = false;
         });
       } else {
         this.authService.signup(result).subscribe((data) => {
@@ -210,7 +226,7 @@ export class AdminComponent {
             this.msgService.success('მომხმარებელი წარმატებით შეიქმნა!');
             this.user = {};
             this.users = [...this.users];
-            this.userDialog = false;
+            this.userModal = false;
           } else {
             this.msgService.error(data.errors.join('\n'));
           }
@@ -231,7 +247,7 @@ export class AdminComponent {
             }
             this.product = {};
             this.product = [...this.users];
-            this.productDialog = false;
+            this.productModal = false;
           });
         } else {
           this.productService.addItem(this.product).subscribe((data) => {
@@ -241,7 +257,7 @@ export class AdminComponent {
               this.msgService.success('პროდუქტი წარმატებით შეიქმნა!');
               this.product = {};
               this.products = [...this.products];
-              this.productDialog = false;
+              this.productModal = false;
             }
           });
         }
@@ -269,8 +285,8 @@ export class AdminComponent {
           }
         });
       }
-      this.voucher = {};
-      this.voucherDialog = false;
+      this.voucher = this.getEmptyVoucher();
+      this.voucherModal = false;
     }
   }
   onGenerateKey() {

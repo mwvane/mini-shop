@@ -277,7 +277,7 @@
 
 <!-- product modal -->
 <app-product-dialog
-  [openDialog]="productDialog"
+  [openDialog]="productModal"
   (close)="hideDialog()"
   (submit)="saveDialogResult($event)"
   [data]="product"
@@ -285,7 +285,7 @@
 
 <!-- user modal -->
 <app-user-dialog
-  [openDialog]="userDialog"
+  [openDialog]="userModal"
   (close)="hideDialog()"
   (submit)="saveDialogResult($event)"
   [data]="user"
@@ -293,8 +293,7 @@
 
 <!-- Voucher modal -->
 <app-generate-voucher
-  *ngIf="voucherDialog"
-  [openDialog]="voucherDialog"
+  [openDialog]="voucherModal"
   (close)="hideDialog()"
   [data]="voucher"
   (submit)="saveDialogResult($event)"

@@ -7,4 +7,5 @@ export interface SoldProduct {
   userId?: number;
   quantity: number;
   totalPrice: number;
+  voucherPrice:number;
 }
