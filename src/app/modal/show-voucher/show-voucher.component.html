@@ -1,0 +1,29 @@
+<p-dialog
+  [(visible)]="openDialog"
+  [style]="{ width: 'auto' }"
+  [modal]="true"
+  header="ჩემი პროდუქტები"
+  styleClass="p-fluid"
+  (onHide)="onClose()"
+>
+<p-table [value]="data" styleClass="p-datatable-striped" [tableStyle]="{'min-width': '50rem'}">
+    <ng-template pTemplate="header" class="my-2">
+        <tr>
+            <th>Key</th>
+            <th>Valid Date</th>
+            <th>Is Valid</th>
+            <th>Is Used</th>
+            <th>Vouvher Price</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-product>
+        <tr>
+            <td>{{product.key}}</td>
+            <td>{{product.validDate}}</td>
+            <td>{{product.isValid}}</td>
+            <td>{{product.isUsed}}</td>
+            <td>{{product.price}}</td>
+        </tr>
+    </ng-template>
+</p-table>
+</p-dialog>
