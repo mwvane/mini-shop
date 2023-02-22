@@ -11,7 +11,7 @@ import { order } from '../Model/order';
 import { Voucher } from '../Model/voucher';
 import { VoucherStatus } from '../enums/voucherStatus';
 import { Helper } from '../helpers/helper';
-import * as moment from 'moment';
+import { CartItemForApi } from '../Model/cartItemForApi';
 
 @Component({
   selector: 'app-home',
@@ -41,8 +41,8 @@ export class HomeComponent implements OnInit {
   voucherShowModal = false;
   isVoucherKeyConfirmed = false;
   vouchers: Voucher[] = [];
-  openFilterTable:boolean = false
-  openTable(){
+  openFilterTable: boolean = false;
+  openTable() {
     this.openFilterTable = true;
   }
   ngOnInit(): void {
@@ -51,21 +51,61 @@ export class HomeComponent implements OnInit {
       this.loggedUser = user;
       this.loadProducts();
       this.loadCartItems();
-      this.loadSoldProducts();
+      this.loadOrders();
       this.loadVouchers();
-      // alert(moment(new Date()).format('l'))
     }
   }
 
+  // Products functions --------------------------------------
+  loadProducts() {
+    this.isItemsLoading = true;
+    this.service.getAllProducts().subscribe((data) => {
+      this.products = data;
+      this.isItemsLoading = false;
+    });
+  }
+
+  onCreateItem() {
+    this.router.navigateByUrl('editItem/');
+  }
+
+  onEditItem(itemId: number) {
+    this.router.navigate(['editItem/', itemId]);
+  }
+
+  onRemoveItem(itemId: number) {
+    this.dialog.confirm({
+      message: 'ნამდვილად გინდათ პროდუქტის წაშლა?',
+      header: 'პროდუქტის წაშლა',
+      icon: 'pi pi-question',
+      accept: () => {
+        this.service.removeItem([itemId]).subscribe((data) => {
+          if (data.res) {
+            this.products = this.products.filter((item) => item.id != itemId);
+            this.msgService.success('პროდუქტი წარმატებით წაიშალა!');
+            this.loadCartItems();
+          } else {
+            this.msgService.success('პროდუქტი ვერ წაიშალა!');
+          }
+        });
+      },
+    });
+  }
+
+  // CartItem functions --------------------------------------
+
+  loadCartItems() {
+    this.isCartLoading = true;
+    this.service.getCartItems(this.loggedUser.id).subscribe((data) => {
+      this.cartItems = data;
+      this.isCartLoading = false;
+    });
+  }
+
   onAddToCart(product: Product) {
-    const cartItem: any = {
-      id: 0,
+    const cartItem: CartItemForApi = {
       productId: product.id,
       userId: this.authService.userPayload.id,
-      quantity: 0,
-      totalPrice: 0,
-      voucherId: null,
-      vocherAmount: 0,
     };
 
     this.service.addToCart(cartItem).subscribe((data) => {
@@ -84,11 +124,6 @@ export class HomeComponent implements OnInit {
     if (item) {
       item.quantity -= value;
     }
-  }
-
-  onCartItemOpen(cartItem: CartItem) {
-    this.selectedCartItem = cartItem;
-    this.buyModal = true;
   }
 
   onCartItemRemove(id?: number) {
@@ -112,51 +147,103 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  onLogout() {
-    this.dialog.confirm({
-      message: 'ნამდვილად გსურთ გასვლა?',
-      header: 'გასვლა',
-      icon: 'pi pi-question',
-      accept: () => {
-        this.authService.logOut();
-        this.router.navigateByUrl('login');
-      },
+  onCartItemOpen(cartItem: CartItem) {
+    this.selectedCartItem = cartItem;
+    this.buyModal = true;
+  }
+
+  onQuantityDecrease(item: any) {
+    this.service.updateCartItemQuantity(item.id, -1).subscribe((data) => {
+      if (data.res != null) {
+        item.quantity--;
+        this.onCartItemChange(item, -1);
+      } else {
+        this.msgService.warning(data.errors.join('\n'));
+      }
     });
   }
 
-  loadCartItems() {
-    this.isCartLoading = true;
-    this.service.getCartItems(this.loggedUser.id).subscribe((data) => {
-      debugger;
-      this.cartItems = data;
-      this.isCartLoading = false;
+  onQuantityIncrease(item: any) {
+    this.service.updateCartItemQuantity(item.id, 1).subscribe((data) => {
+      if (data.res != null) {
+        item.quantity++;
+        this.onCartItemChange(item, +1);
+      } else {
+        this.msgService.warning(data.errors.join('\n'));
+      }
     });
   }
 
-  loadProducts() {
-    this.isItemsLoading = true;
-    this.service.getAllProducts().subscribe((data) => {
-      this.products = data;
-      this.isItemsLoading = false;
-    });
-  }
-
-  loadSoldProducts() {
-    this.service
-      .getOrders(Number(this.authService.userPayload.id))
-      .subscribe((data) => {
-        if (data.res) {
-          const res: any = data.res;
-          this.myOrders = res;
+  onBuy(item: any) {
+    this.service.buyProduct(item.id).subscribe((data) => {
+      if (data.res) {
+        debugger;
+        this.msgService.success('პროდუქტი წარმატებით იყიდეთ!');
+        this.cartItems = this.cartItems.filter((val) => val.id != item.id);
+        if (item.voucher) {
+          let voucher = Helper.getItemById(item.voucher, this.vouchers);
+          if (voucher) {
+            voucher.status = VoucherStatus.Used;
+          }
         }
-      });
+        const res: any = data.res;
+        this.myOrders.unshift(res);
+      } else {
+        this.msgService.error(data.errors.join('\n'));
+      }
+    });
+    this.buyModal = false;
   }
 
+  //Voucher functions -----------------------------------------
   loadVouchers() {
     this.voucherService.getAllVouchers().subscribe((data) => {
       if (data) {
         this.vouchers = data;
       }
+    });
+  }
+
+  onCreateVoucher(voucher: Voucher) {
+    debugger;
+    this.voucherService.create(voucher).subscribe((data) => {
+      if (data.res) {
+        this.msgService.success('ვაუჩერი წარმატებით შეიქმნა!');
+        const res: any = data.res;
+        this.vouchers.unshift(res);
+        this.voucherCreateModal = false;
+      } else {
+        this.msgService.error(data.errors.join('\n'));
+      }
+    });
+  }
+
+  onVoucherRemove(cartItem: any) {
+    this.dialog.confirm({
+      message: 'ნამდვილად გინდათ ვაუჩერის გაუქმება?',
+      header: 'ვაჩერის გაუქმება',
+      icon: 'pi pi-question',
+      accept: () => {
+        let voucher = cartItem.voucher;
+        if (
+          cartItem.voucherAmount > 0 &&
+          voucher.status === VoucherStatus.Valid
+        ) {
+          voucher.price += cartItem.voucherAmount;
+        }
+        cartItem.voucher.status = VoucherStatus.Valid;
+        this.voucherService.update(voucher).subscribe((data) => {
+          if (data.res) {
+            const res: any = data.res;
+            cartItem.voucher = null;
+            cartItem.voucherAmount = 0;
+            this.updateVoucher(res);
+            this.msgService.success('ვაუჩერი წარმატებით გაუქმდა');
+            this.service.updateCartItem(cartItem).subscribe();
+            this.dialog.close();
+          }
+        });
+      },
     });
   }
 
@@ -202,55 +289,20 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  onQuantityDecrease(item: any) {
-    this.service.updateCartItemQuantity(item.id, -1).subscribe((data) => {
-      if (data.res != null) {
-        item.quantity--;
-        this.onCartItemChange(item, -1);
-      } else {
-        this.msgService.warning(data.errors.join('\n'));
-      }
-    });
-  }
-
-  onQuantityIncrease(item: any) {
-    this.service.updateCartItemQuantity(item.id, 1).subscribe((data) => {
-      if (data.res != null) {
-        item.quantity++;
-        this.onCartItemChange(item, +1);
-      } else {
-        this.msgService.warning(data.errors.join('\n'));
-      }
-    });
-  }
-
-  selectMenuItem(e: any) {
-    console.log(e.target);
-    alert(e.target.value);
-  }
-
-  onBuyDialogClose() {
-    this.buyModal = false;
-  }
-
-  onBuy(item: any) {
-    this.service.buyProduct(item.id).subscribe((data) => {
-      if (data.res) {
-        debugger
-        this.msgService.success('პროდუქტი წარმატებით იყიდეთ!');
-        this.cartItems = this.cartItems.filter((val) => val.id != item.id);
-        if (item.voucher) {
-          let voucher = Helper.getItemById(item.voucher, this.vouchers);
-          if (voucher) {
-            voucher.status = VoucherStatus.Used;
-          }
+  //Order functions --------------------------------------------
+  loadOrders() {
+    this.service
+      .getOrders(Number(this.authService.userPayload.id))
+      .subscribe((data) => {
+        if (data.res) {
+          const res: any = data.res;
+          this.myOrders = res;
         }
-        const res: any = data.res;
-        this.myOrders.unshift(res);
-      } else {
-        this.msgService.error(data.errors.join('\n'));
-      }
-    });
+      });
+  }
+
+  // Modal controls -------------------------------------------
+  onBuyDialogClose() {
     this.buyModal = false;
   }
 
@@ -277,86 +329,27 @@ export class HomeComponent implements OnInit {
   onVoucherShowModalClose() {
     this.voucherShowModal = false;
   }
-
-  onCreateVoucher(voucher: Voucher) {
-    this.voucherService.create(voucher).subscribe((data) => {
-      if (data.res) {
-        this.msgService.success('ვაუჩერი წარმატებით შეიქმნა!');
-        const res: any = data.res;
-        this.vouchers.unshift(res);
-        this.voucherCreateModal = false;
-      } else {
-        this.msgService.error(data.errors.join('\n'));
-      }
-    });
-  }
-
-  onVoucherRemove(cartItem: any) {
+  
+  //Other functions ---------------------------------------------
+  onLogout() {
     this.dialog.confirm({
-      message: 'ნამდვილად გინდათ ვაუჩერის გაუქმება?',
-      header: 'ვაჩერის გაუქმება',
+      message: 'ნამდვილად გსურთ გასვლა?',
+      header: 'გასვლა',
       icon: 'pi pi-question',
       accept: () => {
-        debugger;
-        let voucher = cartItem.voucher;
-        if (
-          cartItem.voucherAmount > 0 &&
-          voucher.status === VoucherStatus.Valid
-        ) {
-          voucher.price += cartItem.voucherAmount;
-        }
-        cartItem.voucher.status = VoucherStatus.Valid;
-        this.voucherService.update(voucher).subscribe((data) => {
-          if (data.res) {
-            debugger;
-            const res: any = data.res;
-            cartItem.voucher = null;
-            cartItem.voucherAmount = 0;
-            this.updateVoucher(res);
-            this.msgService.success('ვაუჩერი წარმატებით გაუქმდა');
-            this.service.updateCartItem(cartItem).subscribe();
-            this.dialog.close();
-          }
-        });
+        this.authService.logOut();
+        this.router.navigateByUrl('login');
       },
     });
   }
 
-  showVouchers() {
-    this.voucherService.getAllVouchers().subscribe((data) => {
-      console.log(data);
-    });
+  selectMenuItem(e: any) {
+    console.log(e.target);
+    alert(e.target.value);
   }
 
-  // admin---------------
-  onRemoveItem(itemId: number) {
-    this.dialog.confirm({
-      message: 'ნამდვილად გინდათ პროდუქტის წაშლა?',
-      header: 'პროდუქტის წაშლა',
-      icon: 'pi pi-question',
-      accept: () => {
-        this.service.removeItem([itemId]).subscribe((data) => {
-          if (data.res) {
-            this.products = this.products.filter((item) => item.id != itemId);
-            this.msgService.success('პროდუქტი წარმატებით წაიშალა!');
-            this.loadCartItems();
-          } else {
-            this.msgService.success('პროდუქტი ვერ წაიშალა!');
-          }
-        });
-      },
-    });
-  }
 
-  onEditItem(itemId: number) {
-    this.router.navigate(['editItem/', itemId]);
-  }
-
-  onCreateItem() {
-    this.router.navigateByUrl('editItem/');
-  }
-
-  // Helpers----------
+  // Helpers ---------------------------------------------------
   updateVoucher(voucher: any) {
     const index = Helper.getItemIndexById(voucher.id, this.vouchers);
     if (index >= 0) {

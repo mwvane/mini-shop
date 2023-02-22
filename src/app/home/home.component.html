@@ -157,8 +157,9 @@
 
 <app-show-voucher
   [openDialog]="voucherShowModal"
-  (close)="onVoucherShowModalClose()"
   [data]="vouchers"
+  (close)="onVoucherShowModalClose()"
+  (add)="openVoucherDialog()"
 >
 </app-show-voucher>
 <app-filterable-table [openDialog]="openFilterTable" [data]="myOrders"></app-filterable-table>
