@@ -33,14 +33,16 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { TabMenuModule } from 'primeng/tabmenu';
-import {CalendarModule} from 'primeng/calendar';
+import { CalendarModule } from 'primeng/calendar';
 import { GenerateVoucherComponent } from './modal/generate-voucher/generate-voucher.component';
 import { UserDialogComponent } from './modal/user-dialog/user-dialog.component';
 import { ProductDialogComponent } from './modal/product-dialog/product-dialog.component';
 import { MyProductsComponent } from './modal/my-products/my-products.component';
 import { BuyComponent } from './modal/buy/buy.component';
-import {SlideMenuModule} from 'primeng/slidemenu';
+import { SliderModule } from 'primeng/slider';
+import { MultiSelectModule } from 'primeng/multiselect';
 import { ShowVoucherComponent } from './modal/show-voucher/show-voucher.component';
+import { FilterableTableComponent } from './modal/filterable-table/filterable-table.component';
 
 @NgModule({
   declarations: [
@@ -60,6 +62,7 @@ import { ShowVoucherComponent } from './modal/show-voucher/show-voucher.componen
     MyProductsComponent,
     BuyComponent,
     ShowVoucherComponent,
+    FilterableTableComponent,
   ],
   imports: [
     BrowserModule,
@@ -87,7 +90,8 @@ import { ShowVoucherComponent } from './modal/show-voucher/show-voucher.componen
     InputNumberModule,
     TabMenuModule,
     CalendarModule,
-    SlideMenuModule
+    SliderModule,
+    MultiSelectModule,
   ],
   providers: [
     {

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Route, Router } from '@angular/router';
-import { ItemService } from '../service/item.service';
+import { ItemService } from '../service/product.service';
 import { AuthService } from '../service/auth.service';
 import { ToastrService } from 'ngx-toastr';
 
@@ -34,7 +34,7 @@ export class EditItemComponent implements OnInit {
       if (id) {
         this.caption = 'პროდუქტის განახლება';
         this.isEditMode = true;
-        this.service.getItem(params['id']).subscribe((data) => {
+        this.service.getProduct(params['id']).subscribe((data) => {
           this.item = data;
           console.log(data);
         });

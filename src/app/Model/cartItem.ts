@@ -1,8 +1,13 @@
+import { Product } from './product';
+import { User } from './user';
+import { Voucher } from './voucher';
+
 export interface CartItem {
   id?: number;
-  itemId?: number;
+  product?: Product;
   quantity: number;
   totalPrice: number;
-  voucherPrice: number;
-  userId?: number;
+  voucher?: Voucher;
+  voucherAmount: number | 0;
+  user?: User;
 }

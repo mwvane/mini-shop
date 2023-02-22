@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Item } from '../Model/item';
+import { Product } from '../Model/product';
 import { Result } from '../Model/result';
 import { CartItem } from '../Model/cartItem';
 import { User } from '../Model/user';
@@ -11,11 +11,11 @@ import { User } from '../Model/user';
 export class ItemService {
   constructor(private http: HttpClient) {}
   baseUrl: string = 'https://localhost:7129/api/Item';
-  getAllItems() {
-    return this.http.get<Item[]>(`${this.baseUrl}/getAllItems`);
+  getAllProducts() {
+    return this.http.get<Product[]>(`${this.baseUrl}/getAllProducts`);
   }
-  getItem(id: number) {
-    return this.http.get<Item>(`${this.baseUrl}/getItem?id=${id}`);
+  getProduct(id: number) {
+    return this.http.get<Product>(`${this.baseUrl}/getProductById?id=${id}`);
   }
 
   getCartItems(userId: number) {
@@ -42,18 +42,23 @@ export class ItemService {
   deleteCartItem(id: number) {
     return this.http.post(`${this.baseUrl}/deleteCartItem`, id);
   }
-  addToCart(cartItem:CartItem) {
+
+  addToCart(cartItem:any) {
     return this.http.post<Result>(`${this.baseUrl}/addToCart`, cartItem);
   }
+
   updateCartItem(cartItem: CartItem){
     return this.http.post<Result>(`${this.baseUrl}/updateCartItem`,cartItem)
   }
+
   buyProduct(id:number){
     return this.http.post<Result>(`${this.baseUrl}/buyProduct`,id)
   }
-  getSoldProducts(userId:number){
-    return this.http.get<Result>(`${this.baseUrl}/getSoldProducts?userId=${userId}`)
+
+  getOrders(userId:number){
+    return this.http.get<Result>(`${this.baseUrl}/getOrders?userId=${userId}`)
   }
+
   getProductById(id:number){
     return this.http.get(`${this.baseUrl}/getProductById?id=${id}`)
   }
@@ -62,20 +67,22 @@ export class ItemService {
   getAllUsers() {
     return this.http.get<User[]>(`${this.baseUrl}/getAllUsers`);
   }
+
   removeItem(itemIds: any[]) {
     return this.http.post<Result>(
       `https://localhost:7129/api/Admin/removeItem`,
       itemIds
     );
   }
-  updateItem(newItem: Item) {
+
+  updateItem(newItem: Product) {
     return this.http.post<Result>(
       `https://localhost:7129/api/Admin/updateItem`,
       newItem
     );
   }
+
   addItem(newItem: any) {
-    debugger;
     return this.http.post<Result>(
       `https://localhost:7129/api/Admin/createItem`,
       newItem

@@ -1,6 +1,4 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ItemService } from '../service/item.service';
-import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-cart-item',

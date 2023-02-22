@@ -8,10 +8,8 @@
 >
   <ng-template pTemplate="body">
     <div class="details">
-      <h4>Name: {{ data.name }}</h4>
-      <p>
-        <i class="pi pi-dollar"></i>Peice: {{ data.item.price }}
-      </p>
+      <h4>Name: {{ data.product.name }}</h4>
+      <p><i class="pi pi-dollar"></i> Peice: {{ data.product.price }}</p>
       <div class="d-flex align-items-center my-3">
         <span>Quantity: {{ data.quantity }}</span>
         <app-quantity-selector
@@ -21,15 +19,32 @@
           class="px-3"
         ></app-quantity-selector>
       </div>
-      <p>
-        Total ptice:
-        {{
-          data.quantity * data.item.price -
-            data.voucherPrice
-        }}
-      </p>
+      <div>
+        <p>
+          Total ptice:
+          {{ data.quantity * data.product.price }}
+        </p>
+      </div>
+      <div *ngIf="data.voucher" class="voucher">
+        <span
+          ><i class="pi pi-link"></i> Bounded voucher: -<span
+            style="color: #22c581"
+            >{{ this.data.voucherAmount}} ₾</span
+          ></span
+        >
+       <i class="pi pi-times btn-voucher-remove" (click)="onVoucherDelete()"></i>
+      </div>
+      <div *ngIf="data.voucher"  class="py-2 position-relative">
+        <p>
+          Summery:
+          <span style="color: #22c581; font-weight: bold"
+            >{{ this.data.product.price * this.data.quantity - this.data.voucherAmount}} ₾</span
+          >
+        </p>
+        
+      </div>
     </div>
-    <div *ngIf="!data.voucherPrice" class="row g-0 py-4">
+    <div *ngIf="!data.voucher" class="row g-0 py-4">
       <div class="col-10">
         <span class="p-float-label">
           <input id="float-input" type="text" pInputText #key />

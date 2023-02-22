@@ -222,14 +222,11 @@
       <th pSortableColumn="price">
         Price <p-sortIcon field="price"></p-sortIcon>
       </th>
-      <th pSortableColumn="isValid">
-        Valid Status <p-sortIcon field="isValid"></p-sortIcon>
-      </th>
       <th pSortableColumn="validDate">
         Valid date <p-sortIcon field="validDate"></p-sortIcon>
       </th>
       <th pSortableColumn="isUsed">
-        Is Used <p-sortIcon field="isUsed"></p-sortIcon>
+        Status <p-sortIcon field="isUsed"></p-sortIcon>
       </th>
       <th pSortableColumn="createdBy">
         Created by <p-sortIcon field="createdBy"></p-sortIcon>
@@ -244,9 +241,8 @@
       </td>
       <td>{{ voucher.key }}</td>
       <td>{{ voucher.price }} ₾</td>
-      <td>{{ voucher.isValid }}</td>
       <td>{{ voucher.validDate }}</td>
-      <td>{{ voucher.isUsed }}</td>
+      <td>{{ voucher.status }}</td>
       <td>{{ getUsername(voucher.createdBy) }}</td>
       <td>
         <button
@@ -272,6 +268,7 @@
     </div>
   </ng-template>
 </p-table>
+
 <p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>
 
 

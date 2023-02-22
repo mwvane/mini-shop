@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { UserRole } from 'src/app/enums/userRole';
 import { User } from 'src/app/Model/user';
 
 @Component({
@@ -18,7 +19,7 @@ export class UserDialogComponent {
   @Output() submit = new EventEmitter();
   @Output() close = new EventEmitter();
   submitted: boolean = false;
-  roles: string[] = ['admin', 'user', 'seller'];
+  roles: string[] = [UserRole.Admin, UserRole.Client, UserRole.Seller];
 
   onSubmit() {
     this.submitted = true;

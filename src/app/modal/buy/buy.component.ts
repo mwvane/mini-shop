@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CartItem } from 'src/app/Model/cartItem';
 
 @Component({
@@ -12,23 +12,28 @@ export class BuyComponent {
   @Output() increaseQuantity = new EventEmitter();
   @Output() decreaseQuantity = new EventEmitter();
   @Output() checkVoucherKey = new EventEmitter();
+  @Output() removeVoucher = new EventEmitter();
   @Output() submit = new EventEmitter();
   @Output() close = new EventEmitter();
+
   onIncrease() {
     this.increaseQuantity.emit();
   }
   onDecrease() {
     this.decreaseQuantity.emit();
   }
-  onCheckKey(key:string) {
+  onCheckKey(key: string) {
     this.checkVoucherKey.emit(key);
   }
   onSubmit() {
     this.submit.emit();
-    this.onClose()
+    this.onClose();
   }
   onClose() {
     this.close.emit();
     this.openDialog = false;
+  }
+  onVoucherDelete() {
+    this.removeVoucher.emit(this.data);
   }
 }

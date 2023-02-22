@@ -10,7 +10,7 @@
   <div class="cart-item-body py-3">
     <div class="row text-center p-2">
       <div class="col-6">
-        {{ cartItem.item.name }}
+        {{ cartItem.product.name }}
       </div>
       <div class="col-2">
         <app-quantity-selector
@@ -20,10 +20,10 @@
         ></app-quantity-selector>
       </div>
       <div class="col-2">
-        {{ cartItem.item.price }}
+        {{ cartItem.product.price }}
       </div>
       <div class="col-2 text-primary">
-        {{ cartItem.item.price * cartItem.quantity - voucherPrice }} ₾
+        {{ cartItem.product.price * cartItem.quantity}} ₾
       </div>
     </div>
   </div>

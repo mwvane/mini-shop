@@ -1,13 +1,14 @@
 import { Component } from '@angular/core';
 import { ConfirmationService } from 'primeng/api';
-import { ItemService } from '../service/item.service';
-import { Item } from '../Model/item';
+import { ItemService } from '../service/product.service';
+import { Product } from '../Model/product';
 import { ToastrService } from 'ngx-toastr';
 import { User } from '../Model/user';
 import { UserService } from '../service/user.service';
 import { AuthService } from '../service/auth.service';
 import { Voucher } from '../Model/voucher';
 import { VoucherService } from '../service/voucher.service';
+import { VoucherStatus } from '../enums/voucherStatus';
 
 @Component({
   selector: 'app-admin',
@@ -18,25 +19,25 @@ import { VoucherService } from '../service/voucher.service';
 export class AdminComponent {
   productModal: boolean = false;
   userModal: boolean = false;
-  products: Item[] = [{ name: '', price: 0, quantity: 0 }];
+  products: Product[] = [{ name: '', price: 0, quantity: 0 }];
   product: any;
   vouchers: Voucher[] = [
-    { key: '', price: 0, isValid: false, createdBy: 0, isUsed: false },
+    { key: '', price: 0, status: VoucherStatus.Valid, createdBy: 0 },
   ];
-  voucher: Voucher = this.getEmptyVoucher()
+  voucher: Voucher = this.getDefaultVoucher();
   voucherModal: boolean = false;
   selectedProducts: any;
   users: User[] = [
     { email: '', firstname: '', lastname: '', password: '', role: '', id: 0 },
   ];
   user: any;
-
   submitted: boolean = false;
   menuItems: any[] = [
     { label: 'Products', icon: 'pi pi-shopping-bag' },
     { label: 'Users', icon: 'pi pi-fw pi-users' },
     { label: 'Vouchers', icon: 'pi pi-money-bill' },
   ];
+
   currentMenuTab: any = this.menuItems[0];
 
   constructor(
@@ -47,43 +48,49 @@ export class AdminComponent {
     private confirmationService: ConfirmationService,
     private msgService: ToastrService
   ) {}
-
+  
   ngOnInit() {
     this.loadProducts();
     this.loadusers();
     this.loadVouchers();
   }
-  getEmptyVoucher() {
-    return {
+
+  getDefaultVoucher() {
+    let voucher: Voucher = {
       price: 10,
-      key: '',
-      isUsed: false,
-      validDate: this.addDays(5),
-      isValid: true,
       createdBy: 0,
+      key: '',
+      status: VoucherStatus.Valid,
+      validDate: this.addDays(5),
     };
+    return voucher;
   }
+
   addDays(days: number) {
     let dateNow = new Date();
     let validate = new Date();
     validate.setDate(dateNow.getDate() + days);
     return validate;
   }
+
   loadProducts() {
     this.productService
-      .getAllItems()
+      .getAllProducts()
       .subscribe((data) => (this.products = data));
   }
+
   loadusers() {
     this.productService.getAllUsers().subscribe((data) => {
       this.users = data;
     });
   }
+
   loadVouchers() {
     this.voucherService
       .getAllVouchers()
       .subscribe((data) => (this.vouchers = data));
   }
+
   openNew() {
     if (this.currentMenuTab.label === 'Users') {
       this.user = {};
@@ -94,7 +101,7 @@ export class AdminComponent {
       this.productModal = true;
     }
     if (this.currentMenuTab.label === 'Vouchers') {
-      this.voucher = this.getEmptyVoucher();
+      this.voucher = this.getDefaultVoucher();
       this.voucherModal = true;
     }
     this.submitted = false;
@@ -170,7 +177,7 @@ export class AdminComponent {
           if (data.res) {
             this.users = this.users.filter((val) => val.id !== user.id);
             this.msgService.success('მომხმარებელი წარმატებით წაიშალა!');
-            this.user = this.getEmptyVoucher()
+            this.user = this.getDefaultVoucher();
           }
         });
       },
@@ -187,7 +194,6 @@ export class AdminComponent {
           if (data.res) {
             this.vouchers = this.vouchers.filter((val) => val.id != voucher.id);
             this.msgService.success('ვაუჩერი წარმატებით წაიშალა!');
-            this.voucher = this.getEmptyVoucher()
           }
         });
       },
@@ -233,7 +239,6 @@ export class AdminComponent {
         });
       }
     }
-
     if (this.currentMenuTab.label === 'Products') {
       if (this.product.name.trim()) {
         if (this.product.id) {
@@ -285,13 +290,15 @@ export class AdminComponent {
           }
         });
       }
-      this.voucher = this.getEmptyVoucher();
+      this.voucher = this.getDefaultVoucher();
       this.voucherModal = false;
     }
   }
+
   onGenerateKey() {
     this.voucherService.generateKey().subscribe((data) => console.log(data));
   }
+
   findIndexById(id: number, array: any[]): number {
     for (let [index, item] of array.entries()) {
       if (item.id === id) {
@@ -300,9 +307,11 @@ export class AdminComponent {
     }
     return -1;
   }
+
   onMenuItemChange(item: any) {
     this.currentMenuTab = item;
   }
+
   getUsername(id: number) {
     const username = this.users.find((user) => user.id == id)?.email;
     return username === this.authService.userPayload.email

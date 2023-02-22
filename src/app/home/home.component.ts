@@ -1,14 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ItemService } from '../service/item.service';
-import { Item } from '../Model/item';
+import { ItemService } from '../service/product.service';
+import { Product } from '../Model/product';
 import { CartItem } from '../Model/cartItem';
 import { AuthService } from '../service/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmationService, MenuItem } from 'primeng/api';
 import { VoucherService } from '../service/voucher.service';
-import { SoldProduct } from '../Model/soldProduct';
+import { order } from '../Model/order';
 import { Voucher } from '../Model/voucher';
+import { VoucherStatus } from '../enums/voucherStatus';
+import { Helper } from '../helpers/helper';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-home',
@@ -25,10 +28,10 @@ export class HomeComponent implements OnInit {
     private dialog: ConfirmationService,
     private msgService: ToastrService
   ) {}
-  items: Item[] = [];
+  products: Product[] = [];
   loggedUser: any;
   cartItems: CartItem[] = [];
-  myProducts: SoldProduct[] = [];
+  myOrders: order[] = [];
   selectedCartItem: any;
   isItemsLoading = true;
   isCartLoading = true;
@@ -38,46 +41,57 @@ export class HomeComponent implements OnInit {
   voucherShowModal = false;
   isVoucherKeyConfirmed = false;
   vouchers: Voucher[] = [];
+  openFilterTable:boolean = false
+  openTable(){
+    this.openFilterTable = true;
+  }
   ngOnInit(): void {
     const user = this.authService.userPayload;
     if (user) {
       this.loggedUser = user;
-      this.loadItems();
+      this.loadProducts();
       this.loadCartItems();
       this.loadSoldProducts();
       this.loadVouchers();
+      // alert(moment(new Date()).format('l'))
     }
   }
-  onAddToCart(item: Item) {
-    const cartItem: CartItem = {
-      itemId: item.id,
+
+  onAddToCart(product: Product) {
+    const cartItem: any = {
+      id: 0,
+      productId: product.id,
       userId: this.authService.userPayload.id,
       quantity: 0,
-      totalPrice: item.price,
-      voucherPrice: 0,
+      totalPrice: 0,
+      voucherId: null,
+      vocherAmount: 0,
     };
+
     this.service.addToCart(cartItem).subscribe((data) => {
       if (!data.res) {
         this.msgService.warning(data.errors.join('\n'));
       } else {
         const payload: any = data.res;
         this.cartItems.unshift(payload);
-        item.quantity--;
+        product.quantity--;
       }
     });
   }
+
   onCartItemChange(cartItem: any, value: number) {
-    let item = this.items.find((val) => val.id === cartItem.item.id);
+    let item = this.products.find((val) => val.id === cartItem.product.id);
     if (item) {
       item.quantity -= value;
     }
-    debugger;
   }
+
   onCartItemOpen(cartItem: CartItem) {
     this.selectedCartItem = cartItem;
     this.buyModal = true;
   }
-  onCartItemDelete(id?: number) {
+
+  onCartItemRemove(id?: number) {
     this.dialog.confirm({
       message: 'ნამდვილად გინდათ კალათიდან პროდუქტის წაშლა?',
       header: 'კალათიდან პროდუქტის წაშლა',
@@ -86,16 +100,18 @@ export class HomeComponent implements OnInit {
         if (id) {
           this.service.deleteCartItem(id).subscribe((data) => {
             if (data) {
-              debugger;
               this.cartItems = this.cartItems.filter((item) => item.id != id);
               this.msgService.success('პრდუქტი, კალათიდან წარმატებით წაიშალა');
-              this.loadItems();
+              this.loadProducts();
+              this.loadVouchers();
+              this.dialog.close();
             }
           });
         }
       },
     });
   }
+
   onLogout() {
     this.dialog.confirm({
       message: 'ნამდვილად გსურთ გასვლა?',
@@ -107,84 +123,85 @@ export class HomeComponent implements OnInit {
       },
     });
   }
+
   loadCartItems() {
     this.isCartLoading = true;
     this.service.getCartItems(this.loggedUser.id).subscribe((data) => {
+      debugger;
       this.cartItems = data;
       this.isCartLoading = false;
     });
   }
-  loadItems() {
-    this.items = [];
+
+  loadProducts() {
     this.isItemsLoading = true;
-    this.service.getAllItems().subscribe((data) => {
-      this.items = data;
+    this.service.getAllProducts().subscribe((data) => {
+      this.products = data;
       this.isItemsLoading = false;
     });
   }
+
   loadSoldProducts() {
     this.service
-      .getSoldProducts(Number(this.authService.userPayload.id))
+      .getOrders(Number(this.authService.userPayload.id))
       .subscribe((data) => {
         if (data.res) {
           const res: any = data.res;
-          this.myProducts = res;
+          this.myOrders = res;
         }
       });
   }
-  loadVouchers(){
-    this.voucherService.getAllVouchers().subscribe(data => {
-      if(data){
-        this.vouchers = data
+
+  loadVouchers() {
+    this.voucherService.getAllVouchers().subscribe((data) => {
+      if (data) {
+        this.vouchers = data;
       }
-    })
+    });
   }
+
   onCheckVoucherKey(key: string) {
     this.voucherService.getVoucher(key).subscribe((data) => {
       if (data.res) {
-        let res: any = data.res;
-        if (res.isValid) {
-          if (!res.isUsed) {
-            this.isVoucherKeyConfirmed = true;
-            if (this.selectedCartItem.totalPrice > res.price) {
-              this.selectedCartItem.voucherPrice = res.price;
+        let voucher: any = data.res;
+        const totalPrice =
+          this.selectedCartItem.product.price * this.selectedCartItem.quantity;
+        debugger;
+        if (voucher.status === VoucherStatus.Valid) {
+          if (totalPrice < voucher.price) {
+            debugger;
+            this.selectedCartItem.voucherAmount = totalPrice;
+            voucher.price -= totalPrice;
+          } else {
+            this.selectedCartItem.voucherAmount = voucher.price;
+            voucher.status = VoucherStatus.PreUsed;
+          }
+          this.selectedCartItem.voucher = voucher;
+          this.voucherService.update(voucher).subscribe((data) => {
+            if (data.res) {
               this.service
                 .updateCartItem(this.selectedCartItem)
                 .subscribe((data) => {
+                  debugger;
                   if (data.res) {
                     this.msgService.success(
-                      `${this.selectedCartItem.item.name}-ზე დაგაკლდათ ${res.price} ₾`
+                      `${this.selectedCartItem.product.name}-ზე დაგაკლდათ ${this.selectedCartItem.voucherAmount} ₾`
                     );
-                    res.isUsed = true;
-                    this.voucherService.update(res).subscribe((data) => {
-                      console.log('Voucher updated!');
-                    });
                   }
                 });
-            } else {
-              this.selectedCartItem.voucherPrice =
-                this.selectedCartItem.totalPrice;
-              res.price -= this.selectedCartItem.totalPrice;
-              this.msgService.success(
-                `${this.selectedCartItem.item.name}-ზე დაგაკლდათ ${this.selectedCartItem.totalPrice} ₾`
-              );
-              this.voucherService.update(res).subscribe((data) => {
-                if (data) {
-                  console.log(data);
-                }
-              });
+              this.updateVoucher(voucher);
+              console.log('Voucher updated!');
             }
-          } else {
-            this.msgService.error('ვაუჩერი უკვე გამოყენებულია!');
-          }
+          });
         } else {
-          this.msgService.error('ვაუჩერი მოქმედების ვადა ამოწურულია!');
+          this.msgService.error('ვაუჩერი ვერ მოიძებნა!');
         }
       } else {
         this.msgService.error(data.errors.join('\n'));
       }
     });
   }
+
   onQuantityDecrease(item: any) {
     this.service.updateCartItemQuantity(item.id, -1).subscribe((data) => {
       if (data.res != null) {
@@ -195,8 +212,8 @@ export class HomeComponent implements OnInit {
       }
     });
   }
+
   onQuantityIncrease(item: any) {
-    debugger;
     this.service.updateCartItemQuantity(item.id, 1).subscribe((data) => {
       if (data.res != null) {
         item.quantity++;
@@ -206,45 +223,61 @@ export class HomeComponent implements OnInit {
       }
     });
   }
-  selectMenuItem(e:any){
-    console.log(e.target)
-    alert(e.target.value)
+
+  selectMenuItem(e: any) {
+    console.log(e.target);
+    alert(e.target.value);
   }
+
   onBuyDialogClose() {
     this.buyModal = false;
   }
+
   onBuy(item: any) {
     this.service.buyProduct(item.id).subscribe((data) => {
       if (data.res) {
+        debugger
         this.msgService.success('პროდუქტი წარმატებით იყიდეთ!');
         this.cartItems = this.cartItems.filter((val) => val.id != item.id);
+        if (item.voucher) {
+          let voucher = Helper.getItemById(item.voucher, this.vouchers);
+          if (voucher) {
+            voucher.status = VoucherStatus.Used;
+          }
+        }
         const res: any = data.res;
-        debugger;
-        this.myProducts.unshift(res);
+        this.myOrders.unshift(res);
       } else {
         this.msgService.error(data.errors.join('\n'));
       }
     });
     this.buyModal = false;
   }
+
   onMyProduct() {
     this.myProductModal = true;
   }
+
   onMyProductModalClose() {
     this.myProductModal = false;
   }
+
   openVoucherDialog() {
     this.voucherCreateModal = true;
   }
-  openVoucherShowModal(){
+
+  openVoucherShowModal() {
     this.voucherShowModal = true;
   }
+
   onVoucherDialogClose() {
     this.voucherCreateModal = false;
   }
-  onVoucherShowModalClose(){
-    this.voucherShowModal = false
+
+  onVoucherShowModalClose() {
+    this.voucherShowModal = false;
   }
+
   onCreateVoucher(voucher: Voucher) {
     this.voucherService.create(voucher).subscribe((data) => {
       if (data.res) {
@@ -257,6 +290,44 @@ export class HomeComponent implements OnInit {
       }
     });
   }
+
+  onVoucherRemove(cartItem: any) {
+    this.dialog.confirm({
+      message: 'ნამდვილად გინდათ ვაუჩერის გაუქმება?',
+      header: 'ვაჩერის გაუქმება',
+      icon: 'pi pi-question',
+      accept: () => {
+        debugger;
+        let voucher = cartItem.voucher;
+        if (
+          cartItem.voucherAmount > 0 &&
+          voucher.status === VoucherStatus.Valid
+        ) {
+          voucher.price += cartItem.voucherAmount;
+        }
+        cartItem.voucher.status = VoucherStatus.Valid;
+        this.voucherService.update(voucher).subscribe((data) => {
+          if (data.res) {
+            debugger;
+            const res: any = data.res;
+            cartItem.voucher = null;
+            cartItem.voucherAmount = 0;
+            this.updateVoucher(res);
+            this.msgService.success('ვაუჩერი წარმატებით გაუქმდა');
+            this.service.updateCartItem(cartItem).subscribe();
+            this.dialog.close();
+          }
+        });
+      },
+    });
+  }
+
+  showVouchers() {
+    this.voucherService.getAllVouchers().subscribe((data) => {
+      console.log(data);
+    });
+  }
+
   // admin---------------
   onRemoveItem(itemId: number) {
     this.dialog.confirm({
@@ -266,7 +337,7 @@ export class HomeComponent implements OnInit {
       accept: () => {
         this.service.removeItem([itemId]).subscribe((data) => {
           if (data.res) {
-            this.items = this.items.filter((item) => item.id != itemId);
+            this.products = this.products.filter((item) => item.id != itemId);
             this.msgService.success('პროდუქტი წარმატებით წაიშალა!');
             this.loadCartItems();
           } else {
@@ -280,12 +351,16 @@ export class HomeComponent implements OnInit {
   onEditItem(itemId: number) {
     this.router.navigate(['editItem/', itemId]);
   }
+
   onCreateItem() {
     this.router.navigateByUrl('editItem/');
   }
-  showVouchers() {
-    this.voucherService.getAllVouchers().subscribe((data) => {
-      console.log(data);
-    });
+
+  // Helpers----------
+  updateVoucher(voucher: any) {
+    const index = Helper.getItemIndexById(voucher.id, this.vouchers);
+    if (index >= 0) {
+      this.vouchers[index] = voucher;
+    }
   }
 }

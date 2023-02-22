@@ -12,11 +12,9 @@ export class UserService {
   baseUrl = "https://localhost:7129/api/User"
 
   UpdateUser(newUser:User){
-    debugger
     return this.http.post<Result>(`${this.baseUrl}/updateUser`,newUser)
   }
   RemoveUser(userId: number[]){
-    debugger
     return this.http.post<Result>(`${this.baseUrl}/deleteUser`,userId)
   }
 }

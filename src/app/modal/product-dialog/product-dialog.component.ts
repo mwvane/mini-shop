@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Item } from 'src/app/Model/item';
+import { Product } from 'src/app/Model/product';
 
 @Component({
   selector: 'app-product-dialog',
@@ -8,7 +8,7 @@ import { Item } from 'src/app/Model/item';
 })
 export class ProductDialogComponent {
   @Input() openDialog: boolean = false;
-  @Input() data: Item = {
+  @Input() data: Product = {
     name: '',
     price: 0,
     quantity: 0,
