@@ -9,10 +9,19 @@
   <ng-template pTemplate="body">
     <div style="font-size: 18px">
       <div>
-        <label for="validDate">ხანგრძლივობა</label>
+        <div style="font-size: 16px;" class="py-2">
+          <label for="validDate">ხანგრძლივობა</label><br>
+          <span class="text-warning my-2"
+            >  <i class="pi pi-calendar"></i
+            >{{ dateFormat(data.validDate) }}</span
+          >
+        </div>
         <div class="w-100">
-          <span class="text-warning"><i class="pi pi-calendar"></i>{{data.validDate}}</span>
-          <p-dropdown class="w-100" [options]="days" (onChange)="onValidateChange($event)"></p-dropdown>
+          <p-dropdown
+            class="w-100"
+            [options]="days"
+            (onChange)="onValidateChange($event)"
+          ></p-dropdown>
         </div>
       </div>
       <div class="d-flex align-items-center my-2">
@@ -31,10 +40,10 @@
           icon="pi pi-refresh"
           (click)="onGenerateKey()"
         ></button>
-      </div>    
+      </div>
     </div>
     <div>
-      <label for="price">ფასი</label>
+      <label class="py-1" for="price">ფასი</label>
       <p-inputNumber [(ngModel)]="data.price"></p-inputNumber>
     </div>
   </ng-template>

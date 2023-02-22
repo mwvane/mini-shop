@@ -3,20 +3,22 @@ import { ToastrService } from 'ngx-toastr';
 import { VoucherStatus } from 'src/app/enums/voucherStatus';
 import { Voucher } from 'src/app/Model/voucher';
 import { VoucherService } from 'src/app/service/voucher.service';
-
+import * as moment from 'moment';
+import { Constants } from 'src/app/constants/constants';
+import { Helper } from 'src/app/helpers/helper';
 @Component({
   selector: 'app-generate-voucher',
   templateUrl: './generate-voucher.component.html',
   styleUrls: ['./generate-voucher.component.css'],
 })
-export class GenerateVoucherComponent{
+export class GenerateVoucherComponent {
   constructor(
     private voucherService: VoucherService,
     private msgService: ToastrService
   ) {}
 
   @Input() openDialog: boolean = false;
-  @Input() data: Voucher = this.getDefaultVoucher()
+  @Input() data: Voucher = Constants.DEAFULT_VOUCHER;
   @Output() submit = new EventEmitter();
   @Output() close = new EventEmitter();
   submitted: boolean = false;
@@ -42,29 +44,14 @@ export class GenerateVoucherComponent{
   }
 
   onValidateChange(value: any) {
-    this.data.validDate = this.addDays(value.value);
+    this.data.validDate = Helper.getDateAfter(value.value);
   }
 
   onCopy() {
     navigator.clipboard.writeText(this.data.key);
     this.msgService.success('გასაღები დაკოპირდა');
   }
-
-  private addDays(days: number) {
-    let dateNow = new Date();
-    let validate = new Date();
-    validate.setDate(dateNow.getDate() + days);
-    return validate;
-  }
-
-  getDefaultVoucher() {
-    let voucher: Voucher = {
-      price: 10,
-      createdBy: 0,
-      key: '',
-      status: VoucherStatus.Valid,
-      validDate: this.addDays(5),
-    };
-    return voucher;
+  dateFormat(date: any, format: string = Constants.DATE_FORMAT) {
+    return moment(date).format(format);
   }
 }

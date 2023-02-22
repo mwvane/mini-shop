@@ -3,6 +3,6 @@ export interface Voucher {
   key: string;
   price: number;
   createdBy: number;
-  validDate?: Date;
+  validDate?: Date | string;
   status: 'valid' 
 }
