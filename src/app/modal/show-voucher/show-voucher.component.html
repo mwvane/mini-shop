@@ -2,27 +2,43 @@
   [(visible)]="openDialog"
   [style]="{ width: 'auto' }"
   [modal]="true"
-  header="ჩემი პროდუქტები"
+  header="ჩემი ვაუჩერები"
   styleClass="p-fluid"
   (onHide)="onClose()"
 >
-<p-table [value]="data" styleClass="p-datatable-striped" [tableStyle]="{'min-width': '50rem'}">
+  <div>
+    <button
+      pButton
+      label="Add"
+      class="p-button-rounded p-button-sm p-button-text px-1 mx-2 btn-action p-button-danger"
+      icon="pi pi-plus"
+      (click)="onAdd()"
+    ></button>
+  </div>
+  <p-table
+    [value]="data"
+    styleClass="p-datatable-striped"
+    [tableStyle]="{ 'min-width': '50rem' }"
+  >
     <ng-template pTemplate="header" class="my-2">
-        <tr>
-            <th>Key</th>
-            <th>Valid Date</th>
-            <th>Vouvher Price</th>
-            <th>Status</th>
-
-        </tr>
+      <tr>
+        <th>Key</th>
+        <th>Valid Date</th>
+        <th>Vouvher Price</th>
+        <th>Status</th>
+      </tr>
     </ng-template>
     <ng-template pTemplate="body" let-product>
-        <tr>
-            <td>{{product.key}}</td>
-            <td>{{product.validDate}}</td>
-            <td>{{product.price}}</td>
-            <td [ngClass]="product.status === 'used'? 'text-danger':'text-primary'">{{product.status}}</td>
-        </tr>
+      <tr>
+        <td>{{ product.key }}</td>
+        <td>{{ dateFormat(product.validDate) }}</td>
+        <td>{{ product.price }}</td>
+        <td
+          [ngClass]="product.status === 'used' ? 'text-danger' : 'text-primary'"
+        >
+          {{ product.status }}
+        </td>
+      </tr>
     </ng-template>
-</p-table>
+  </p-table>
 </p-dialog>
