@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import * as moment from 'moment';
+import { Constants } from 'src/app/constants/constants';
 import { VoucherStatus } from 'src/app/enums/voucherStatus';
-import { Helper } from 'src/app/helpers/helper';
 import { Voucher } from 'src/app/Model/voucher';
 
 @Component({
@@ -17,5 +18,11 @@ export class MyProductsComponent {
   onClose() {
     this.openDialog = false;
     this.close.emit();
+  }
+  dateFormat(date: any, format: string = Constants.DATE_FORMAT) {
+    if(date){
+      return moment(date).format(format);
+    }
+    return null
   }
 }

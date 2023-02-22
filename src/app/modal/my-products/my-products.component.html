@@ -8,7 +8,7 @@
 >
 <p-table [value]="data" styleClass="p-datatable-striped" [tableStyle]="{'min-width': '50rem'}">
     <div>
-        <span>TotalPrice: </span>
+        <span>TotalPrice:</span>
     </div>
     <ng-template pTemplate="header" class="my-2">
         <tr>
@@ -27,7 +27,7 @@
             <td>{{product.totalPrice}} ₾</td>
             <td>{{product.voucher? product.voucher.key: "---"}}</td>
             <td>{{product.voucherAmount? product.voucherAmount: 0}} ₾</td>
-            <td>{{product.createDate}}</td>
+            <td>{{dateFormat(product.createDate)}}</td>
         </tr>
     </ng-template>
 </p-table>
