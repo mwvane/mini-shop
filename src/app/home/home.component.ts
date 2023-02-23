@@ -13,6 +13,7 @@ import { VoucherStatus } from '../enums/voucherStatus';
 import { Helper } from '../helpers/helper';
 import { CartItemForApi } from '../Model/cartItemForApi';
 import { ModalService } from '../service/modal.service';
+import { State } from '../state/state';
 
 @Component({
   selector: 'app-home',
@@ -28,8 +29,10 @@ export class HomeComponent implements OnInit {
     private router: Router,
     private dialog: ConfirmationService,
     private msgService: ToastrService,
-    public modalService: ModalService
+    public modalService: ModalService,
+    private state: State
   ) {}
+
   products: Product[] = [];
   loggedUser: any;
   cartItems: CartItem[] = [];
@@ -40,8 +43,9 @@ export class HomeComponent implements OnInit {
   buyModal: boolean = false;
   isVoucherKeyConfirmed = false;
   vouchers: Voucher[] = [];
-  openTable() {
-  }
+
+  openTable() {}
+
   ngOnInit(): void {
     const user = this.authService.userPayload;
     if (user) {
@@ -95,6 +99,7 @@ export class HomeComponent implements OnInit {
     this.isCartLoading = true;
     this.service.getCartItems(this.loggedUser.id).subscribe((data) => {
       this.cartItems = data;
+      this.state.cartItemsCount = this.cartItems ? this.cartItems.length : 0;
       this.isCartLoading = false;
     });
   }
@@ -111,6 +116,7 @@ export class HomeComponent implements OnInit {
       } else {
         const payload: any = data.res;
         this.cartItems.unshift(payload);
+        this.state.cartItemsCount++;
         product.quantity--;
       }
     });
@@ -133,6 +139,7 @@ export class HomeComponent implements OnInit {
           this.service.deleteCartItem(id).subscribe((data) => {
             if (data) {
               this.cartItems = this.cartItems.filter((item) => item.id != id);
+              this.state.cartItemsCount > 0 ? this.state.cartItemsCount-- : 0;
               this.msgService.success('პრდუქტი, კალათიდან წარმატებით წაიშალა');
               this.loadProducts();
               this.loadVouchers();
@@ -208,7 +215,7 @@ export class HomeComponent implements OnInit {
         this.msgService.success('ვაუჩერი წარმატებით შეიქმნა!');
         const res: any = data.res;
         this.vouchers.unshift(res);
-        this.modalService.openGenerateVoucherModal = false
+        this.modalService.openGenerateVoucherModal = false;
       } else {
         this.msgService.error(data.errors.join('\n'));
       }
@@ -323,7 +330,6 @@ export class HomeComponent implements OnInit {
     console.log(e.target);
     alert(e.target.value);
   }
-
 
   // Helpers ---------------------------------------------------
   updateVoucher(voucher: any) {

@@ -1,0 +1,126 @@
+<div class="card" style="min-height: 80vh">
+  <p-table
+    #table
+    [value]="data"
+    dataKey="id"
+    [tableStyle]="{ 'min-width': '50rem' }"
+    [rows]="10"
+    [paginator]="true"
+    
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="productName" style="width: 20%">
+          Product Name <p-sortIcon field="name"></p-sortIcon>
+        </th>
+        <th pSortableColumn="buyer" style="width: 20%">
+          Buyer <p-sortIcon field="buyer"></p-sortIcon>
+        </th>
+        <th pSortableColumn="quantity" style="width: 20%">
+          Quantity <p-sortIcon field="quantity"></p-sortIcon>
+        </th>
+        <th pSortableColumn="orderDate" style="width: 20%">
+          Order Date <p-sortIcon field="representative.name"></p-sortIcon>
+        </th>
+        <th pSortableColumn="voucherAmount" style="width: 20%">
+          Voucher Amount <p-sortIcon field="status"></p-sortIcon>
+        </th>
+      </tr>
+      <tr>
+        <th>
+          <input
+            pInputText
+            type="text"
+            (input)="
+              table.filter($event.target.value, 'product.name', 'contains')
+            "
+            [value]="table.filters['product.name']?.value"
+            placeholder="Search by Name"
+            class="w-full"
+          />
+        </th>
+        <th>
+          <input
+            pInputText
+            type="text"
+            (input)="
+              table.filter($event.target.value, 'product.name', 'contains')
+            "
+            [value]="table.filters['user.email']?.value"
+            placeholder="Search by Name"
+            class="w-full"
+          />
+        </th>
+        <th>
+          <input
+            pInputText
+            type="number"
+            (input)="table.filter($event.target.value, 'quantity', 'contains')"
+            [value]="table.filters['quantity']?.value"
+            placeholder="Search Quantity"
+            class="w-full"
+          />
+        </th>
+        <th>
+          <div class="filter-section">
+            <p-calendar
+              #dateFilter
+              selectionMode="single"
+              (onSelect)="table.filter($event, 'createDate', 'filterDate')"
+              (input)="table.filter($event.target.value, 'createDate', 'filterDate')"
+              placeholder="Select Date"
+              [value]="table.filters['quantity']?.value"
+            ></p-calendar>
+            <button
+              pButton
+              icon="pi pi-undo"
+              class="p-button-rounded p-button-danger p-button-sm btn-action p-button-text"
+              (click)="onDateFilterClear(dateFilter,table)"
+            ></button>
+          </div>
+        </th>
+        <th>
+          <input
+            pInputText
+            type="number"
+            (input)="
+              table.filter($event.target.value, 'voucherAmount', 'contains')
+            "
+            [value]="table.filters['voucherAmount']?.value"
+            placeholder="Search by Voucher Amount"
+            class="w-full"
+          />
+        </th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-order>
+      <tr [pSelectableRow]="order">
+        <td>
+          <span class="p-column-title">Product Name</span>
+          {{ order.product.name }}
+        </td>
+        <td>
+          <span class="p-column-title">Product Name</span>
+          {{ order.user.email }}
+        </td>
+        <td>
+          <span class="p-column-title">Quantity</span>
+          <span class="image-text">{{ order.quantity }}</span>
+        </td>
+        <td>
+          <span class="p-column-title">Order Date</span>
+          <span class="image-text">{{ formatDate(order.createDate) }}</span>
+        </td>
+        <td>
+          <span class="p-column-title">Voucher Amount</span>
+          <span>{{ order.voucherAmount ? order.voucherAmount : 0 }}</span>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="4">No matches found.</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

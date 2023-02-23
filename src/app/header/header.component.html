@@ -1,5 +1,4 @@
 <div class="custom-header shadow">
-    <button (click)="openTable()">openTable</button>
     <a *ngIf="loggedUser.role === 'admin'" href="admin" class="custom-link"
       >admin panel</a
     >
@@ -35,7 +34,7 @@
         ></button>
       </div>
       <i class="pi pi-shopping-cart"></i>
-      [0]
+      [{{state.cartItemsCount}}]
     </div>
     <span class="mx-2"
       >{{ loggedUser.firstname }} {{ loggedUser.lastname }}</span

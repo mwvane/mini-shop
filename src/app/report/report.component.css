@@ -1,0 +1,17 @@
+
+.p-datatable-wrapper {
+    min-height: 80vh;
+    border: 2px solid red;
+}
+.btn-action{
+    width: 20px;
+    height: 20px !important;
+    padding: 0;
+    position: absolute;
+    right: 78px;
+}
+.filter-section{
+    position: relative;
+    display: flex;
+    align-items: center;
+}

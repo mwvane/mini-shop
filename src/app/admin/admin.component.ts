@@ -13,6 +13,7 @@ import { ModalService } from '../service/modal.service';
 import { Constants } from '../constants/constants';
 import { Helper } from '../helpers/helper';
 import * as moment from 'moment';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-admin',
@@ -36,7 +37,8 @@ export class AdminComponent {
   menuItems: any[] = [
     { label: 'Products', icon: 'pi pi-shopping-bag' },
     { label: 'Users', icon: 'pi pi-fw pi-users' },
-    { label: 'Vouchers', icon: 'pi pi-money-bill' },
+    { label: 'Vouchers', icon: 'pi pi-ticket' },
+    { label: 'Report', icon: 'pi pi-chart-bar' },
   ];
 
   currentMenuTab: any = this.menuItems[0];
@@ -49,6 +51,7 @@ export class AdminComponent {
     private confirmationService: ConfirmationService,
     private msgService: ToastrService,
     public modalService: ModalService,
+    private router: Router
   ) {}
   
   ngOnInit() {
@@ -306,6 +309,9 @@ export class AdminComponent {
 
   onMenuItemChange(item: any) {
     this.currentMenuTab = item;
+    if(item.label === "Report"){
+      this.router.navigateByUrl("report")
+    }
   }
 
   getUsername(id: number) {
@@ -314,6 +320,7 @@ export class AdminComponent {
       ? `${username}(you)`
       : username;
   }
+
   formatDate(date:Date, format: string = Constants.DATE_FORMAT){
     return moment(date).format(format)
   }

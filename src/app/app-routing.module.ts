@@ -8,6 +8,7 @@ import { EditItemComponent } from './edit-or-create-item/edit-or-create-item.com
 import { AuthGuard } from './guard/auth.guard';
 import { RoleGuard } from './guard/role.guard';
 import { HomeComponent } from './home/home.component';
+import { ReportComponent } from './report/report.component';
 
 const routes: Routes = [
   {path: "", component: HomeComponent, canActivate:[AuthGuard]},
@@ -16,7 +17,8 @@ const routes: Routes = [
   {path: "forget-password", component: ForgetPasswordComponent},
   {path: "home", component: HomeComponent, canActivate:[AuthGuard]},
   {path: "editItem/:id", component: EditItemComponent},
-  {path: "admin", component: AdminComponent, canActivate:[RoleGuard]}
+  {path: "admin", component: AdminComponent, canActivate:[RoleGuard]},
+  {path: "report", component: ReportComponent, canActivate:[RoleGuard]}
 ];
 
 @NgModule({

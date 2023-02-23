@@ -44,6 +44,7 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { ShowVoucherComponent } from './modal/show-voucher/show-voucher.component';
 import { FilterableTableComponent } from './modal/filterable-table/filterable-table.component';
 import { HeaderComponent } from './header/header.component';
+import { ReportComponent } from './report/report.component';
 
 @NgModule({
   declarations: [
@@ -65,6 +66,7 @@ import { HeaderComponent } from './header/header.component';
     ShowVoucherComponent,
     FilterableTableComponent,
     HeaderComponent,
+    ReportComponent,
   ],
   imports: [
     BrowserModule,
