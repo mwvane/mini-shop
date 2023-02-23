@@ -12,6 +12,7 @@ import { Voucher } from '../Model/voucher';
 import { VoucherStatus } from '../enums/voucherStatus';
 import { Helper } from '../helpers/helper';
 import { CartItemForApi } from '../Model/cartItemForApi';
+import { ModalService } from '../service/modal.service';
 
 @Component({
   selector: 'app-home',
@@ -26,7 +27,8 @@ export class HomeComponent implements OnInit {
     private voucherService: VoucherService,
     private router: Router,
     private dialog: ConfirmationService,
-    private msgService: ToastrService
+    private msgService: ToastrService,
+    public modalService: ModalService
   ) {}
   products: Product[] = [];
   loggedUser: any;
@@ -36,14 +38,9 @@ export class HomeComponent implements OnInit {
   isItemsLoading = true;
   isCartLoading = true;
   buyModal: boolean = false;
-  myProductModal: boolean = false;
-  voucherCreateModal: boolean = false;
-  voucherShowModal = false;
   isVoucherKeyConfirmed = false;
   vouchers: Voucher[] = [];
-  openFilterTable: boolean = false;
   openTable() {
-    this.openFilterTable = true;
   }
   ngOnInit(): void {
     const user = this.authService.userPayload;
@@ -211,7 +208,7 @@ export class HomeComponent implements OnInit {
         this.msgService.success('ვაუჩერი წარმატებით შეიქმნა!');
         const res: any = data.res;
         this.vouchers.unshift(res);
-        this.voucherCreateModal = false;
+        this.modalService.openGenerateVoucherModal = false
       } else {
         this.msgService.error(data.errors.join('\n'));
       }
@@ -306,30 +303,9 @@ export class HomeComponent implements OnInit {
     this.buyModal = false;
   }
 
-  onMyProduct() {
-    this.myProductModal = true;
-  }
-
-  onMyProductModalClose() {
-    this.myProductModal = false;
-  }
-
   openVoucherDialog() {
-    this.voucherCreateModal = true;
+    this.modalService.openGenerateVoucherModal = true;
   }
-
-  openVoucherShowModal() {
-    this.voucherShowModal = true;
-  }
-
-  onVoucherDialogClose() {
-    this.voucherCreateModal = false;
-  }
-
-  onVoucherShowModalClose() {
-    this.voucherShowModal = false;
-  }
-  
   //Other functions ---------------------------------------------
   onLogout() {
     this.dialog.confirm({

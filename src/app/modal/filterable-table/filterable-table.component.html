@@ -1,167 +1,53 @@
-
-<p-dialog
-[(visible)]="openDialog"
-  [style]="{ width: 'auto' }"
-  [modal]="true"
-  header="ჩემი პროდუქტები"
-  styleClass="p-fluid"
-  (onHide)="onClose()">
-  <div class="card">
-    <h5>Filter Row</h5>
-    <p>Filters are displayed inline within a separate row.</p>
-    <p-table
-      #dt2
-      [value]="data"
-      dataKey="id"
-      [rows]="10"
-      [showCurrentPageReport]="true"
-      [rowsPerPageOptions]="[10, 25, 50]"
-      [loading]="loading"
-      [paginator]="true"
-      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-      [globalFilterFields]="[
-        'name',
-        'country.name',
-        'representative.name',
-        'status'
-      ]"
-      [tableStyle]="{ 'min-width': '75rem' }"
-    >
-      <ng-template pTemplate="caption">
-        <div class="flex">
-          <span class="p-input-icon-left ml-auto">
-            <i class="pi pi-search"></i>
-            <input
-              pInputText
-              type="text"
-              (input)="dt2.filterGlobal($event.target, 'contains')"
-              placeholder="Search keyword"
-            />
-          </span>
-        </div>
-      </ng-template>
-      <ng-template pTemplate="header">
-        <tr>
-          <th style="width: 22%">Name</th>
-          <th style="width: 22%">Country</th>
-          <th style="width: 22%">Agent</th>
-          <th style="width: 22%">Status</th>
-          <th style="width: 12%">Verified</th>
-        </tr>
-        <tr>
-          <th>
-            <p-columnFilter type="text" field="name"></p-columnFilter>
-          </th>
-          <th>
-            <p-columnFilter type="text" field="country.name"></p-columnFilter>
-          </th>
-          <th>
-            <p-columnFilter
-              field="representative"
-              matchMode="in"
-              [showMenu]="false"
-            >
-              <ng-template
-                pTemplate="filter"
-                let-value
-                let-filter="filterCallback"
-              >
-                <p-multiSelect
-                  [ngModel]="value"
-                  placeholder="Any"
-                  optionLabel="name"
-                >
-                  <ng-template let-option pTemplate="item">
-                    <div class="p-multiselect-representative-option">
-                      <img
-                        [alt]="option.label"
-                        src="https://primefaces.org/cdn/primeng/images/demo/avatar/{{
-                          option.image
-                        }}"
-                        width="32"
-                        style="vertical-align: middle"
-                      />
-                      <span class="ml-1">{{ option.name }}</span>
-                    </div>
-                  </ng-template>
-                </p-multiSelect>
-              </ng-template>
-            </p-columnFilter>
-          </th>
-          <th>
-            <p-columnFilter field="status" matchMode="equals" [showMenu]="false">
-              <ng-template
-                pTemplate="filter"
-                let-value
-                let-filter="filterCallback"
-              >
-                <p-dropdown
-                  [ngModel]="value"
-                  [options]="statuses"
-                  (onChange)="filter($event.value)"
-                  placeholder="Any"
-                  [showClear]="true"
-                >
-                  <ng-template let-option pTemplate="item">
-                    <span [class]="'customer-badge status-' + option.value">{{
-                      option.label
-                    }}</span>
-                  </ng-template>
-                </p-dropdown>
-              </ng-template>
-            </p-columnFilter>
-          </th>
-          <th>
-            <p-columnFilter type="boolean" field="verified"></p-columnFilter>
-          </th>
-        </tr>
-      </ng-template>
-      <ng-template pTemplate="body" let-customer>
-        <tr>
-          <td>
-            {{ customer.name }}
-          </td>
-          <td>
-            <img
-              src="https://primefaces.org/cdn/primeng/images/demo/flag/flag_placeholder.png"
-              [class]="'flag flag-' + customer.country.code"
-              width="30"
-            />
-            <span class="image-text">{{ customer.country.name }}</span>
-          </td>
-          <td>
-            <img
-              [alt]="customer.representative.name"
-              src="https://primefaces.org/cdn/primeng/images/demo/avatar/{{
-                customer.representative.image
-              }}"
-              width="32"
-              style="vertical-align: middle"
-            />
-            <span class="image-text">{{ customer.representative.name }}</span>
-          </td>
-          <td>
-            <span [class]="'customer-badge status-' + customer.status">{{
-              customer.status
-            }}</span>
-          </td>
-          <td>
-            <i
-              class="pi"
-              [ngClass]="{
-                'true-icon pi-check-circle': customer.verified,
-                'false-icon pi-times-circle': !customer.verified
-              }"
-            ></i>
-          </td>
-        </tr>
-      </ng-template>
-      <ng-template pTemplate="emptymessage">
-        <tr>
-          <td colspan="5">No customers found.</td>
-        </tr>
-      </ng-template>
+<div class="card">
+    <h5>Session Storage</h5>
+    <p-table #dt1 [value]="data"dataKey="id" [tableStyle]="{'min-width': '50rem'}"
+        [rows]="10" [paginator]="true">
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="productName" style="width:25%">Product Name <p-sortIcon field="name"></p-sortIcon></th>
+                <th pSortableColumn="quantity" style="width:25%">Quantity <p-sortIcon field="country.name"></p-sortIcon></th>
+                <th pSortableColumn="orderDate" style="width:25%">Order Date <p-sortIcon field="representative.name"></p-sortIcon></th>
+                <th pSortableColumn="voucherAmount" style="width:25%">Voucher Amount <p-sortIcon field="status"></p-sortIcon></th>
+            </tr>
+            <tr>
+                <th>
+                    <input pInputText type="text" (input)="dt1.filter($event.target.value,'product.name','contains')" [value]="dt1.filters['product.name']?.value" placeholder="Search by Name" class="w-full">
+                </th>
+                <th>
+                    <input pInputText type="number" (input)="dt1.filter($event.target.value, 'quantity', 'contains')" [value]="dt1.filters['quantity']?.value" placeholder="Search by Country" class="w-full">
+                </th>
+                <th>
+                    <input pInputText type="text" (input)="dt1.filter($event.target.value, 'createDate', 'contains')" [value]="dt1.filters['createDate']?.value" placeholder="Search by Representative" class="w-full">
+                </th>
+                <th>
+                    <input pInputText type="number" (input)="dt1.filter($event.target.value, 'voucherAmount', 'contains')" [value]="dt1.filters['voucherAmount']?.value" placeholder="Search by Status" class="w-full">
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-order>
+            <tr [pSelectableRow]="order">
+                <td>
+                    <span class="p-column-title">Product Name</span>
+                    {{order.product.name}}
+                </td>
+                <td>
+                    <span class="p-column-title">Quantity</span>
+                    <span class="image-text">{{order.quantity}}</span>
+                </td>
+                <td>
+                    <span class="p-column-title">Order Date</span>
+                    <span class="image-text">{{order.createDate}}</span>
+                </td>
+                <td>
+                    <span class="p-column-title">Voucher Amount</span>
+                    <span>{{order.voucherAmount}}</span>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="4">No customers found.</td>
+            </tr>
+        </ng-template>
     </p-table>
-  </div>
-  
-</p-dialog>
+</div>

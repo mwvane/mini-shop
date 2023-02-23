@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import * as moment from 'moment';
 import { Constants } from 'src/app/constants/constants';
+import { ModalService } from 'src/app/service/modal.service';
 
 @Component({
   selector: 'app-show-voucher',
@@ -12,9 +13,9 @@ export class ShowVoucherComponent {
   @Input() openDialog: boolean = false;
   @Output() close = new EventEmitter();
   @Output() add = new EventEmitter();
+  constructor(public modalService: ModalService){}
   onClose() {
-    this.close.emit();
-    this.openDialog = false;
+    this.modalService.openProductModal = false;
   }
   onAdd() {
     this.add.emit();

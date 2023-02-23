@@ -6,6 +6,7 @@ import { VoucherService } from 'src/app/service/voucher.service';
 import * as moment from 'moment';
 import { Constants } from 'src/app/constants/constants';
 import { Helper } from 'src/app/helpers/helper';
+import { ModalService } from 'src/app/service/modal.service';
 @Component({
   selector: 'app-generate-voucher',
   templateUrl: './generate-voucher.component.html',
@@ -14,7 +15,8 @@ import { Helper } from 'src/app/helpers/helper';
 export class GenerateVoucherComponent {
   constructor(
     private voucherService: VoucherService,
-    private msgService: ToastrService
+    private msgService: ToastrService,
+    public modalService: ModalService,
   ) {}
 
   @Input() openDialog: boolean = false;
@@ -31,8 +33,7 @@ export class GenerateVoucherComponent {
   }
 
   onClose() {
-    this.openDialog = false;
-    this.close.emit();
+    this.modalService.openGenerateVoucherModal = false
   }
 
   onGenerateKey() {

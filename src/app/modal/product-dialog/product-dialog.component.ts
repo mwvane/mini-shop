@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Product } from 'src/app/Model/product';
+import { ModalService } from 'src/app/service/modal.service';
 
 @Component({
   selector: 'app-product-dialog',
@@ -15,15 +16,14 @@ export class ProductDialogComponent {
   };
   @Output() submit = new EventEmitter();
   @Output() close = new EventEmitter();
-  submitted: boolean = false;
+  constructor(public modalService: ModalService){}
+
   roles: string[] = ['admin', 'user', 'seller'];
 
   onSubmit() {
-    this.submitted = true;
     this.submit.emit(this.data);
   }
   onClose() {
-    this.openDialog = false;
-    this.close.emit();
+    this.modalService.openProductModal = false
   }
 }

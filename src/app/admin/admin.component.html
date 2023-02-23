@@ -161,7 +161,7 @@
         <td>{{ user.email }}</td>
         <td>{{ user.password }}</td>
         <td>{{ user.role }}</td>
-        <td>{{ user.lastUpdated }}</td>
+        <td>{{formatDate(user.lastUpdated)}}</td>
         <td>
           <button
             pButton
@@ -241,7 +241,7 @@
       </td>
       <td>{{ voucher.key }}</td>
       <td>{{ voucher.price }} ₾</td>
-      <td>{{ voucher.validDate }}</td>
+      <td>{{formatDate(voucher.validDate)}}</td>
       <td>{{ voucher.status }}</td>
       <td>{{ getUsername(voucher.createdBy) }}</td>
       <td>
@@ -274,24 +274,18 @@
 
 <!-- product modal -->
 <app-product-dialog
-  [openDialog]="productModal"
-  (close)="hideDialog()"
   (submit)="saveDialogResult($event)"
   [data]="product"
 ></app-product-dialog>
 
 <!-- user modal -->
 <app-user-dialog
-  [openDialog]="userModal"
-  (close)="hideDialog()"
   (submit)="saveDialogResult($event)"
   [data]="user"
 ></app-user-dialog>
 
 <!-- Voucher modal -->
 <app-generate-voucher
-  [openDialog]="voucherModal"
-  (close)="hideDialog()"
   [data]="voucher"
   (submit)="saveDialogResult($event)"
 ></app-generate-voucher>

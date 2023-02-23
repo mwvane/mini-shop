@@ -9,6 +9,10 @@ import { AuthService } from '../service/auth.service';
 import { Voucher } from '../Model/voucher';
 import { VoucherService } from '../service/voucher.service';
 import { VoucherStatus } from '../enums/voucherStatus';
+import { ModalService } from '../service/modal.service';
+import { Constants } from '../constants/constants';
+import { Helper } from '../helpers/helper';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-admin',
@@ -17,15 +21,12 @@ import { VoucherStatus } from '../enums/voucherStatus';
   providers: [ConfirmationService],
 })
 export class AdminComponent {
-  productModal: boolean = false;
-  userModal: boolean = false;
   products: Product[] = [{ name: '', price: 0, quantity: 0 }];
   product: any;
   vouchers: Voucher[] = [
     { key: '', price: 0, status: VoucherStatus.Valid, createdBy: 0 },
   ];
   voucher: Voucher = this.getDefaultVoucher();
-  voucherModal: boolean = false;
   selectedProducts: any;
   users: User[] = [
     { email: '', firstname: '', lastname: '', password: '', role: '', id: 0 },
@@ -46,7 +47,8 @@ export class AdminComponent {
     private authService: AuthService,
     private voucherService: VoucherService,
     private confirmationService: ConfirmationService,
-    private msgService: ToastrService
+    private msgService: ToastrService,
+    public modalService: ModalService,
   ) {}
   
   ngOnInit() {
@@ -94,15 +96,15 @@ export class AdminComponent {
   openNew() {
     if (this.currentMenuTab.label === 'Users') {
       this.user = {};
-      this.userModal = true;
+      this.modalService.openUserModal = true;
     }
     if (this.currentMenuTab.label === 'Products') {
       this.product = {};
-      this.productModal = true;
+      this.modalService.openProductModal = true
     }
     if (this.currentMenuTab.label === 'Vouchers') {
       this.voucher = this.getDefaultVoucher();
-      this.voucherModal = true;
+      this.modalService.openGenerateVoucherModal = true;
     }
     this.submitted = false;
   }
@@ -136,15 +138,15 @@ export class AdminComponent {
 
     if (this.currentMenuTab.label === 'Users') {
       this.user = { ...item };
-      this.userModal = true;
+      this.modalService.openUserModal = true
     }
     if (this.currentMenuTab.label === 'Products') {
       this.product = { ...item };
-      this.productModal = true;
+      this.modalService.openProductModal = true;
     }
     if (this.currentMenuTab.label === 'Vouchers') {
       this.voucher = { ...item };
-      this.voucherModal = true;
+      this.modalService.openGenerateVoucherModal = true;
     }
   }
 
@@ -200,13 +202,6 @@ export class AdminComponent {
     });
   }
 
-  hideDialog() {
-    this.productModal = false;
-    this.submitted = false;
-    this.userModal = false;
-    this.voucherModal = false;
-  }
-
   saveDialogResult(result: any) {
     this.submitted = true;
     if (this.currentMenuTab.label === 'Users') {
@@ -222,17 +217,18 @@ export class AdminComponent {
           }
           this.user = {};
           this.users = [...this.users];
-          this.userModal = false;
+          this.modalService.openUserModal = false;
         });
       } else {
         this.authService.signup(result).subscribe((data) => {
           if (data.res) {
-            result.id = data.res;
+            debugger
+            result = data.res;
             this.users.unshift(result);
             this.msgService.success('მომხმარებელი წარმატებით შეიქმნა!');
             this.user = {};
             this.users = [...this.users];
-            this.userModal = false;
+            this.modalService.openUserModal = false;
           } else {
             this.msgService.error(data.errors.join('\n'));
           }
@@ -252,7 +248,7 @@ export class AdminComponent {
             }
             this.product = {};
             this.product = [...this.users];
-            this.productModal = false;
+            this.modalService.openProductModal = false
           });
         } else {
           this.productService.addItem(this.product).subscribe((data) => {
@@ -262,7 +258,7 @@ export class AdminComponent {
               this.msgService.success('პროდუქტი წარმატებით შეიქმნა!');
               this.product = {};
               this.products = [...this.products];
-              this.productModal = false;
+              this.modalService.openProductModal = false;
             }
           });
         }
@@ -291,7 +287,7 @@ export class AdminComponent {
         });
       }
       this.voucher = this.getDefaultVoucher();
-      this.voucherModal = false;
+      this.modalService.openGenerateVoucherModal = false;
     }
   }
 
@@ -317,5 +313,8 @@ export class AdminComponent {
     return username === this.authService.userPayload.email
       ? `${username}(you)`
       : username;
+  }
+  formatDate(date:Date, format: string = Constants.DATE_FORMAT){
+    return moment(date).format(format)
   }
 }

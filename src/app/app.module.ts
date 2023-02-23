@@ -43,6 +43,7 @@ import { SliderModule } from 'primeng/slider';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { ShowVoucherComponent } from './modal/show-voucher/show-voucher.component';
 import { FilterableTableComponent } from './modal/filterable-table/filterable-table.component';
+import { HeaderComponent } from './header/header.component';
 
 @NgModule({
   declarations: [
@@ -63,6 +64,7 @@ import { FilterableTableComponent } from './modal/filterable-table/filterable-ta
     BuyComponent,
     ShowVoucherComponent,
     FilterableTableComponent,
+    HeaderComponent,
   ],
   imports: [
     BrowserModule,

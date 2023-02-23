@@ -45,7 +45,9 @@ export class FilterableTableComponent {
       { label: 'Proposal', value: 'proposal' },
     ];
   }
-
+  test(e:any){
+    debugger
+  }
   clear(table: Table) {
     table.clear();
   }
