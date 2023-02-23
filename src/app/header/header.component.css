@@ -1,0 +1,16 @@
+.custom-header {
+  width: 100% !important;
+  background-color: white;
+  padding: 12px;
+  display: flex;
+  width: 100%;
+  height: 70px;
+  justify-content: end;
+  align-items: center;
+  border-bottom: 1px solid rgba(45, 45, 45, 0.1);
+}
+.custom-link {
+  position: absolute;
+  left: 20px;
+  text-decoration: none;
+}
