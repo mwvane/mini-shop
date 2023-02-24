@@ -4,22 +4,22 @@
     [value]="data"
     dataKey="id"
     [tableStyle]="{ 'min-width': '50rem' }"
-    [rows]="10"
+    [rows]="9"
     [paginator]="true"
     
   >
     <ng-template pTemplate="header">
       <tr>
-        <th pSortableColumn="productName" style="width: 20%">
+        <th pSortableColumn="product.name" style="width: 20%">
           Product Name <p-sortIcon field="name"></p-sortIcon>
         </th>
-        <th pSortableColumn="buyer" style="width: 20%">
+        <th pSortableColumn="user.email" style="width: 20%">
           Buyer <p-sortIcon field="buyer"></p-sortIcon>
         </th>
         <th pSortableColumn="quantity" style="width: 20%">
           Quantity <p-sortIcon field="quantity"></p-sortIcon>
         </th>
-        <th pSortableColumn="orderDate" style="width: 20%">
+        <th pSortableColumn="createDate" style="width: 20%">
           Order Date <p-sortIcon field="representative.name"></p-sortIcon>
         </th>
         <th pSortableColumn="voucherAmount" style="width: 20%">
@@ -44,7 +44,7 @@
             pInputText
             type="text"
             (input)="
-              table.filter($event.target.value, 'product.name', 'contains')
+              table.filter($event.target.value, 'user.email', 'contains')
             "
             [value]="table.filters['user.email']?.value"
             placeholder="Search by Name"

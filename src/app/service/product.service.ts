@@ -58,7 +58,9 @@ export class ItemService {
   getOrders(userId:number){
     return this.http.get<Result>(`${this.baseUrl}/getOrders?userId=${userId}`)
   }
-
+  getAllOrders(){
+    return this.http.get<Result>(`${this.baseUrl}/getAllOrders`)
+  }
   getProductById(id:number){
     return this.http.get(`${this.baseUrl}/getProductById?id=${id}`)
   }

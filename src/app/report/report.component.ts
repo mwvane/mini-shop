@@ -20,7 +20,7 @@ export class ReportComponent implements OnInit {
   ) {}
   ngOnInit(): void {
     this.data = this.productService
-      .getOrders(this.authService.userPayload.id)
+      .getAllOrders()
       .subscribe((data) => {
         if (data.res) {
           this.data = data.res;
