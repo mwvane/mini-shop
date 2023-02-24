@@ -25,7 +25,7 @@
             <td>{{product.product.name}}</td>
             <td>{{product.quantity}}</td>
             <td>{{product.totalPrice}} ₾</td>
-            <td>{{product.voucher? product.voucher.key: "---"}}</td>
+            <td>{{product.voucher? product.voucher.key: "N/A"}}</td>
             <td>{{product.voucherAmount? product.voucherAmount: 0}} ₾</td>
             <td>{{dateFormat(product.createDate)}}</td>
         </tr>

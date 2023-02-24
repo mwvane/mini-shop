@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { subscribeOn } from 'rxjs';
 import { Result } from '../Model/result';
 import { Voucher } from '../Model/voucher';
 
@@ -13,9 +12,9 @@ export class VoucherService {
   getAllVouchers() {
     return this.http.get<Voucher[]>(`${this.baseUrl}/getAllVouchers`);
   }
-  getVoucher(key: string) {
-
-    return this.http.get<Result>(`${this.baseUrl}/getVoucher?key=${key}`);
+  getVoucher(key: string, productId:number) {
+debugger
+    return this.http.get<Result>(`${this.baseUrl}/getVoucher?key=${key}&productId=${productId}`);
   }
   generateKey() {
     return this.http.get<Result>(`${this.baseUrl}/generateVoucherKey`);

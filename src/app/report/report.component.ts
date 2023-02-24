@@ -1,7 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import * as moment from 'moment';
-import { Constants } from '../constants/constants';
-import { AuthService } from '../service/auth.service';
 import { ItemService } from '../service/product.service';
 import { FilterService } from 'primeng/api';
 
@@ -17,7 +15,7 @@ export class ReportComponent implements OnInit {
     private productService: ItemService,
     private filterService: FilterService
   ) {}
-  
+
   ngOnInit(): void {
     this.loadData()
     this.addCustomFilters();

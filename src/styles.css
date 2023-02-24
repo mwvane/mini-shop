@@ -1,5 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
-@import 'ngx-toastr/toastr';
+@import "ngx-toastr/toastr";
 .custom-input,
 textarea {
   border: none;
@@ -10,8 +10,8 @@ textarea {
   border-bottom: 2px solid rgba(45, 45, 45, 0.3);
   border-radius: 4px;
 }
-.custom-input:focus{
-    border: none;
+.custom-input:focus {
+  border: none;
 }
 .logo {
   background-color: #f3f9ff;
@@ -41,10 +41,14 @@ textarea {
   align-items: center;
 }
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
-
-
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
 .p-datatable-wrapper {
   min-height: 80vh;
 }

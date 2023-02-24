@@ -6,7 +6,7 @@
     [tableStyle]="{ 'min-width': '50rem' }"
     [rows]="9"
     [paginator]="true"
-    class="reprts-table"
+    class="reports-table"
   >
     <ng-template pTemplate="header">
       <tr>
@@ -19,14 +19,14 @@
         <th pSortableColumn="quantity" style="width: 10%">
           Quantity <p-sortIcon field="quantity"></p-sortIcon>
         </th>
-        <th pSortableColumn="createDate" style="width: 20%">
-          Order Date <p-sortIcon field="createDate"></p-sortIcon>
-        </th>
         <th pSortableColumn="product.price" style="width: 10%">
           Price <p-sortIcon field="product.price"></p-sortIcon>
         </th>
         <th pSortableColumn="voucherAmount" style="width: 10%">
           Voucher Amount <p-sortIcon field="voucherAmount"></p-sortIcon>
+        </th>
+        <th pSortableColumn="createDate" style="width: 20%">
+          Order Date <p-sortIcon field="createDate"></p-sortIcon>
         </th>
         <th style="width: 10%">
           Summery price 
@@ -65,26 +65,6 @@
           />
         </th>
         <th>
-          <div class="filter-section">
-            <p-calendar
-              #dateFilter
-              selectionMode="single"
-              (onSelect)="table.filter($event, 'createDate', 'filterDate')"
-              (input)="table.filter($event.target.value, 'createDate', 'filterDate')"
-              placeholder="Select Date"
-              [value]="table.filters['quantity']?.value"
-              [inputStyle] = "{'padding': '6px 8px'}"
-              class="calendar"
-            ></p-calendar>
-            <button
-              pButton
-              icon="pi pi-undo"
-              class="p-button-rounded p-button-danger p-button-sm btn-action p-button-text"
-              (click)="onDateFilterClear(dateFilter,table)"
-            ></button>
-          </div>
-        </th>
-        <th>
           <input
             pInputText
             type="text"
@@ -106,7 +86,29 @@
             placeholder="By Voucher Amount"
           />
         </th>
-        <th></th>
+        <th>
+          <div class="filter-section">
+            <p-calendar
+              #dateFilter
+              selectionMode="single"
+              (onSelect)="table.filter($event, 'createDate', 'filterDate')"
+              (input)="table.filter($event.target.value, 'createDate', 'filterDate')"
+              placeholder="Select Date"
+              [value]="table.filters['quantity']?.value"
+              [inputStyle] = "{'padding': '6px 8px'}"
+              class="calendar"
+            ></p-calendar>
+          </div>
+        </th>
+        <th>
+          <button
+              pButton
+              icon="pi pi-undo"
+              label="Refresh"
+              class="p-button-rounded p-button-danger p-button-sm btn-action"
+              (click)="onDateFilterClear(dateFilter,table)"
+            ></button>
+        </th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-order>
@@ -124,10 +126,6 @@
           <span class="image-text">{{ order.quantity }}</span>
         </td>
         <td>
-          <span class="p-column-title">Order Date</span>
-          <span class="image-text">{{ formatDate(order.createDate,"L") }}</span>
-        </td>
-        <td>
           <span class="p-column-title">Product price</span>
           <span class="image-text">{{order.product.price}} ₾</span>
         </td>
@@ -135,6 +133,10 @@
           <span class="p-column-title">Voucher Amount</span>
           <span *ngIf="order.voucherAmount">{{ order.voucherAmount}}</span>
           <span *ngIf="!order.voucherAmount" style="font-size: 0.8rem; font-style: italic;color: rgb(167, 164, 164);">{{"N/A"}}</span>
+        </td>
+        <td>
+          <span class="p-column-title">Order Date</span>
+          <span class="image-text">{{ formatDate(order.createDate,"L") }}</span>
         </td>
         <td>
           <span class="p-column-title">Voucher Amount</span>

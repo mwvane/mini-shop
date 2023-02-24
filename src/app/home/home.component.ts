@@ -252,7 +252,7 @@ export class HomeComponent implements OnInit {
   }
 
   onCheckVoucherKey(key: string) {
-    this.voucherService.getVoucher(key).subscribe((data) => {
+    this.voucherService.getVoucher(key,this.selectedCartItem.product.id).subscribe((data) => {
       if (data.res) {
         let voucher: any = data.res;
         const totalPrice =

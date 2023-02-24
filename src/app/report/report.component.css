@@ -1,26 +1,22 @@
 
 .p-datatable-wrapper {
     min-height: 80vh;
-    border: 2px solid red;
 }
 .btn-action{
-    width: 35px;
-    height: 35px !important;
-    padding: 0;
-    position: absolute;
-    right: 20px;
+    padding: 4px 15px;
 }
 .filter-section{
     display: flex;
     align-items: center;
 }
-.reprts-table tr td,.reprts-table tr th {
+.reports-table tr td,.reports-table tr th {
     text-align: center;
  }
- .reprts-table tr th input{
+ .reports-table tr th input{
     padding: 6px 8px !important;
     width: 100% !important;
  }
  .calendar{
     width: 100% !important;
  }
+ 
