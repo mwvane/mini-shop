@@ -15,23 +15,29 @@ export class ReportComponent implements OnInit {
   @ViewChild('dt1') table;
   constructor(
     private productService: ItemService,
-    private authService: AuthService,
     private filterService: FilterService
   ) {}
+  
   ngOnInit(): void {
-    this.data = this.productService
-      .getAllOrders()
-      .subscribe((data) => {
-        if (data.res) {
-          this.data = data.res;
-        }
-      });
+    this.loadData()
     this.addCustomFilters();
   }
   data: any = [];
+
   formatDate(date: Date, format = 'LLL') {
     return moment(date).format(format);
   }
+
+  loadData(){
+    this.data = this.productService
+    .getAllOrders()
+    .subscribe((data) => {
+      if (data.res) {
+        this.data = data.res;
+      }
+    });
+  }
+
   addCustomFilters() {
     this.filterService.register('filterDate', (value, filter) => {
       if(!filter){
@@ -43,9 +49,10 @@ export class ReportComponent implements OnInit {
       return false
     });
   }
+
   onDateFilterClear(e:any,table:any){
     e.inputFieldValue = ""
-
+    table.clear()
   }
   
 }

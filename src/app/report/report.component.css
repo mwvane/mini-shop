@@ -4,14 +4,23 @@
     border: 2px solid red;
 }
 .btn-action{
-    width: 20px;
-    height: 20px !important;
+    width: 35px;
+    height: 35px !important;
     padding: 0;
     position: absolute;
-    right: 78px;
+    right: 20px;
 }
 .filter-section{
-    position: relative;
     display: flex;
     align-items: center;
 }
+.reprts-table tr td,.reprts-table tr th {
+    text-align: center;
+ }
+ .reprts-table tr th input{
+    padding: 6px 8px !important;
+    width: 100% !important;
+ }
+ .calendar{
+    width: 100% !important;
+ }
