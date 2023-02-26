@@ -8,7 +8,6 @@ import { UserService } from '../service/user.service';
 import { AuthService } from '../service/auth.service';
 import { Voucher } from '../Model/voucher';
 import { VoucherService } from '../service/voucher.service';
-import { VoucherStatus } from '../enums/voucherStatus';
 import { ModalService } from '../service/modal.service';
 import { Constants } from '../constants/constants';
 import { Helper } from '../helpers/helper';
@@ -25,9 +24,9 @@ export class AdminComponent {
   products: Product[] = [{ name: '', price: 0, quantity: 0 }];
   product: any;
   vouchers: Voucher[] = [
-    { key: '', price: 0, status: VoucherStatus.Valid, createdBy: 0 },
+    Constants.DEAFULT_VOUCHER
   ];
-  voucher: Voucher = this.getDefaultVoucher();
+  voucher: Voucher = Constants.DEAFULT_VOUCHER;
   selectedProducts: any;
   users: User[] = [
     { email: '', firstname: '', lastname: '', password: '', role: '', id: 0 },
@@ -58,17 +57,6 @@ export class AdminComponent {
     this.loadProducts();
     this.loadusers();
     this.loadVouchers();
-  }
-
-  getDefaultVoucher() {
-    let voucher: Voucher = {
-      price: 10,
-      createdBy: 0,
-      key: '',
-      status: VoucherStatus.Valid,
-      validDate: this.addDays(5),
-    };
-    return voucher;
   }
 
   addDays(days: number) {
@@ -106,7 +94,7 @@ export class AdminComponent {
       this.modalService.openProductModal = true
     }
     if (this.currentMenuTab.label === 'Vouchers') {
-      this.voucher = this.getDefaultVoucher();
+      this.voucher = Constants.DEAFULT_VOUCHER;
       this.modalService.openGenerateVoucherModal = true;
     }
     this.submitted = false;
@@ -182,7 +170,7 @@ export class AdminComponent {
           if (data.res) {
             this.users = this.users.filter((val) => val.id !== user.id);
             this.msgService.success('მომხმარებელი წარმატებით წაიშალა!');
-            this.user = this.getDefaultVoucher();
+            this.user = Constants.DEAFULT_VOUCHER;
           }
         });
       },
@@ -211,7 +199,7 @@ export class AdminComponent {
       if (this.user.id) {
         this.userService.UpdateUser(result).subscribe((data) => {
           if (data.res) {
-            const index = this.findIndexById(result.id, this.users);
+            const index = Helper.getItemIndexById(result.id, this.users);
             result.lastUpdated = Date.now();
             this.users[index] = { ...result };
             this.msgService.success('მომხმარებელი წარმატებით განახლდა!');
@@ -243,7 +231,7 @@ export class AdminComponent {
         if (this.product.id) {
           this.productService.updateItem(this.product).subscribe((data) => {
             if (data.res) {
-              const index = this.findIndexById(this.product.id, this.products);
+              const index = Helper.getItemIndexById(this.product.id, this.products);
               this.products[index] = { ...this.product };
               this.msgService.success('პროდუქტი წარმატებით განახლდა!');
             } else {
@@ -271,7 +259,7 @@ export class AdminComponent {
       if (this.voucher.id) {
         this.voucherService.update(result).subscribe((data) => {
           if (data.res) {
-            const index = this.findIndexById(result.id, this.vouchers);
+            const index = Helper.getItemIndexById(result.id, this.vouchers);
             this.vouchers[index] = { ...result };
             this.msgService.success('ვაუჩერი წარმატებით განახლდა');
           } else {
@@ -289,22 +277,13 @@ export class AdminComponent {
           }
         });
       }
-      this.voucher = this.getDefaultVoucher();
+      this.voucher = Constants.DEAFULT_VOUCHER;
       this.modalService.openGenerateVoucherModal = false;
     }
   }
 
   onGenerateKey() {
     this.voucherService.generateKey().subscribe((data) => console.log(data));
-  }
-
-  findIndexById(id: number, array: any[]): number {
-    for (let [index, item] of array.entries()) {
-      if (item.id === id) {
-        return index;
-      }
-    }
-    return -1;
   }
 
   onMenuItemChange(item: any) {
