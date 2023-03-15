@@ -1,0 +1,23 @@
+<div class="main-container">
+  <input
+    type="file"
+    multiple
+    accept="Image/*"
+    id="file"
+    (change)="onFileUpload($event)"
+  />
+  <label for="file"><i class="pi pi-image"></i> Browse photoes</label>
+  <div class="d-flex">
+    <div *ngFor="let file of images" class="image-container">
+      <img src="{{ file }}" alt="" class="shadow" />
+      <button
+        pButton
+        pRipple
+        type="button"
+        icon="pi pi-times"
+        class="p-button-rounded p-button-danger p-button-text btn-remove"
+        (click)="onRemove(file)"
+      ></button>
+    </div>
+  </div>
+</div>
