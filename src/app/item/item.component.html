@@ -1,5 +1,46 @@
-<div class="container my-1 w-100" (click)="onEdit()">
-  <div class="row justify-content-md-center position-relative item">
+<div class="w-100 my-1" (click)="onEdit()">
+  <div class="custom-card shadow">
+    <div class="product-image">
+      <img
+        class="w-100"
+        src="https://img.zoommer.ge/zoommer-images/thumbs/0129063_microsoft-xbox-series-x-1tb_157.png"
+        alt=""
+        style="background-color: red; height: 50%"
+      />
+    </div>
+    <div class="details">
+      <p class="product-name">{{ item.name }}</p>
+      <p class="product-price">{{ item.price }} ₾</p>
+    </div>
+    <div class="action d-flex justify-content-center">
+      <button
+        pButton
+        icon="pi pi-shopping-cart"
+        class="p-button-sm p-button-rounded py-1"
+        label="Add to cart"
+      ></button>
+    </div>
+    <div
+        *ngIf="
+          (loggedUser.role == 'seller' && loggedUser.id == item.createdBy ||
+          loggedUser.role == 'admin')
+        "
+        class="btn-remove"
+      >
+        <div class="btn-action">
+          <button
+            pButton
+            type="button"
+            icon="pi pi-trash"
+            class="p-button-rounded p-button-danger p-button-outlined p-button-text"
+            pTooltip="პროდუქტის წაშლა"
+            (click)="onRemove($event)"
+          ></button>
+        </div>
+      </div>
+  </div>
+
+  <!-- <div class="row justify-content-md-center position-relative item">
     <div
       class="col-7 py-2 custom-column"
       [ngClass]="item.quantity ? 'border-normal' : 'border-error'"
@@ -50,5 +91,5 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
 </div>

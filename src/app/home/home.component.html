@@ -1,7 +1,7 @@
 <div class="main-container">
   <app-header class="w-100" (logout)="onLogout()"></app-header>
-  <div class="row container">
-    <div class="col-7 position-relative">
+  <div class="row px-5">
+    <div class="col-8 position-relative">
       <div class="items-container">
         <div *ngIf="!isItemsLoading && !products.length" class="text-center">
           <h3 style="color: #728498">პროდუქტების სია ცარიალია!</h3>
@@ -18,26 +18,19 @@
           <div class="spinner-border text-primary"></div>
         </div>
         <div *ngIf="!isItemsLoading && products.length" class="row g-0">
-          <div
-            class="row g-0"
-            style="font-weight: bold; font-size: 14px; color: #728498"
-          >
-            <div class="col-7">სახელი</div>
-            <div class="col-2 text-center">რაოდენობა</div>
-            <div class="col-1 text-center">ფასი</div>
-            <div class="col text-center"></div>
-          </div>
-          <div>
-            <div *ngIf="products">
+          <div class="row">
+            <div
+              *ngFor="let item of products"
+              class="col-sm-12 col-md-6 col-lg-3"
+            >
               <app-item
-                *ngFor="let item of products"
                 [item]="item"
                 [loggedUser]="loggedUser"
                 (removeItem)="onRemoveItem($event)"
                 (editItem)="onEditItem($event)"
                 (addToCart)="onAddToCart($event)"
-                ><h1></h1
-              ></app-item>
+              >
+              </app-item>
             </div>
             <button
               pButton
@@ -54,7 +47,7 @@
         </div>
       </div>
     </div>
-    <div class="col-5">
+    <div class="col">
       <div class="cart-container">
         <div class="cart-header">
           <i
@@ -97,16 +90,9 @@
   (removeVoucher)="onVoucherRemove($event)"
 ></app-buy>
 
-<app-my-products
-  [data]="myOrders"
-></app-my-products>
+<app-my-products [data]="myOrders"></app-my-products>
 
-<app-generate-voucher
-  (submit)="onCreateVoucher($event)"
-></app-generate-voucher>
+<app-generate-voucher (submit)="onCreateVoucher($event)"></app-generate-voucher>
 
-<app-show-voucher
-  [data]="vouchers"
-  (add)="openVoucherDialog()"
->
+<app-show-voucher [data]="vouchers" (add)="openVoucherDialog()">
 </app-show-voucher>

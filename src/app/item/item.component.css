@@ -22,3 +22,39 @@
 .item{
   cursor: pointer;
 }
+.details{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  position: relative;
+  margin-top: 10px;
+}
+.product-image{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.product-name{
+  font-size: 15px;
+}
+.product-price{
+  font-weight: bold;
+  font-size: 1rem;
+  color: orange;
+}
+.custom-card{
+  border-radius: 8px;
+  padding: 5px 15px;
+  background-color: white;
+  position: relative;
+}
+.custom-card:hover{
+  color: #E74033;
+}
+.btn-remove{
+  border-radius: 0 8px 8px 0;
+  position: absolute;
+  top: -5px;
+  right: 40px;
+}

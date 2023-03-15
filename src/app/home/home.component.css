@@ -6,10 +6,6 @@
   flex-direction: column;
   align-items: center;
   width: 100%;
-  overflow: hidden;
-}
-.container{
-  width: 80%;
 }
 .items-container {
   width: 100;
@@ -43,9 +39,6 @@
 }
 .btn-add{
   font-size: 14px;
-}
-.test{
-  background-color: red;
 }
 .custom-link{
   position: absolute;
