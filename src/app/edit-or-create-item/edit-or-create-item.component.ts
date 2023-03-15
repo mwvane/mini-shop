@@ -4,6 +4,7 @@ import { ActivatedRoute, Route, Router } from '@angular/router';
 import { ItemService } from '../service/product.service';
 import { AuthService } from '../service/auth.service';
 import { ToastrService } from 'ngx-toastr';
+import { FileService } from '../service/file.service';
 
 @Component({
   selector: 'app-edit-item',
@@ -20,12 +21,15 @@ export class EditItemComponent implements OnInit {
     price: new FormControl(null, [Validators.required]),
     quantity: new FormControl(null, [Validators.required]),
   });
+  productImages: any[] = [];
+  productDocument: any;
   constructor(
     private route: ActivatedRoute,
     private service: ItemService,
     private authService: AuthService,
     private router: Router,
-    private toast: ToastrService
+    private toast: ToastrService,
+    private fileService: FileService
   ) {}
   ngOnInit(): void {
     this.loggedUser = this.authService.userPayload;
@@ -44,6 +48,11 @@ export class EditItemComponent implements OnInit {
       }
     });
   }
+
+  onUplaodImage() {
+    alert();
+  }
+
   onSubmit() {
     if (this.isEditMode) {
       if (this.isValuesModified()) {
@@ -68,10 +77,20 @@ export class EditItemComponent implements OnInit {
           createdBy: this.loggedUser.id,
         })
         .subscribe((data) => {
-          this.toast.success('პროდუქტი შეიქმნა წარმატებით');
-          this.router.navigateByUrl('');
+          if (data.res) {
+            this.toast.success('პროდუქტი შეიქმნა წარმატებით');
+            this.fileService.uploadProductImages(Number(data.res),this.productImages).subscribe(data => {
+              debugger
+            })
+            this.router.navigateByUrl('');
+          }
         });
     }
+  }
+
+  onSelectImage(data: any) {
+    debugger
+    this.productImages = data;
   }
 
   isValuesModified() {

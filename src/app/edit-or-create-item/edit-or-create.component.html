@@ -1,6 +1,6 @@
 <div class="container">
   <div class="form-container px-5">
-    <h3 class="text-center my-3">{{caption}}</h3>
+    <h3 class="text-center my-3">{{ caption }}</h3>
     <form [formGroup]="editOrCreateForm" (submit)="onSubmit()">
       <div class="mb-3 position-relative">
         <label for="name">პროდუქტის სახელი</label>
@@ -10,7 +10,7 @@
             type="text"
             class="custom-input w-100"
             autocomplete="off"
-            value="{{item.name}}"
+            value="{{ item.name }}"
           />
         </div>
       </div>
@@ -22,7 +22,7 @@
             type="number"
             class="custom-input w-100"
             autocomplete="off"
-            value="{{item.price}}"
+            value="{{ item.price }}"
           />
         </div>
       </div>
@@ -34,11 +34,19 @@
             type="number"
             class="custom-input w-100"
             autocomplete="off"
-            value="{{item.quantity}}"
+            value="{{ item.quantity }}"
           />
         </div>
       </div>
-      <button class="btn btn-primary" [disabled]="editOrCreateForm.invalid && !isEditMode">შენახვა</button>
+      <div class="mb-3">
+       <app-upload-file (select)="onSelectImage($event)"></app-upload-file>
+      </div>
+      <button
+        class="btn btn-primary"
+        [disabled]="editOrCreateForm.invalid && !isEditMode"
+      >
+        შენახვა
+      </button>
     </form>
   </div>
 </div>

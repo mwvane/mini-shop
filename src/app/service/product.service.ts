@@ -43,26 +43,26 @@ export class ItemService {
     return this.http.post(`${this.baseUrl}/deleteCartItem`, id);
   }
 
-  addToCart(cartItem:any) {
+  addToCart(cartItem: any) {
     return this.http.post<Result>(`${this.baseUrl}/addToCart`, cartItem);
   }
 
-  updateCartItem(cartItem: CartItem){
-    return this.http.post<Result>(`${this.baseUrl}/updateCartItem`,cartItem)
+  updateCartItem(cartItem: CartItem) {
+    return this.http.post<Result>(`${this.baseUrl}/updateCartItem`, cartItem);
   }
 
-  buyProduct(id:number){
-    return this.http.post<Result>(`${this.baseUrl}/buyProduct`,id)
+  buyProduct(id: number) {
+    return this.http.post<Result>(`${this.baseUrl}/buyProduct`, id);
   }
 
-  getOrders(userId:number){
-    return this.http.get<Result>(`${this.baseUrl}/getOrders?userId=${userId}`)
+  getOrders(userId: number) {
+    return this.http.get<Result>(`${this.baseUrl}/getOrders?userId=${userId}`);
   }
-  getAllOrders(){
-    return this.http.get<Result>(`${this.baseUrl}/getAllOrders`)
+  getAllOrders() {
+    return this.http.get<Result>(`${this.baseUrl}/getAllOrders`);
   }
-  getProductById(id:number){
-    return this.http.get(`${this.baseUrl}/getProductById?id=${id}`)
+  getProductById(id: number) {
+    return this.http.get(`${this.baseUrl}/getProductById?id=${id}`);
   }
 
   //admin-----------
@@ -85,6 +85,7 @@ export class ItemService {
   }
 
   addItem(newItem: any) {
+    debugger;
     return this.http.post<Result>(
       `https://localhost:7129/api/Admin/createItem`,
       newItem

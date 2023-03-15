@@ -1,7 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Header } from 'primeng/api';
-import { AppComponent } from '../app.component';
 
 @Injectable({
   providedIn: 'root',

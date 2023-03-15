@@ -22,7 +22,7 @@
     </ng-template>
     <ng-template pTemplate="body" let-product>
         <tr>
-            <td>{{product.product.name}}</td>
+            <td>{{product.product ? product.product.name: "N/A"}}</td>
             <td>{{product.quantity}}</td>
             <td>{{product.totalPrice}} ₾</td>
             <td>{{product.voucher? product.voucher.key: "N/A"}}</td>

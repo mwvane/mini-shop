@@ -45,6 +45,8 @@ import { ShowVoucherComponent } from './modal/show-voucher/show-voucher.componen
 import { FilterableTableComponent } from './modal/filterable-table/filterable-table.component';
 import { HeaderComponent } from './header/header.component';
 import { ReportComponent } from './report/report.component';
+import { UploadFileComponent } from './upload-file/upload-file.component';
+import {FileUploadModule} from 'primeng/fileupload';
 
 @NgModule({
   declarations: [
@@ -67,6 +69,7 @@ import { ReportComponent } from './report/report.component';
     FilterableTableComponent,
     HeaderComponent,
     ReportComponent,
+    UploadFileComponent,
   ],
   imports: [
     BrowserModule,
@@ -96,6 +99,7 @@ import { ReportComponent } from './report/report.component';
     CalendarModule,
     SliderModule,
     MultiSelectModule,
+    FileUploadModule,
   ],
   providers: [
     {
