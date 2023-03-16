@@ -1,0 +1,18 @@
+<p-dialog
+  [(visible)]="modalService.openCartModal"
+  [style]="{ width: '70%' }"
+  header="კალათა"
+  [modal]="true"
+  styleClass="p-fluid"
+  (onHide)="onClose()"
+>
+  <div *ngFor="let item of data">
+    <app-cart-item
+      [cartItem]="item"
+      (remove)="onRemove(item.id)"
+      (decrease)="onDecrease(item)"
+      (increase)="onIncrease(item)"
+      (open)="onOpen($event)"
+    ></app-cart-item>
+  </div>
+</p-dialog>
