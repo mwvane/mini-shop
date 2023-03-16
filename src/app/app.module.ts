@@ -46,7 +46,8 @@ import { FilterableTableComponent } from './modal/filterable-table/filterable-ta
 import { HeaderComponent } from './header/header.component';
 import { ReportComponent } from './report/report.component';
 import { UploadFileComponent } from './upload-file/upload-file.component';
-import {FileUploadModule} from 'primeng/fileupload';
+import { FileUploadModule } from 'primeng/fileupload';
+import { CartComponent } from './modal/cart/cart.component';
 
 @NgModule({
   declarations: [
@@ -70,6 +71,7 @@ import {FileUploadModule} from 'primeng/fileupload';
     HeaderComponent,
     ReportComponent,
     UploadFileComponent,
+    CartComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,7 +1,12 @@
 <div class="main-container">
-  <app-header class="w-100" (logout)="onLogout()"></app-header>
-  <div class="row px-5">
-    <div class="col-8 position-relative">
+  <app-header
+    class="w-100"
+    (logout)="onLogout()"
+    (addProduct)="onCreateItem()"
+    (openCart)="openCart()"
+  ></app-header>
+  <div class="row px-5 w-100">
+    <div class="col-md-12 col-lg-8  position-relative">
       <div class="items-container">
         <div *ngIf="!isItemsLoading && !products.length" class="text-center">
           <h3 style="color: #728498">პროდუქტების სია ცარიალია!</h3>
@@ -32,22 +37,11 @@
               >
               </app-item>
             </div>
-            <button
-              pButton
-              *ngIf="
-                loggedUser.role === 'admin' || loggedUser.role === 'seller'
-              "
-              (click)="onCreateItem()"
-              label="დამატება"
-              icon="pi pi-plus"
-              class="p-button-danger p-button-sm py-2"
-              iconPos="right"
-            ></button>
           </div>
         </div>
       </div>
     </div>
-    <div class="col">
+    <div class="col d-none d-lg-flex">
       <div class="cart-container">
         <div class="cart-header">
           <i
@@ -93,6 +87,13 @@
 <app-my-products [data]="myOrders"></app-my-products>
 
 <app-generate-voucher (submit)="onCreateVoucher($event)"></app-generate-voucher>
+<app-cart
+  [data]="cartItems"
+  (remove)="onCartItemRemove($event)"
+  (increase)="onQuantityIncrease($event)"
+  (decrease)="onQuantityDecrease($event)"
+  (open)="onCartItemOpen($event)"
+></app-cart>
 
 <app-show-voucher [data]="vouchers" (add)="openVoucherDialog()">
 </app-show-voucher>

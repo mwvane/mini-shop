@@ -61,6 +61,7 @@ export class HomeComponent implements OnInit {
   loadProducts() {
     this.isItemsLoading = true;
     this.service.getAllProducts().subscribe((data) => {
+      debugger
       this.products = data;
       this.isItemsLoading = false;
     });
@@ -102,6 +103,11 @@ export class HomeComponent implements OnInit {
       this.state.cartItemsCount = this.cartItems ? this.cartItems.length : 0;
       this.isCartLoading = false;
     });
+  }
+
+  openCart(){
+    debugger
+    this.modalService.openCartModal = true
   }
 
   onAddToCart(product: Product) {

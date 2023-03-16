@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { BlockableUI } from 'primeng/api';
 
 @Injectable({
   providedIn: 'root'
@@ -11,4 +12,5 @@ export class ModalService {
   openVouchersModal:boolean = false;
   openProductModal: boolean = false;
   openUserModal: boolean = false;
+  openCartModal: boolean = false;
 }

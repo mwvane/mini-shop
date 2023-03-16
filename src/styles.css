@@ -1,10 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
-@import url('https://free.bboxtype.com/embedfonts/?family=FiraGO:400');
-@import url('https://free.bboxtype.com/embedfonts/?family=FiraGO:700');
 
-*{
-    font-family: firaGO;
-}
 @import "ngx-toastr/toastr";
 .custom-input,
 textarea {

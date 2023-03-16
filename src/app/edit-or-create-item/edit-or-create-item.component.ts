@@ -82,6 +82,7 @@ export class EditItemComponent implements OnInit {
             this.fileService.uploadProductImages(Number(data.res),this.productImages).subscribe(data => {
               debugger
             })
+            
             this.router.navigateByUrl('');
           }
         });
