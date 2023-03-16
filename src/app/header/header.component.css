@@ -14,3 +14,10 @@
   left: 20px;
   text-decoration: none;
 }
+.cart-icon{
+  cursor: pointer;
+}
+.cart-icon:hover{
+  color: red;
+  transition: .3s;
+}

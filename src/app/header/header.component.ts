@@ -19,8 +19,10 @@ export class HeaderComponent {
   @Output() logout = new EventEmitter();
   @Output() generateVoucher = new EventEmitter();
   @Output() vouchers = new EventEmitter();
+  @Output() addProduct = new EventEmitter();
+  @Output() openCart = new EventEmitter();
   loggedUser = this.authService.userPayload;
-  
+
   onMyProduct() {
     this.modalService.openMyOrdersModal = true;
   }
@@ -32,5 +34,11 @@ export class HeaderComponent {
   }
   onGenerateVoucher() {
     this.modalService.openGenerateVoucherModal = true;
+  }
+  onAddProduct() {
+    this.addProduct.emit();
+  }
+  onCart() {
+    this.openCart.emit();
   }
 }
