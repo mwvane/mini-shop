@@ -7,7 +7,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 })
 export class CartItemComponent implements OnInit {
   ngOnInit(): void {
-    console.log(this.cartItem)
+    console.log(this.cartItem.product)
   }
   @Input() cartItem: any;
   @Input() voucherPrice: number = 0;
@@ -15,17 +15,22 @@ export class CartItemComponent implements OnInit {
   @Output() open = new EventEmitter();
   @Output() decrease = new EventEmitter();
   @Output() increase = new EventEmitter();
+
   maxQuantity: any = 10;
+
   onDelete(e: Event) {
     e.stopPropagation();
     this.remove.emit();
   }
+
   onQuantityIncrease() {
     this.increase.emit();
   }
+
   onQuantityDecrease() {
     this.decrease.emit();
   }
+
   onItemClick() {
     this.open.emit(this.cartItem);
   }
