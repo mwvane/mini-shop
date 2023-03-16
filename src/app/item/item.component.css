@@ -1,3 +1,9 @@
+@import url("https://free.bboxtype.com/embedfonts/?family=FiraGO:400");
+@import url("https://free.bboxtype.com/embedfonts/?family=FiraGO:700");
+
+p {
+  font-family: firaGO;
+}
 .border-normal {
   border: 2px solid rgba(131, 177, 224, 0.2);
 }
@@ -16,13 +22,13 @@
   transition: 0.1s;
   cursor: pointer;
 }
-.btn-action{
+.btn-action {
   position: absolute;
 }
-.item{
+.item {
   cursor: pointer;
 }
-.details{
+.details {
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -30,31 +36,38 @@
   position: relative;
   margin-top: 10px;
 }
-.product-image{
+.product-image {
   width: 100%;
   display: flex;
   justify-content: center;
+  position: relative;
 }
-.product-name{
+.product-name {
   font-size: 15px;
 }
-.product-price{
+.product-price {
   font-weight: bold;
   font-size: 1rem;
   color: orange;
 }
-.custom-card{
+.custom-card {
   border-radius: 8px;
-  padding: 5px 15px;
+  padding: 5px 20px;
   background-color: white;
   position: relative;
 }
-.custom-card:hover{
-  color: #E74033;
+.custom-card:hover {
+  color: #e74033;
 }
-.btn-remove{
+.btn-remove {
   border-radius: 0 8px 8px 0;
   position: absolute;
   top: -5px;
   right: 40px;
+}
+.img-button {
+  width: 22px !important;
+  height: 22px !important;
+  top: 70px;
+  position: absolute;
 }

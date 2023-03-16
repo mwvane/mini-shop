@@ -13,6 +13,7 @@ export class ItemComponent {
   @Output() editItem = new EventEmitter<number>();
   @Output() removeItem = new EventEmitter<number>();
   @Output() addItem = new EventEmitter<number>();
+  currentImageIndex: number = 0;
   constructor(private msgService: ToastrService) {}
 
   onAddToCart(e: any) {
@@ -41,6 +42,25 @@ export class ItemComponent {
       this.loggedUser.id == this.item.createdBy
     ) {
       this.editItem.emit(this.item.id);
+    }
+  }
+  onPreviousImage(e:any) {
+    e.stopPropagation();
+    if (this.currentImageIndex === 0) {
+      this.currentImageIndex = this.item.imageUrls.length - 1;
+    }
+    else{
+      this.currentImageIndex --
+    }
+  }
+
+  onNextImage(e:any) {
+    e.stopPropagation();
+    if (this.currentImageIndex === this.item.imageUrls.length - 1) {
+      this.currentImageIndex = 0;
+    }
+    else{
+      this.currentImageIndex ++
     }
   }
 }

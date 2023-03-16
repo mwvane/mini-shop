@@ -3,13 +3,34 @@
     <div class="product-image">
       <img
         class="w-100"
-        src="https://img.zoommer.ge/zoommer-images/thumbs/0129063_microsoft-xbox-series-x-1tb_157.png"
+        src="{{
+          item.imageUrls.length
+            ? item.imageUrls[currentImageIndex]
+            : 'assets/defaultImage.png'
+        }}"
         alt=""
-        style="background-color: red; height: 50%"
       />
+      <button
+        *ngIf="item.imageUrls.length > 0"
+        pButton
+        icon="pi pi-chevron-left"
+        class="p-button-rounded p-1 p-button-text img-button p-button-danger"
+        style="left: -16px"
+        (click)="onPreviousImage($event)"
+      ></button>
+      <button
+        *ngIf="item.imageUrls.length > 0"
+        pButton
+        icon="pi pi-chevron-right"
+        class="p-button-rounded p-button-text img-button p-1 p-button-danger"
+        style="right: -16px"
+        (click)="onNextImage($event)"
+      ></button>
     </div>
     <div class="details">
-      <p class="product-name">{{ item.name }}</p>
+      <div style="inline-size: 100%; overflow: hidden">
+        <p class="product-name" style="white-space: nowrap">{{ item.name }}</p>
+      </div>
       <p class="product-price">{{ item.price }} ₾</p>
     </div>
     <div class="action d-flex justify-content-center">
@@ -18,26 +39,27 @@
         icon="pi pi-shopping-cart"
         class="p-button-sm p-button-rounded py-1"
         label="Add to cart"
+        (click)="onAddToCart($event)"
       ></button>
     </div>
     <div
-        *ngIf="
-          (loggedUser.role == 'seller' && loggedUser.id == item.createdBy ||
-          loggedUser.role == 'admin')
-        "
-        class="btn-remove"
-      >
-        <div class="btn-action">
-          <button
-            pButton
-            type="button"
-            icon="pi pi-trash"
-            class="p-button-rounded p-button-danger p-button-outlined p-button-text"
-            pTooltip="პროდუქტის წაშლა"
-            (click)="onRemove($event)"
-          ></button>
-        </div>
+      *ngIf="
+        (loggedUser.role == 'seller' && loggedUser.id == item.createdBy) ||
+        loggedUser.role == 'admin'
+      "
+      class="btn-remove"
+    >
+      <div class="btn-action">
+        <button
+          pButton
+          type="button"
+          icon="pi pi-trash"
+          class="p-button-rounded p-button-danger p-button-outlined p-button-text"
+          pTooltip="პროდუქტის წაშლა"
+          (click)="onRemove($event)"
+        ></button>
       </div>
+    </div>
   </div>
 
   <!-- <div class="row justify-content-md-center position-relative item">
