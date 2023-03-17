@@ -2,14 +2,21 @@
   <input
     type="file"
     multiple
-    accept="Image/*"
-    id="file"
+    accept="{{ fileType }}"
+    id="{{fileType}}"
     (change)="onFileUpload($event)"
   />
-  <label for="file"><i class="pi pi-image"></i> Browse photoes</label>
+  <label for="{{fileType}}"
+    ><i class="{{ fileType === 'Image/*' ? 'pi pi-image' : 'pi pi-file-pdf' }}"></i
+    >{{ fileType === "Image/*" ? "   Brose Image" : "   Brose File" }}</label
+  >
   <div class="d-flex">
-    <div *ngFor="let file of images" class="image-container">
-      <img src="{{ file }}" alt="" class="shadow" />
+    <div *ngFor="let file of files" class="image-container">
+      <img *ngIf="fileType === 'Image/*'" src="{{ file }}" alt="" class="shadow" />
+      <div *ngIf="fileType === '.pdf'"> 
+        <i class="pi pi-file-pdf"></i>
+        <span>  {{file}}</span>
+      </div>
       <button
         pButton
         pRipple

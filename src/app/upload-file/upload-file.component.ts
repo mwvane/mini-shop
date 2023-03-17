@@ -1,5 +1,6 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Observable } from 'rxjs';
+import { FileType } from '../enums/fileType';
 
 @Component({
   selector: 'app-upload-file',
@@ -7,24 +8,40 @@ import { Observable } from 'rxjs';
   styleUrls: ['./upload-file.component.css'],
 })
 export class UploadFileComponent {
-  images: any[] = [];
+  @Input() files: any[] = [];
   selectedFiles: any = [];
+  @Input() fileType: FileType;
   @Output() select = new EventEmitter();
 
   onFileUpload(data: any) {
-    this.selectedFiles = data.target.files;
-    for (let index = 0; index < this.selectedFiles.length; index++) {
-      let reader = new FileReader();
-      reader.readAsDataURL(this.selectedFiles[index]);
-      reader.onload = () => {
-        this.images.push(reader.result);
-      };
+    this.selectedFiles = Array.from(data.target.files);
+    if (this.fileType === FileType.AllImages) {
+      for (let item of this.selectedFiles) {
+        let reader = new FileReader();
+        reader.readAsDataURL(item);
+        reader.onload = () => {
+          this.files.push(reader.result);
+        };
+      }
+    } else {
+      for (let item of this.selectedFiles) {
+        this.files.push(item.name);
+      }
     }
     this.select.emit(this.selectedFiles);
   }
 
   onRemove(file: any) {
-    this.images = this.images.filter((item) => item != file);
-    this.select.emit(this.images);
+    let index: any;
+    for (let i = 0; i < this.files.length; i++) {
+      if (file === this.files[i]) {
+        index = i;
+        break;
+      }
+    }
+    debugger
+    this.files.splice(index,1);
+    this.selectedFiles.splice(index,1);
+    this.select.emit(this.selectedFiles);
   }
 }
