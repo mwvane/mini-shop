@@ -39,8 +39,11 @@
         </div>
       </div>
       <div class="mb-3">
-       <app-upload-file (select)="onSelectImage($event)"></app-upload-file>
+       <app-upload-file (select)="onSelectImage($event)" [fileType]="defaultImageType"></app-upload-file>
       </div>
+      <div class="mb-3">
+        <app-upload-file (select)="onSelectDocument($event)" [fileType]="defaultDocumentType"></app-upload-file>
+       </div>
       <button
         class="btn btn-primary"
         [disabled]="editOrCreateForm.invalid && !isEditMode"

@@ -12,10 +12,19 @@ export class FileService {
   uploadProductImages(productId: number, images: any) {
     debugger;
     let formData = new FormData();
-    for (let i = 0; i < images.length; i++) {
-      formData.append("files", images[i]);
+    for (let image of images) {
+      formData.append("files", image);
     }
     formData.append('productId', String(productId));
-    return this.http.post(`${this.baseUrl}/uplaodFile`, formData);
+    return this.http.post(`${this.baseUrl}/uploadProductImage`, formData);
+  }
+
+  uploadProductDocuments(productId: number, documents:any){
+    let formData = new FormData();
+    for (let document of documents) {
+      formData.append("files", document);
+    }
+    formData.append('productId', String(productId))
+    return this.http.post(`${this.baseUrl}/uploadProductDocument`, formData)
   }
 }

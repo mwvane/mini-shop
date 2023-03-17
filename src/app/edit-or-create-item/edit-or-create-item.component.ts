@@ -5,6 +5,7 @@ import { ItemService } from '../service/product.service';
 import { AuthService } from '../service/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { FileService } from '../service/file.service';
+import { FileType } from '../enums/fileType';
 
 @Component({
   selector: 'app-edit-item',
@@ -23,6 +24,8 @@ export class EditItemComponent implements OnInit {
   });
   productImages: any[] = [];
   productDocument: any;
+  defaultImageType: FileType = FileType.AllImages;
+  defaultDocumentType: FileType = FileType.Pdf;
   constructor(
     private route: ActivatedRoute,
     private service: ItemService,
@@ -63,6 +66,25 @@ export class EditItemComponent implements OnInit {
               this.toast.error(data.errors.join('\n'));
             } else {
               this.toast.success('პროდუქტი განახლდა წარმატებით');
+              debugger
+              if(this.productImages && this.productImages.length) {
+                this.fileService
+                  .uploadProductImages(this.item.id, this.productImages)
+                  .subscribe((data) => {
+                    if (data) {
+                      console.log('images uploaded');
+                    }
+                  });
+              }
+              if (this.productDocument && this.productDocument.length) {
+                this.fileService
+                  .uploadProductDocuments(this.item.id, this.productDocument)
+                  .subscribe((data) => {
+                    if (data) {
+                      console.log('documents uploaded');
+                    }
+                  });
+              }
               this.router.navigateByUrl('');
             }
           });
@@ -79,10 +101,24 @@ export class EditItemComponent implements OnInit {
         .subscribe((data) => {
           if (data.res) {
             this.toast.success('პროდუქტი შეიქმნა წარმატებით');
-            this.fileService.uploadProductImages(Number(data.res),this.productImages).subscribe(data => {
-              debugger
-            })
-            
+            if (this.productImages &&  this.productImages.length) {
+              this.fileService
+                .uploadProductImages(Number(data.res), this.productImages)
+                .subscribe((data) => {
+                  if (data) {
+                    console.log('images uploaded');
+                  }
+                });
+            }
+            if (this.productDocument && this.productDocument.length) {
+              this.fileService
+                .uploadProductDocuments(Number(data.res), this.productDocument)
+                .subscribe((data) => {
+                  if (data) {
+                    console.log('documents uploaded');
+                  }
+                });
+            }
             this.router.navigateByUrl('');
           }
         });
@@ -90,8 +126,12 @@ export class EditItemComponent implements OnInit {
   }
 
   onSelectImage(data: any) {
-    debugger
+    debugger;
     this.productImages = data;
+  }
+
+  onSelectDocument(data: any) {
+    this.productDocument = data;
   }
 
   isValuesModified() {
