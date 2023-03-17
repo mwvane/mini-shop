@@ -63,4 +63,8 @@ export class ItemComponent {
       this.currentImageIndex ++
     }
   }
+  
+  onDocument(e: any){
+    e.stopPropagation()
+  }
 }

@@ -11,7 +11,7 @@
         alt=""
       />
       <button
-        *ngIf="item.imageUrls.length > 0"
+        *ngIf="item.imageUrls.length > 1"
         pButton
         icon="pi pi-chevron-left"
         class="p-button-rounded p-1 p-button-text img-button p-button-danger"
@@ -19,7 +19,7 @@
         (click)="onPreviousImage($event)"
       ></button>
       <button
-        *ngIf="item.imageUrls.length > 0"
+        *ngIf="item.imageUrls.length > 1"
         pButton
         icon="pi pi-chevron-right"
         class="p-button-rounded p-button-text img-button p-1 p-button-danger"
@@ -33,7 +33,9 @@
       </div>
       <p class="product-price">{{ item.price }} ₾</p>
     </div>
-    <div class="action d-flex justify-content-center">
+    <div
+      class="action d-flex justify-content-center align-items-center position-relative"
+    >
       <button
         pButton
         icon="pi pi-shopping-cart"
@@ -41,6 +43,14 @@
         label="Add to cart"
         (click)="onAddToCart($event)"
       ></button>
+      <a
+        *ngIf="item.documentUrls.length"
+        href="{{ item.documentUrls[0] }}"
+        target="_blank"
+        style="position: absolute; right: -10px"
+        (click)="onDocument($event)"
+        ><i class="pi pi-file-o"></i
+      ></a>
     </div>
     <div
       *ngIf="
